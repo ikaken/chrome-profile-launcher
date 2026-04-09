@@ -1,0 +1,59 @@
+# Chrome Profile Launcher (WPF Native)
+
+Google Chromeの複数プロファイルを効率的に管理・起動・切替するためのWindowsデスクトップアプリケーションです。
+ワンクリックで対象のプロファイルを起動、または既に開いているウィンドウへ瞬時にフォーカスできます。
+
+![Main Window Placeholder](https://via.placeholder.com/600x400.png?text=Chrome+Profile+Launcher+UI)
+
+## 🚀 主な機能
+
+- **プロファイル自動検出**: Chromeの `User Data` を自動解析し、作成済みのプロファイルを一覧表示します。
+- **起動・フォーカス制御**:
+    - 対象プロファイルが未起動の場合：指定したプロファイルでChromeを新規起動します。
+    - 対象プロファイルが起動済みの場合：そのウィンドウを特定し、最前面にフォーカス（アクティブ化）します。
+- **プロファイルカスタマイズ**:
+    - **表示名の変更**: 自由に名称を設定可能。
+    - **直感的な並べ替え**: ドラッグハンドル（☰）を使用してリストの順序を自在に変更。
+    - **表示/非表示設定**: 頻繁に使わないプロファイルをリストから隠せます。
+    - **プロファイルフォルダを開く**: 設定画面から直接エクスプローラーでプロファイルフォルダを開けます。
+- **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
+
+## 📦 ダウンロードと実行
+
+### 利用方法
+本アプリは**ポータブルな単一のEXEファイル**として提供されます。インストーラーによるインストール作業は不要です。
+
+1. **[Releases](https://github.com/your-username/chrome-profile-launcher/releases)** ページから最新の `ChromeProfileLauncher.exe` をダウンロードします。
+2. 任意のフォルダに配置し、ダブルクリックして実行します。
+
+> [!IMPORTANT]
+> .NET 10.0 ランタイムはEXEに同梱されているため、追加のインストールなしで動作します（Self-contained形式）。
+
+## 🛠 開発者向け情報
+
+### 動作環境
+- OS: Windows 10 / 11 (64bit)
+- 開発環境: .NET 10.0 SDK, Visual Studio 2022 以降
+
+### ビルド手順
+配布用の単一EXEを作成するには、以下のコマンドを実行します：
+
+```bash
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:PublishReadyToRun=true
+```
+
+## 📂 プロジェクト構造
+
+- `Models/`: プロファイル情報のデータ定義
+- `ViewModels/`: アプリケーションのロジック（MVVM）
+- `Views/`: WPFによるUI定義
+- `Services/`: プロファイル探索、起動制御等のコアサービス
+- `Helpers/`: Win32 API定義等のユーティリティ
+
+## 📄 ドキュメント
+
+詳細な仕様については `docs/` フォルダを参照してください。
+
+## 📝 ライセンス
+
+このプロジェクトは [MIT ライセンス](LICENSE) の下で公開されています。

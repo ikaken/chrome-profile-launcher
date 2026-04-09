@@ -1,0 +1,30 @@
+# .NET Core / .NET 5+ / .NET 10
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio / VS Code 一時ファイル
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# オペレーティングシステムの一時ファイル
+.DS_Store
+Thumbs.db
+
+# 公開（Publish）用フォルダ
+publish/
+
+# 設定ファイル（開発者のローカル環境用）
+# settings.json はアプリが自動生成するため、リポジトリに含める必要はありません
+/ChromeProfileLauncher/settings.json
+settings.json
+
+# ログファイル
+*.log
+
+# ビルドログ・作業用一時ファイル（リポジトリに含める必要なし）
+build_log*.txt
+test_results.txt
