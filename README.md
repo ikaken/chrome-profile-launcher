@@ -3,7 +3,6 @@
 Google Chromeの複数プロファイルを効率的に管理・起動・切替するためのWindowsデスクトップアプリケーションです。
 ワンクリックで対象のプロファイルを起動、または既に開いているウィンドウへ瞬時にフォーカスできます。
 
-![Main Window Placeholder](https://via.placeholder.com/600x400.png?text=Chrome+Profile+Launcher+UI)
 
 ## 🚀 主な機能
 
@@ -23,11 +22,27 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 ### 利用方法
 本アプリは**ポータブルな単一のEXEファイル**として提供されます。インストーラーによるインストール作業は不要です。
 
-1. **[Releases](https://github.com/your-username/chrome-profile-launcher/releases)** ページから最新の `ChromeProfileLauncher.exe` をダウンロードします。
+1. **[Releases](https://github.com/ikaken/chrome-profile-launcher/releases)** ページから最新の `ChromeProfileLauncher.exe` をダウンロードします。
 2. 任意のフォルダに配置し、ダブルクリックして実行します。
 
 > [!IMPORTANT]
 > .NET 10.0 ランタイムはEXEに同梱されているため、追加のインストールなしで動作します（Self-contained形式）。
+
+## Windowsで警告が表示される場合
+
+このアプリは現在コード署名されていないため、
+WindowsのSmartScreenにより警告が表示されることがあります。
+
+実行するには：
+
+1. 「詳細情報」をクリック
+2. 「実行」をクリック
+
+または：
+
+1. ファイルを右クリック
+2. プロパティ
+3. 「ブロックの解除」にチェック
 
 ## 🛠 開発者向け情報
 
