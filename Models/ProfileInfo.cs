@@ -52,7 +52,7 @@ namespace ChromeProfileLauncher.Models
 
         // Runtime states
         private bool _isRunning;
-        private long _hwnd;
+        private IntPtr _hwnd = IntPtr.Zero;
 
         [JsonIgnore]
         public bool IsRunning
@@ -62,7 +62,7 @@ namespace ChromeProfileLauncher.Models
         }
 
         [JsonIgnore]
-        public long Hwnd
+        public IntPtr Hwnd
         {
             get => _hwnd;
             set { if (_hwnd != value) { _hwnd = value; OnPropertyChanged(); } }
