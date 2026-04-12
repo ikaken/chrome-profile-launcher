@@ -23,13 +23,17 @@ namespace ChromeProfileLauncher.Helpers
         {
             try
             {
-                var logLine = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{level}] {message}{Environment.NewLine}";
-                File.AppendAllText(LogPath, logLine);
+                var logLine = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{level}] {message}";
+                
+                // ファイルに書き込み
+                File.AppendAllText(LogPath, logLine + Environment.NewLine);
+                
+                // コンソール/デバッグ出力 (重要)
+                Console.WriteLine(logLine);
                 System.Diagnostics.Debug.WriteLine(logLine);
             }
             catch
             {
-                // Ignore logging failures
             }
         }
     }

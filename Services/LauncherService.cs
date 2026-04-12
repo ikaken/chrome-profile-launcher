@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Management;
 using System.Text;
+using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using ChromeProfileLauncher.Helpers;
 using ChromeProfileLauncher.Models;
@@ -20,7 +21,7 @@ namespace ChromeProfileLauncher.Services
     {
         private string _chromePath = string.Empty;
         private readonly IFileSystem _fileSystem;
-        private static readonly Regex ProfileRegex = new Regex(@"--profile-directory[= ]""?(.+?)""?(?:\s--|$)", RegexOptions.Compiled);
+        private static readonly Regex ProfileRegex = new Regex(@"--profile-directory[= ]""?([^""\s]+)""?", RegexOptions.Compiled);
 
         public LauncherService(IFileSystem fileSystem)
         {
@@ -28,88 +29,106 @@ namespace ChromeProfileLauncher.Services
             _chromePath = GetChromePath();
         }
 
-        public void LaunchOrFocus(ProfileInfo profile)
+        public async void LaunchOrFocus(ProfileInfo profile)
         {
-            Logger.Info($"=== LaunchOrFocus Interaction: Profile={profile.Id} ===");
+            Logger.Info($"[LauncherService] Request: {profile.DisplayName} ({profile.Id})");
 
-            // 方式C: ハイブリッド方式 - キャッシュの検証
             if (profile.Hwnd != IntPtr.Zero)
             {
-                string hexHwnd = $"0x{profile.Hwnd.ToInt64():X}";
-                Logger.Info($"[Cache Check] Found cached HWND: {hexHwnd} for {profile.Id}");
-                
                 if (IsWindowValid(profile.Hwnd))
                 {
-                    Logger.Info($"[Cache Hit] HWND {hexHwnd} is still valid. Focusing window.");
                     FocusWindow(profile.Hwnd);
                     return;
                 }
-                
-                Logger.Info($"[Cache Miss] HWND {hexHwnd} is no longer valid or visible. Clearing cache.");
-                profile.Hwnd = IntPtr.Zero; // キャッシュが無効な場合はクリア
-            }
-            else
-            {
-                Logger.Info($"[No Cache] No HWND cached for {profile.Id}. Starting search.");
+                profile.Hwnd = IntPtr.Zero;
             }
 
-            // 方式B: 都度検索（フォールバック）
-            var hwnd = FindWindowForProfile(profile.Id);
+            var hwnd = FindWindowForProfile(profile);
             if (hwnd != IntPtr.Zero)
             {
-                string hexHwnd = $"0x{hwnd.ToInt64():X}";
-                Logger.Info($"[Search Match] Valid window found: {hexHwnd}. Saving to cache.");
-                profile.Hwnd = hwnd; // 有効なハンドルが見つかったらキャッシュ
+                Logger.Info($"[LauncherService] Identified existing window: {hwnd}");
+                profile.Hwnd = hwnd;
                 FocusWindow(hwnd);
                 return;
             }
 
-            // 見つからなければ新しく起動
-            Logger.Info($"[Not Found] No windows for {profile.Id} found on system. Launching new instance.");
-            Launch(profile);
+            Logger.Info($"[LauncherService] No valid window found. Launching with differential detection...");
+            await LaunchAndWaitForWindow(profile);
         }
 
         private bool IsWindowValid(IntPtr hwnd)
         {
-            if (!Win32Api.IsWindow(hwnd))
-            {
-                Logger.Info($"HWND {hwnd} is not a valid window.");
+            if (!Win32Api.IsWindow(hwnd) || !Win32Api.IsWindowVisible(hwnd))
                 return false;
-            }
-            if (!Win32Api.IsWindowVisible(hwnd))
-            {
-                Logger.Info($"HWND {hwnd} is not visible.");
-                return false;
-            }
 
-            var sb = new StringBuilder(256);
-            Win32Api.GetClassName(hwnd, sb, sb.Capacity);
-            var className = sb.ToString();
-            bool isValidClass = className == "Chrome_WidgetWin_1";
-            
-            if (!isValidClass)
+            // Class name check
+            var sbClass = new StringBuilder(256);
+            Win32Api.GetClassName(hwnd, sbClass, sbClass.Capacity);
+            if (sbClass.ToString() != "Chrome_WidgetWin_1")
+                return false;
+
+            // CRITICAL: Process name check to exclude Slack, VS Code, Discord etc.
+            try
             {
-                Logger.Info($"HWND {hwnd} has invalid class name: '{className}'");
+                Win32Api.GetWindowThreadProcessId(hwnd, out uint pid);
+                using (var proc = Process.GetProcessById((int)pid))
+                {
+                    if (!proc.ProcessName.Equals("chrome", StringComparison.OrdinalIgnoreCase))
+                        return false;
+                }
             }
-            
-            return isValidClass;
+            catch { return false; }
+
+            return true;
+        }
+
+        private async Task LaunchAndWaitForWindow(ProfileInfo profile)
+        {
+            var beforeHwnds = GetCurrentChromeWindows();
+            Launch(profile);
+
+            for (int i = 0; i < 15; i++) // Increased to 7.5s for stability
+            {
+                await Task.Delay(500);
+                var currentHwnds = GetCurrentChromeWindows();
+                var newHwnds = currentHwnds.Except(beforeHwnds).ToList();
+
+                if (newHwnds.Count > 0)
+                {
+                    var bestHwnd = newHwnds.First();
+                    Logger.Info($"[LauncherService] New Chrome window detected: {bestHwnd} -> {profile.Id}");
+                    profile.Hwnd = bestHwnd;
+                    FocusWindow(bestHwnd);
+                    return;
+                }
+            }
+            Logger.Info($"[LauncherService] Timeout: No new Chrome window appeared for {profile.Id}");
+        }
+
+        private HashSet<IntPtr> GetCurrentChromeWindows()
+        {
+            var hwnds = new HashSet<IntPtr>();
+            Win32Api.EnumWindows((hwnd, _) =>
+            {
+                if (IsWindowValid(hwnd)) hwnds.Add(hwnd);
+                return true;
+            }, IntPtr.Zero);
+            return hwnds;
         }
 
         private void FocusWindow(IntPtr hwnd)
         {
             Win32Api.ShowWindow(hwnd, Win32Api.SW_RESTORE);
 
-            IntPtr foregroundWindow = Win32Api.GetForegroundWindow();
-            uint foregroundThreadId = Win32Api.GetWindowThreadProcessId(foregroundWindow, out _);
-            uint targetThreadId = Win32Api.GetWindowThreadProcessId(hwnd, out _);
-            uint currentThreadId = Win32Api.GetCurrentThreadId();
+            IntPtr fg = Win32Api.GetForegroundWindow();
+            uint fgThread = Win32Api.GetWindowThreadProcessId(fg, out _);
+            uint targetThread = Win32Api.GetWindowThreadProcessId(hwnd, out _);
 
-            // AttachThreadInputを使用してフォーカス処理を安定化
-            if (foregroundThreadId != targetThreadId)
+            if (fgThread != targetThread)
             {
-                Win32Api.AttachThreadInput(foregroundThreadId, targetThreadId, true);
+                Win32Api.AttachThreadInput(fgThread, targetThread, true);
                 Win32Api.SetForegroundWindow(hwnd);
-                Win32Api.AttachThreadInput(foregroundThreadId, targetThreadId, false);
+                Win32Api.AttachThreadInput(fgThread, targetThread, false);
             }
             else
             {
@@ -120,106 +139,108 @@ namespace ChromeProfileLauncher.Services
         private void Launch(ProfileInfo profile)
         {
             if (string.IsNullOrEmpty(_chromePath) || !_fileSystem.FileExists(_chromePath))
-                throw new FileNotFoundException("Chrome executable not found.");
+                throw new FileNotFoundException("Chrome not found.");
 
-            var psi = new ProcessStartInfo
+            Process.Start(new ProcessStartInfo
             {
                 FileName = _chromePath,
                 Arguments = $"--profile-directory=\"{profile.Id}\"",
                 UseShellExecute = true
-            };
-
-            Process.Start(psi);
+            });
         }
 
-        private IntPtr FindWindowForProfile(string profileId)
+        private IntPtr FindWindowForProfile(ProfileInfo profile)
         {
-            // 改善アプローチ: PID絞り込みによるWMI高速化
-            var chromeProcesses = Process.GetProcessesByName("chrome");
-            if (chromeProcesses.Length == 0) return IntPtr.Zero;
+            var procs = Process.GetProcessesByName("chrome");
+            if (procs.Length == 0) return IntPtr.Zero;
 
-            var pidFilter = string.Join(" OR ", chromeProcesses.Select(p => $"ProcessId = {p.Id}"));
-            var query = "SELECT ProcessId, CommandLine FROM Win32_Process WHERE Name = 'chrome.exe'";
-            Logger.Info("Dumping ALL Chrome processes for analysis:");
+            var cmdMap = GetChromeProcessCommandLineMap(procs);
+            IntPtr bestHwnd = IntPtr.Zero;
+            int maxScore = -1;
 
-            var targetPids = new HashSet<uint>();
-            using (var searcher = new ManagementObjectSearcher(query))
-            using (var results = searcher.Get())
+            Win32Api.EnumWindows((hwnd, _) =>
             {
-                foreach (var obj in results)
-                {
-                    var pid = (uint)obj["ProcessId"];
-                    var commandLine = obj["CommandLine"]?.ToString() ?? "";
-                    Logger.Info($"PID: {pid}, CommandLine: {commandLine}");
+                // Note: IsWindowValid now checks for ProcessName == "chrome"
+                if (!IsWindowValid(hwnd)) return true;
 
-                    if (IsProfileMatch(commandLine, profileId))
-                    {
-                        Logger.Info($">>> MATCH FOUND for {profileId} in PID: {pid}");
-                        targetPids.Add(pid);
-                    }
-                }
-            }
-
-            Logger.Info("--- Window Enumeration for ALL Chrome PIDs ---");
-            var allChromePids = new HashSet<uint>(chromeProcesses.Select(p => (uint)p.Id));
-            IntPtr foundHwnd = IntPtr.Zero;
-            
-            Win32Api.EnumWindows((hwnd, lParam) =>
-            {
                 Win32Api.GetWindowThreadProcessId(hwnd, out uint pid);
-                if (allChromePids.Contains(pid))
+                string cmd = cmdMap.ContainsKey(pid) ? cmdMap[pid] : "";
+
+                int score = CalculateMatchScore(hwnd, pid, cmd, profile);
+                if (score > maxScore)
                 {
-                    var sb = new StringBuilder(256);
-                    Win32Api.GetWindowText(hwnd, sb, sb.Capacity);
-                    var title = sb.ToString();
-                    
-                    if (Win32Api.IsWindowVisible(hwnd))
-                    {
-                        Logger.Info($"Visible Window: HWND={hwnd}, PID={pid}, Title='{title}'");
-                        if (targetPids.Contains(pid) && foundHwnd == IntPtr.Zero)
-                        {
-                            if (IsWindowValid(hwnd))
-                            {
-                                Logger.Info($"Selected this window for {profileId}");
-                                foundHwnd = hwnd;
-                            }
-                        }
-                    }
+                    maxScore = score;
+                    bestHwnd = hwnd;
                 }
-                return true;
+                return score < 100;
             }, IntPtr.Zero);
 
-            return foundHwnd;
+            return maxScore >= 50 ? bestHwnd : IntPtr.Zero;
+        }
+
+        private Dictionary<uint, string> GetChromeProcessCommandLineMap(Process[] processes)
+        {
+            var map = new Dictionary<uint, string>();
+            try
+            {
+                var filter = string.Join(" OR ", processes.Select(p => $"ProcessId={p.Id}"));
+                using var searcher = new ManagementObjectSearcher($"SELECT ProcessId, CommandLine FROM Win32_Process WHERE {filter}");
+                foreach (var obj in searcher.Get()) map[(uint)obj["ProcessId"]] = obj["CommandLine"]?.ToString() ?? "";
+            } catch { }
+            return map;
+        }
+
+        private int CalculateMatchScore(IntPtr hwnd, uint pid, string commandLine, ProfileInfo profile)
+        {
+            // 1. AUMID (100)
+            string aumid = GetAppUserModelId(hwnd);
+            if (!string.IsNullOrEmpty(aumid))
+            {
+                if (aumid.IndexOf(profile.Id, StringComparison.OrdinalIgnoreCase) >= 0) return 100;
+                if (profile.Id == "Default" && aumid.Equals("Chrome", StringComparison.OrdinalIgnoreCase)) return 100;
+            }
+
+            int score = 0;
+
+            // 2. Title (50)
+            var sb = new StringBuilder(512);
+            Win32Api.GetWindowText(hwnd, sb, sb.Capacity);
+            string title = sb.ToString();
+            if (!string.IsNullOrEmpty(profile.DisplayName) && title.IndexOf(profile.DisplayName, StringComparison.OrdinalIgnoreCase) >= 0) score += 50;
+            else if (profile.Id == "Default" && title.IndexOf("Google Chrome", StringComparison.OrdinalIgnoreCase) >= 0) score += 50;
+
+            // 3. Command Line (30)
+            if (IsProfileMatch(commandLine, profile.Id)) score += 30;
+
+            return score > 0 ? score : -1;
+        }
+
+        private string GetAppUserModelId(IntPtr hwnd)
+        {
+            try
+            {
+                Guid guid = Win32Api.IID_IPropertyStore;
+                if (Win32Api.SHGetPropertyStoreForWindow(hwnd, ref guid, out object ppv) == 0)
+                {
+                    var store = (Win32Api.IPropertyStore)ppv;
+                    var key = Win32Api.PropertyKey.PKEY_AppUserModel_ID;
+                    if (store.GetValue(ref key, out var pv) == 0)
+                    {
+                        using (pv) return pv.GetValue();
+                    }
+                }
+            } catch { }
+            return string.Empty;
         }
 
         private bool IsProfileMatch(string commandLine, string targetProfileId)
         {
             var match = ProfileRegex.Match(commandLine);
-            if (match.Success)
-            {
-                var foundId = match.Groups[1].Value;
-                bool isMatch = foundId == targetProfileId;
-                if (!isMatch)
-                {
-                    Logger.Info($"Profile mismatch: Found='{foundId}', Target='{targetProfileId}' in CommandLine: {commandLine}");
-                }
-                return isMatch;
-            }
-
-            // --profile-directory 引数がない場合、Defaultプロファイルである可能性がある
+            if (match.Success) return string.Equals(match.Groups[1].Value, targetProfileId, StringComparison.OrdinalIgnoreCase);
             if (targetProfileId == "Default")
             {
-                // --user-data-dir が指定されている場合は別ディレクトリなので除外
-                bool isDefault = !commandLine.Contains("--user-data-dir") && 
-                                 !commandLine.Contains("--single-argument");
-                
-                if (!isDefault)
-                {
-                    Logger.Info($"Default profile excluded due to args. CommandLine: {commandLine}");
-                }
-                return isDefault;
+                return !commandLine.Contains("--profile-directory") && !commandLine.Contains("--user-data-dir") && !commandLine.Contains("--single-argument");
             }
-
             return false;
         }
 
@@ -230,13 +251,7 @@ namespace ChromeProfileLauncher.Services
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Google", "Chrome", "Application", "chrome.exe"),
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Google", "Chrome", "Application", "chrome.exe")
             };
-
-            foreach (var path in paths)
-            {
-                if (_fileSystem.FileExists(path))
-                    return path;
-            }
-
+            foreach (var path in paths) if (_fileSystem.FileExists(path)) return path;
             return string.Empty;
         }
     }

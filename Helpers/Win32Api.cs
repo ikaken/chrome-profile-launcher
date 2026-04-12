@@ -46,5 +46,67 @@ namespace ChromeProfileLauncher.Helpers
 
         [DllImport("kernel32.dll")]
         public static extern uint GetCurrentThreadId();
+
+        // --- Shell Property Store (AUMID取得用) ---
+
+        [DllImport("shell32.dll", SetLastError = true)]
+        public static extern int SHGetPropertyStoreForWindow(IntPtr hwnd, ref Guid iid, [MarshalAs(UnmanagedType.IUnknown)] out object ppv);
+
+        [Guid("886d8eeb-8cf2-4446-8d02-cdba1dbdcf99"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+        public interface IPropertyStore
+        {
+            [PreserveSig]
+            int GetCount(out uint cProps);
+            [PreserveSig]
+            int GetAt(uint iProp, out PropertyKey pkey);
+            [PreserveSig]
+            int GetValue(ref PropertyKey key, out PropVariant pv);
+            [PreserveSig]
+            int SetValue(ref PropertyKey key, ref PropertyKey pv); // Simplified for read-only use
+            [PreserveSig]
+            int Commit();
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct PropertyKey
+        {
+            public Guid fmtid;
+            public uint pid;
+
+            public static readonly PropertyKey PKEY_AppUserModel_ID = new PropertyKey
+            {
+                fmtid = new Guid("9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3"),
+                pid = 5
+            };
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct PropVariant : IDisposable
+        {
+            public ushort vt;
+            public ushort wReserved1;
+            public ushort wReserved2;
+            public ushort wReserved3;
+            public IntPtr ptr;
+
+            public void Dispose()
+            {
+                PropVariantClear(ref this);
+            }
+
+            [DllImport("ole32.dll")]
+            private static extern int PropVariantClear(ref PropVariant pvar);
+
+            public string GetValue()
+            {
+                if (vt == 31) // VT_LPWSTR
+                {
+                    return Marshal.PtrToStringUni(ptr) ?? string.Empty;
+                }
+                return string.Empty;
+            }
+        }
+
+        public static readonly Guid IID_IPropertyStore = new Guid("886d8eeb-8cf2-4446-8d02-cdba1dbdcf99");
     }
 }

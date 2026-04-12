@@ -38,7 +38,6 @@ namespace ChromeProfileLauncher.ViewModels
         {
             try
             {
-                // Pass a clone of all profiles
                 var clone = _allProfiles.Select(p => new ProfileInfo 
                 { 
                     Id = p.Id, 
@@ -68,7 +67,7 @@ namespace ChromeProfileLauncher.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Error opening settings: {ex.Message}\n{ex.StackTrace}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                System.Windows.MessageBox.Show($"Error opening settings: {ex.Message}");
             }
         });
 
@@ -82,11 +81,9 @@ namespace ChromeProfileLauncher.ViewModels
             ILauncherService? launcherService = null, 
             ISettingsService? settingsService = null)
         {
-            Helpers.Logger.Info("Initializing MainViewModel.");
+            Logger.Info("Initializing MainViewModel.");
             
-            var iconService = new IconService(fileSystem);
-
-            _discoveryService = discoveryService ?? new ProfileDiscoveryService(iconService, fileSystem);
+            _discoveryService = discoveryService ?? new ProfileDiscoveryService(new IconService(fileSystem), fileSystem);
             _launcherService = launcherService ?? new LauncherService(fileSystem);
             _settingsService = settingsService ?? new SettingsService(fileSystem);
 
@@ -95,38 +92,30 @@ namespace ChromeProfileLauncher.ViewModels
 
         private void LoadProfiles()
         {
-            Helpers.Logger.Info("Loading and merging profiles.");
             var settings = _settingsService.LoadSettings();
             var detected = _discoveryService.GetAvailableProfiles().ToList();
-            Helpers.Logger.Info($"Detected {detected.Count} Chrome profiles.");
 
             var merged = new System.Collections.Generic.List<ProfileInfo>();
 
-            // 1. Existing in settings
             foreach (var sProfile in settings.Profiles)
             {
                 var dProfile = detected.FirstOrDefault(p => p.Id == sProfile.Id);
                 if (dProfile != null)
                 {
-                    Helpers.Logger.Info($"Profile {sProfile.Id} matched. Preserving user settings (DisplayName: {sProfile.DisplayName}).");
                     sProfile.IconPath = dProfile.IconPath;
                     merged.Add(sProfile);
                     detected.Remove(dProfile);
                 }
             }
 
-            // 2. New profiles
             foreach (var dProfile in detected)
             {
-                Helpers.Logger.Info($"New profile detected: {dProfile.Id}");
                 int nextOrder = merged.Count > 0 ? merged.Max(p => p.Order) + 1 : 0;
                 dProfile.Order = nextOrder;
                 merged.Add(dProfile);
             }
 
             _allProfiles = merged.OrderBy(p => p.Order).ToList();
-            Helpers.Logger.Info($"Final merged profile count: {_allProfiles.Count}");
-
             _settingsService.SaveSettings(new AppSettings { Profiles = _allProfiles });
 
             Profiles.Clear();
