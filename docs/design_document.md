@@ -2,7 +2,7 @@
 
 ## 1. システム構成図
 
-本アプリは WPF (.NET 8/9 以降) を使用し、MVVM パターンに基づき設計する。
+本アプリは WPF (.NET 10.0) を使用し、MVVM パターンに基づき設計する。
 
 ```text
 [View (WPF)] <-> [ViewModel] <-> [Service / Repository] <-> [External Resources]
@@ -22,8 +22,9 @@
 | `DisplayName` | `string` | ユーザーによる表示名。デフォルトは Chrome で設定された名前。 |
 | `IsVisible` | `bool` | ランチャ画面に表示するかどうか。 |
 | `IconPath` | `string` | アイコンファイルのパス（PNGまたはICO）。 |
-| `IsRunning` | `bool` | 現在起動中かどうか (ViewModel レベルで管理)。 |
-| `Hwnd` | `long` | 起動中ウィンドウのハンドル (プロセス監視用)。シリアライズ回避のため long 型。 |
+| `IsRunning` | `bool` | 現在起動中かどうか (LOCKファイルおよびウィンドウ存在確認に基づく)。ランタイム専用 (`[JsonIgnore]`)。 |
+| `Hwnd` | `IntPtr` | 起動中ウィンドウのハンドル (一意識別に利用)。ランタイム専用 (`[JsonIgnore]`)。 |
+| `LastSeen` | `DateTime?` | 最後にウィンドウまたはLOCKファイルを確認した時刻。ランタイム専用 (`[JsonIgnore]`)。 |
 
 ### 2.2 AppSettings (アプリ設定)
 `%AppData%\ChromeProfileLauncher\settings.json` に保存される設定。
@@ -47,11 +48,13 @@
 
 ### 3.3 ILauncherService (起動・フォーカス制御)
 - `LaunchOrFocus(ProfileInfo profile)`:
-    - `profile.Id` に紐づくウィンドウが既に存在すれば `SetForegroundWindow` でフォーカス。
-    - 存在しなければ `--profile-directory` 引数付きで Chrome を起動。
+    - **起動判定**: `ProfileInfo.Id` に対応する `SingletonLock` ファイルの有無を確認。
+    - **フォーカス**: 起動中の場合、保持している `Hwnd` またはタイトルマッチ、AUMIDフィルタリングによりウィンドウを特定し `SetForegroundWindow` を実行。
+    - **起動**: 未起動の場合、`--profile-directory` 引数付きで Chrome を起動。
 - `MonitorProcess(ProfileInfo profile)`: 
-    - 起動したプロセスのウィンドウハンドルを特定し、`ProfileInfo.Hwnd` を更新。
-    - ウィンドウが閉じられたことを検知して `IsRunning` を更新。
+    - **ウィンドウ差分検出**: 起動直前と直後のウィンドウ一覧（`EnumWindows`）の差分から新規ウィンドウハンドルを取得。
+    - **プロセス差分検出**: 同様に新規生成されたPIDのうち、ブラウザ本体（`--type`なし）を特定して `Hwnd` と紐付ける。
+    - **状態更新**: ウィンドウの消失またはLOCKの解除を検知して `IsRunning` を `false` に更新。
 
 ## 4. UI設計 (WPF)
 
@@ -84,10 +87,12 @@
 5. メイン画面を表示。
 
 ### 5.2 起動・フォーカス処理
-1. ボタンクリック時、`ILauncherService` を呼び出し。
-2. 既にハンドルを保持しており、そのウィンドウが有効ならフォーカス。
-3. 無効ならプロセスを起動。
-4. 起動後、しばらくループして新しいウィンドウを特定し、ハンドルを記録。
+1. **事前確認**: LOCKファイルの存在を確認。
+2. **フォーカス試行**: LOCKがあれば、保持している `Hwnd` が有効か確認し、無効ならタイトルマッチ等で再探索。見つかればフォーカスして終了。
+3. **スナップショット**: 起動前に現在のウィンドウ一覧（およびPID一覧）を保存。
+4. **起動**: `--profile-directory` 指定でプロセスを起動。
+5. **差分検出**: 一定時間、新しいウィンドウまたはプロセスが現れるのを監視。
+6. **登録**: 新規ウィンドウを特定し、`ProfileInfo.Hwnd` を更新。
 
 ## 6. 技術スタック・ライブラリ
 
