@@ -157,7 +157,6 @@ namespace ChromeProfileLauncher.ViewModels
                 // Fallback to loading from disk if nothing passed
                 try
                 {
-                    var settings = _settingsService.LoadSettings();
                     if (settings?.Profiles != null)
                     {
                         foreach (var p in settings.Profiles.OrderBy(p => p.Order))
