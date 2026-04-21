@@ -69,7 +69,12 @@ namespace ChromeProfileLauncher.Services
             try
             {
                 Helpers.Logger.Info($"Saving {settings.Profiles.Count} profiles to: {_settingsPath}");
-                var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+                var options = new JsonSerializerOptions 
+                { 
+                    WriteIndented = true,
+                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                };
+                var json = JsonSerializer.Serialize(settings, options);
                 _fileSystem.WriteAllText(_settingsPath, json);
                 Helpers.Logger.Info("Settings saved successfully.");
             }

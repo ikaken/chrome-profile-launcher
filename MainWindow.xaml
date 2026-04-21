@@ -13,6 +13,9 @@
         Closing="Window_Closing"
         Background="#0F0F0F" Foreground="White"
         FontFamily="Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -80,9 +83,6 @@
         </Style>
 
     </Window.Resources>
-    <Window.DataContext>
-        <vm:MainViewModel />
-    </Window.DataContext>
     
     <Grid>
         <Grid Margin="20,10,20,20">
