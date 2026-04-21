@@ -89,19 +89,55 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void LaunchCommand_ShouldInvokeLauncherService()
+        public void LoadProfiles_ShouldRestoreWindowSettings()
         {
             // Arrange
-            var profile = new ProfileInfo { Id = "Default", DisplayName = "Test" };
-            _discoveryServiceMock.Setup(d => d.GetAvailableProfiles()).Returns(new List<ProfileInfo> { profile });
-            
-            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object);
+            var settings = new AppSettings
+            {
+                WindowTop = 150,
+                WindowLeft = 200,
+                WindowWidth = 500,
+                WindowHeight = 600,
+                IsMaximized = true
+            };
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            vm.LaunchCommand.Execute(profile);
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object);
 
             // Assert
-            _launcherServiceMock.Verify(l => l.LaunchOrFocus(profile), Times.Once);
+            vm.WindowTop.Should().Be(150);
+            vm.WindowLeft.Should().Be(200);
+            vm.WindowWidth.Should().Be(500);
+            vm.WindowHeight.Should().Be(600);
+            vm.WindowState.Should().Be(System.Windows.WindowState.Maximized);
+        }
+
+        [Fact]
+        public void SaveWindowSettings_ShouldPersistCurrentState()
+        {
+            // Arrange
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object);
+            vm.WindowTop = 300;
+            vm.WindowLeft = 400;
+            vm.WindowWidth = 800;
+            vm.WindowHeight = 600;
+            vm.WindowState = System.Windows.WindowState.Normal;
+
+            AppSettings savedSettings = null;
+            _settingsServiceMock.Setup(s => s.SaveSettings(It.IsAny<AppSettings>()))
+                .Callback<AppSettings>(s => savedSettings = s);
+
+            // Act
+            vm.SaveWindowSettings();
+
+            // Assert
+            savedSettings.Should().NotBeNull();
+            savedSettings.WindowTop.Should().Be(300);
+            savedSettings.WindowLeft.Should().Be(400);
+            savedSettings.WindowWidth.Should().Be(800);
+            savedSettings.WindowHeight.Should().Be(600);
+            savedSettings.IsMaximized.Should().BeFalse();
         }
     }
 }

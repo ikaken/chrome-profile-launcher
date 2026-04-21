@@ -17,7 +17,16 @@ namespace ChromeProfileLauncher
             InitializeComponent();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (DataContext is ViewModels.SettingsViewModel vm)
+            {
+                vm.SaveWindowSettings();
+            }
+        }
+
         private void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
         {
             _startPoint = e.GetPosition(null);
         }

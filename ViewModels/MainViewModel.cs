@@ -90,9 +90,85 @@ namespace ChromeProfileLauncher.ViewModels
             LoadProfiles();
         }
 
+        private double? _windowTop;
+        public double? WindowTop
+        {
+            get => _windowTop;
+            set { if (_windowTop != value) { _windowTop = value; OnPropertyChanged(); } }
+        }
+
+        private double? _windowLeft;
+        public double? WindowLeft
+        {
+            get => _windowLeft;
+            set { if (_windowLeft != value) { _windowLeft = value; OnPropertyChanged(); } }
+        }
+
+        private double? _windowWidth;
+        public double? WindowWidth
+        {
+            get => _windowWidth;
+            set { if (_windowWidth != value) { _windowWidth = value; OnPropertyChanged(); } }
+        }
+
+        private double? _windowHeight;
+        public double? WindowHeight
+        {
+            get => _windowHeight;
+            set { if (_windowHeight != value) { _windowHeight = value; OnPropertyChanged(); } }
+        }
+
+        private bool _isMaximized;
+        public bool IsMaximized
+        {
+            get => _isMaximized;
+            set { if (_isMaximized != value) { _isMaximized = value; OnPropertyChanged(); } }
+        }
+
+        private System.Windows.WindowState _windowState;
+        public System.Windows.WindowState WindowState
+        {
+            get => _windowState;
+            set 
+            { 
+                if (_windowState != value) 
+                { 
+                    _windowState = value; 
+                    IsMaximized = (_windowState == System.Windows.WindowState.Maximized);
+                    OnPropertyChanged(); 
+                } 
+            }
+        }
+
+        public void SaveWindowSettings()
+        {
+            var settings = _settingsService.LoadSettings();
+            
+            // Only save position and size if not maximized/minimized
+            if (WindowState == System.Windows.WindowState.Normal)
+            {
+                settings.WindowTop = WindowTop;
+                settings.WindowLeft = WindowLeft;
+                settings.WindowWidth = WindowWidth;
+                settings.WindowHeight = WindowHeight;
+            }
+            
+            settings.IsMaximized = (WindowState == System.Windows.WindowState.Maximized);
+            settings.Profiles = _allProfiles; // Preserve profiles
+            _settingsService.SaveSettings(settings);
+        }
+
         private void LoadProfiles()
         {
             var settings = _settingsService.LoadSettings();
+            
+            // Load window settings
+            WindowTop = settings.WindowTop ?? 100; // Default if null
+            WindowLeft = settings.WindowLeft ?? 100;
+            WindowWidth = settings.WindowWidth ?? 420;
+            WindowHeight = settings.WindowHeight ?? 500;
+            WindowState = settings.IsMaximized ? System.Windows.WindowState.Maximized : System.Windows.WindowState.Normal;
+
             var detected = _discoveryService.GetAvailableProfiles().ToList();
 
             var merged = new System.Collections.Generic.List<ProfileInfo>();

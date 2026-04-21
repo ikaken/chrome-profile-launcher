@@ -13,12 +13,42 @@ namespace ChromeProfileLauncher.ViewModels
         private readonly ISettingsService _settingsService;
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
 
+        private double? _windowTop;
+        public double? WindowTop
+        {
+            get => _windowTop;
+            set { if (_windowTop != value) { _windowTop = value; OnPropertyChanged(); } }
+        }
+
+        private double? _windowLeft;
+        public double? WindowLeft
+        {
+            get => _windowLeft;
+            set { if (_windowLeft != value) { _windowLeft = value; OnPropertyChanged(); } }
+        }
+
+        private double? _windowWidth;
+        public double? WindowWidth
+        {
+            get => _windowWidth;
+            set { if (_windowWidth != value) { _windowWidth = value; OnPropertyChanged(); } }
+        }
+
+        private double? _windowHeight;
+        public double? WindowHeight
+        {
+            get => _windowHeight;
+            set { if (_windowHeight != value) { _windowHeight = value; OnPropertyChanged(); } }
+        }
+
         private ICommand? _saveCommand;
         public ICommand SaveCommand => _saveCommand ??= new RelayCommand(p =>
         {
             try
             {
-                _settingsService.SaveSettings(new AppSettings { Profiles = Profiles.ToList() });
+                var settings = _settingsService.LoadSettings();
+                settings.Profiles = Profiles.ToList();
+                _settingsService.SaveSettings(settings);
                 
                 if (p is System.Windows.Window window)
                 {
@@ -31,6 +61,16 @@ namespace ChromeProfileLauncher.ViewModels
                 System.Windows.MessageBox.Show($"Error during save: {ex.Message}");
             }
         });
+
+        public void SaveWindowSettings()
+        {
+            var settings = _settingsService.LoadSettings();
+            settings.SettingsWindowTop = WindowTop;
+            settings.SettingsWindowLeft = WindowLeft;
+            settings.SettingsWindowWidth = WindowWidth;
+            settings.SettingsWindowHeight = WindowHeight;
+            _settingsService.SaveSettings(settings);
+        }
 
         private ICommand? _openFolderCommand;
         public ICommand OpenFolderCommand => _openFolderCommand ??= new RelayCommand(p =>
@@ -97,6 +137,13 @@ namespace ChromeProfileLauncher.ViewModels
         public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService)
         {
             _settingsService = settingsService;
+            
+            // Load window settings
+            var settings = _settingsService.LoadSettings();
+            WindowTop = settings.SettingsWindowTop ?? 200;
+            WindowLeft = settings.SettingsWindowLeft ?? 200;
+            WindowWidth = settings.SettingsWindowWidth ?? 500;
+            WindowHeight = settings.SettingsWindowHeight ?? 450;
             
             if (initialProfiles != null)
             {

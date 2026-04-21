@@ -6,9 +6,10 @@
         xmlns:vm="clr-namespace:ChromeProfileLauncher.ViewModels"
         xmlns:helpers="clr-namespace:ChromeProfileLauncher.Helpers"
         mc:Ignorable="d"
-        Title="Launcher Settings" Height="650" Width="450"
+        Title="Settings" Height="{Binding WindowHeight, Mode=TwoWay}" Width="{Binding WindowWidth, Mode=TwoWay}"
+        Top="{Binding WindowTop, Mode=TwoWay}" Left="{Binding WindowLeft, Mode=TwoWay}"
         Background="#0F0F0F" Foreground="White"
-        WindowStartupLocation="CenterOwner"
+        Closing="Window_Closing"
         FontFamily="Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial">
     
     <Window.Resources>

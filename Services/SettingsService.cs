@@ -9,6 +9,16 @@ namespace ChromeProfileLauncher.Services
     public class AppSettings
     {
         public List<ProfileInfo> Profiles { get; set; } = new();
+        public double? WindowTop { get; set; }
+        public double? WindowLeft { get; set; }
+        public double? WindowWidth { get; set; }
+        public double? WindowHeight { get; set; }
+        public bool IsMaximized { get; set; }
+
+        public double? SettingsWindowTop { get; set; }
+        public double? SettingsWindowLeft { get; set; }
+        public double? SettingsWindowWidth { get; set; }
+        public double? SettingsWindowHeight { get; set; }
     }
 
     public interface ISettingsService

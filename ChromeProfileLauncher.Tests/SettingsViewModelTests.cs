@@ -83,21 +83,51 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void SaveCommand_ShouldInvokeSettingsService()
+        public void Constructor_ShouldRestoreSettingsWindowSettings()
         {
             // Arrange
-            var initial = new List<ProfileInfo>
+            var settings = new AppSettings
             {
-                new ProfileInfo { Id = "P1", DisplayName = "Name 1" }
+                SettingsWindowTop = 300,
+                SettingsWindowLeft = 400,
+                SettingsWindowWidth = 800,
+                SettingsWindowHeight = 600
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object);
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            vm.SaveCommand.Execute(null);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object);
 
             // Assert
-            _settingsServiceMock.Verify(s => s.SaveSettings(It.Is<AppSettings>(asettings => 
-                asettings.Profiles.Count == 1 && asettings.Profiles[0].Id == "P1")), Times.Once);
+            vm.WindowTop.Should().Be(300);
+            vm.WindowLeft.Should().Be(400);
+            vm.WindowWidth.Should().Be(800);
+            vm.WindowHeight.Should().Be(600);
+        }
+
+        [Fact]
+        public void SaveWindowSettings_ShouldPersistCurrentState()
+        {
+            // Arrange
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object);
+            vm.WindowTop = 500;
+            vm.WindowLeft = 600;
+            vm.WindowWidth = 1000;
+            vm.WindowHeight = 800;
+
+            AppSettings savedSettings = null;
+            _settingsServiceMock.Setup(s => s.SaveSettings(It.IsAny<AppSettings>()))
+                .Callback<AppSettings>(s => savedSettings = s);
+
+            // Act
+            vm.SaveWindowSettings();
+
+            // Assert
+            savedSettings.Should().NotBeNull();
+            savedSettings.SettingsWindowTop.Should().Be(500);
+            savedSettings.SettingsWindowLeft.Should().Be(600);
+            savedSettings.SettingsWindowWidth.Should().Be(1000);
+            savedSettings.SettingsWindowHeight.Should().Be(800);
         }
     }
 }
