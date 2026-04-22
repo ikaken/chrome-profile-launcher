@@ -12,7 +12,7 @@
         WindowState="{Binding WindowState, Mode=TwoWay}"
         Closing="Window_Closing"
         Background="#0F0F0F" Foreground="White"
-        FontFamily="Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial">
+        FontFamily="Segoe UI, Meiryo, Yu Gothic UI, Roboto, Helvetica Neue, Arial">
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>

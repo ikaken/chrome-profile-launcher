@@ -11,7 +11,7 @@
         Top="{Binding WindowTop, Mode=TwoWay}" Left="{Binding WindowLeft, Mode=TwoWay}"
         Background="#0F0F0F" Foreground="White"
         Closing="Window_Closing"
-        FontFamily="Segoe UI, Roboto, Helvetica Neue, Helvetica, Arial">
+        FontFamily="Segoe UI, Meiryo, Yu Gothic UI, Roboto, Helvetica Neue, Arial">
 
     <Window.DataContext>
         <vm:SettingsViewModel />
