@@ -17,10 +17,12 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        Helpers.Logger.Info("Application starting...");
         _mutex = new Mutex(true, MutexName, out bool createdNew);
 
         if (!createdNew)
         {
+            Helpers.Logger.Info("Another instance is already running. Activating existing window and shutting down.");
             // 既に起動している場合、既存のウィンドウを探して最前面に表示する
             ActivateExistingWindow();
             
@@ -31,11 +33,13 @@ public partial class App : Application
             return;
         }
 
+        Helpers.Logger.Info("Mutex acquired. This is the primary instance.");
         base.OnStartup(e);
 
         // MainWindow を手動で作成して表示
         var mainWindow = new MainWindow();
         mainWindow.Show();
+        Helpers.Logger.Info("MainWindow shown.");
     }
 
     private void ActivateExistingWindow()
