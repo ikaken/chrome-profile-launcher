@@ -64,7 +64,8 @@ namespace ChromeProfileLauncher.ViewModels
 
         public void SaveWindowSettings()
         {
-            var settings = _settingsService.LoadSettings();
+            var settings = _settingsService.LoadSettings() ?? new AppSettings();
+
             settings.SettingsWindowTop = WindowTop;
             settings.SettingsWindowLeft = WindowLeft;
             settings.SettingsWindowWidth = WindowWidth;
@@ -140,10 +141,10 @@ namespace ChromeProfileLauncher.ViewModels
             
             // Load window settings
             var settings = _settingsService.LoadSettings();
-            WindowTop = settings.SettingsWindowTop ?? 200;
-            WindowLeft = settings.SettingsWindowLeft ?? 200;
-            WindowWidth = settings.SettingsWindowWidth ?? 500;
-            WindowHeight = settings.SettingsWindowHeight ?? 450;
+            WindowTop = settings?.SettingsWindowTop ?? 200;
+            WindowLeft = settings?.SettingsWindowLeft ?? 200;
+            WindowWidth = settings?.SettingsWindowWidth ?? 500;
+            WindowHeight = settings?.SettingsWindowHeight ?? 450;
             
             if (initialProfiles != null)
             {
