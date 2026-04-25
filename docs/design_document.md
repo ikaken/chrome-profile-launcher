@@ -193,6 +193,18 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
 1. `WindowState` が `Normal` であれば、現在のウィンドウ位置・サイズを `ISettingsService.SaveWindowPosition()` で保存。
 2. 最大化・最小化状態の場合は保存をスキップ（前回の通常状態の値を維持）。
 
+### 5.1b 単一インスタンス制御（二重起動防止）
+アプリ起動時 (`App.xaml.cs` の `OnStartup`) に、以下の処理を行う。
+
+1. **Mutex チェック**: `ChromeProfileLauncher-SingleInstance-Mutex` という名前の Mutex を作成し、所有権を確認。
+2. **既存インスタンス検出**: Mutex の所有権が取得できない場合、既に別インスタンスが起動していると判断。
+3. **既存ウィンドウの活性化**: `NativeMethods.FindWindow` で "Chrome Profile Launcher" タイトルのウィンドウを探索。
+4. **状態復元と前面化**: 
+    - ウィンドウが見つかった場合、`IsIconic` で最小化状態か確認。
+    - 最小化されていれば `ShowWindow(SW_RESTORE)` で復元。
+    - `SetForegroundWindow` で最前面に表示。
+5. **終了**: 活性化処理後、後から起動したインスタンスを `Shutdown()` する。
+
 ### 5.2 起動・フォーカス処理
 1. **キャッシュ検証**: 保持している `Hwnd` が有効か確認（`IsWindow` + `IsWindowVisible` + クラス名・プロセス名チェック）。有効ならフォーカスして終了。
 2. **LOCK確認**: `SingletonLock` ファイルの存在を確認。LOCKなしなら手順5へ。
@@ -238,8 +250,16 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
 - **フレームワーク**: .NET 10.0 (WPF)
 - **UI フレームワーク**: WPF
 - **JSON 解析**: `System.Text.Json`
-- **Win32 API**: `P/Invoke` (user32.dll: `SetForegroundWindow`, `ShowWindow`, `IsWindow`, `IsWindowVisible`, `EnumWindows`, `GetWindowText`, `GetClassName`, `GetForegroundWindow`, `AttachThreadInput`, `GetWindowThreadProcessId` / kernel32.dll: `GetCurrentThreadId`)
+- **Win32 API**: `P/Invoke` (user32.dll: `SetForegroundWindow`, `ShowWindow`, `IsWindow`, `IsWindowVisible`, `EnumWindows`, `GetWindowText`, `GetClassName`, `GetForegroundWindow`, `AttachThreadInput`, `GetWindowThreadProcessId`, `FindWindow`, `IsIconic` / kernel32.dll: `GetCurrentThreadId`)
 - **プロセス監視**: `System.Management` (WMI — コマンドライン引数の取得に使用)
+
+### 7.1 P/Invoke 定義 (NativeMethods)
+`App.xaml.cs` 内に定義される、二重起動防止用のネイティブメソッド。
+
+- `FindWindow`: クラス名またはウィンドウタイトルからウィンドウハンドルを取得。
+- `SetForegroundWindow`: 指定したウィンドウをフォアグラウンドにする。
+- `ShowWindow`: ウィンドウの表示状態を設定（`SW_RESTORE = 9` を使用）。
+- `IsIconic`: ウィンドウが最小化されているか判定。
 
 ## 8. 配布・ビルド設計 (Deployment)
 
