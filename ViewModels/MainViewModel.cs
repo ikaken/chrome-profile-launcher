@@ -90,29 +90,29 @@ namespace ChromeProfileLauncher.ViewModels
             LoadProfiles();
         }
 
-        private double? _windowTop;
-        public double? WindowTop
+        private double _windowTop;
+        public double WindowTop
         {
             get => _windowTop;
             set { if (_windowTop != value) { _windowTop = value; OnPropertyChanged(); } }
         }
 
-        private double? _windowLeft;
-        public double? WindowLeft
+        private double _windowLeft;
+        public double WindowLeft
         {
             get => _windowLeft;
             set { if (_windowLeft != value) { _windowLeft = value; OnPropertyChanged(); } }
         }
 
-        private double? _windowWidth;
-        public double? WindowWidth
+        private double _windowWidth;
+        public double WindowWidth
         {
             get => _windowWidth;
             set { if (_windowWidth != value) { _windowWidth = value; OnPropertyChanged(); } }
         }
 
-        private double? _windowHeight;
-        public double? WindowHeight
+        private double _windowHeight;
+        public double WindowHeight
         {
             get => _windowHeight;
             set { if (_windowHeight != value) { _windowHeight = value; OnPropertyChanged(); } }

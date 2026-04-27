@@ -7,16 +7,19 @@
 設定画面を正常に表示できるように修正する。
 
 ## 変更内容
-- `SettingsWindow.xaml` の XAML 解析エラーを特定し修正する。
-- 可能性のある原因：
-    1. `Height`, `Width` 等のバインディング先が `double?` であることによる型変換失敗。
-    2. `Icon` プロパティのパス指定ミス。
+- `Views/SettingsWindow.xaml` の `Icon` パスを `Assets/app.ico` から `/Assets/app.ico` に変更。
+- `MainWindow.xaml` の `Icon` パスも `/Assets/app.ico` に統一。
+
+## 修正結果
+- サブフォルダ（`Views/`）内にある XAML ファイルからも正しくリソースが参照されるようになり、BAML 解析時の `TypeConverterMarkupExtension` 例外が解消された。
+- ローカル環境でのビルドが正常に完了することを確認。
 
 ## 影響範囲
 - 設定画面（SettingsWindow）
+- メイン画面（MainWindow）
 
 ## 非対応
 - 特になし
 
 ## 備考
-- エラーメッセージ：`"System.Windows.Baml2006.TypeConverterMarkupExtension" の値の指定時に例外がスローされました。行番号 "10", 行位置 "9"。`
+- エラーの原因は、XAML ファイルの階層構造に起因する相対パス解決の失敗であった。

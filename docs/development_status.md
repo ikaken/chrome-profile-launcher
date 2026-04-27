@@ -85,6 +85,7 @@ ChromeProfileLauncher/
     - `dotnet build --configuration Debug` により正常にビルド。
     - 生成パス: `bin\Debug\net10.0-windows\win-x64\ChromeProfileLauncher.exe`
 - [x] **不具合修正**:
+    - **Issue #13 設定画面が開かない**: サブフォルダ内の XAML からリソースパス（アイコン）が正しく解決できない問題を、絶対パス指定への変更により修正。
     - メインプロジェクトのビルドプロセスでテストプロジェクトのファイルが誤って含まれていた問題を解決 (`ChromeProfileLauncher.csproj` の除外設定を強化)。
 
 ## 6. 次のステップ (最終報告書に基づく)
