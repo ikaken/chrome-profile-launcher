@@ -9,7 +9,7 @@
         d:DesignHeight="450" d:DesignWidth="500"
         Title="Settings" Height="{Binding WindowHeight, Mode=TwoWay}" Width="{Binding WindowWidth, Mode=TwoWay}"
         Top="{Binding WindowTop, Mode=TwoWay}" Left="{Binding WindowLeft, Mode=TwoWay}"
-        Icon="Assets/app.ico"
+        Icon="pack://application:,,,/ChromeProfileLauncher;component/Assets/app.ico"
         Background="#0F0F0F" Foreground="White"
         Closing="Window_Closing"
         FontFamily="Segoe UI, Meiryo, Yu Gothic UI, Roboto, Helvetica Neue, Arial">
