@@ -13,8 +13,9 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRun>true</PublishReadyToRun>
     <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <DefaultItemExcludes>$(DefaultItemExcludes);ChromeProfileLauncher.Tests\**</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);ChromeProfileLauncher.Tests\**;scratch\**</DefaultItemExcludes>
   </PropertyGroup>
+
 
   <ItemGroup>
     <Compile Remove="ChromeProfileLauncher.Tests\**" />
