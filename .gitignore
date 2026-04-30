@@ -28,3 +28,6 @@ settings.json
 # ビルドログ・作業用一時ファイル（リポジトリに含める必要なし）
 build_log*.txt
 test_results.txt
+
+# インストーラーの出力フォルダ
+installer/Output/
