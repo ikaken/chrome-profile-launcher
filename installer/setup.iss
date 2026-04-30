@@ -22,6 +22,7 @@ DefaultDirName={userpf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; 管理者権限を要求しない（ユーザー単位のインストール）
 PrivilegesRequired=lowest
+UninstallDisplayIcon={app}\Assets\app.ico
 OutputBaseFilename=ChromeProfileLauncherSetup
 SetupIconFile={#MyAssetsDir}\app.ico
 Compression=lzma
