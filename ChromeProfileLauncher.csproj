@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <!-- Post-build step to fix the icon for Explorer -->
-  <Target Name="FixIcon" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug' AND Exists('scratch\rcedit-x64.exe')">
+  <Target Name="FixIcon" AfterTargets="Build" Condition="Exists('scratch\rcedit-x64.exe')">
     <Exec Command="scratch\rcedit-x64.exe $(OutDir)$(TargetName).exe --set-icon Assets\app.ico" />
   </Target>
 
