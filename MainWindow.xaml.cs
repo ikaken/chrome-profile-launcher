@@ -1,19 +1,44 @@
+using System;
 using System.Windows;
+using ChromeProfileLauncher.Services;
+using ChromeProfileLauncher.Helpers;
 
 namespace ChromeProfileLauncher;
 
 public partial class MainWindow : Window
 {
+    private readonly ISettingsService _settingsService;
+
     public MainWindow()
     {
         InitializeComponent();
+        _settingsService = new SettingsService(new FileSystem());
+        SourceInitialized += MainWindow_SourceInitialized;
+    }
+
+    private void MainWindow_SourceInitialized(object? sender, EventArgs e)
+    {
+        var pos = _settingsService.LoadWindowPosition();
+        if (WindowPositionHelper.IsPositionValid(pos.left, pos.top, pos.width, pos.height))
+        {
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Left = pos.left;
+            Top = pos.top;
+            Width = pos.width;
+            Height = pos.height;
+            if (pos.isMaximized) WindowState = WindowState.Maximized;
+        }
     }
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        if (DataContext is ViewModels.MainViewModel vm)
+        if (WindowState == WindowState.Normal)
         {
-            vm.SaveWindowSettings();
+            _settingsService.SaveWindowPosition(Left, Top, Width, Height, false);
+        }
+        else if (WindowState == WindowState.Maximized)
+        {
+            _settingsService.SaveWindowPosition(Left, Top, Width, Height, true);
         }
     }
 }

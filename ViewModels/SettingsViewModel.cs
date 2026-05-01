@@ -46,6 +46,7 @@ namespace ChromeProfileLauncher.ViewModels
         {
             try
             {
+                SaveWindowSettings();
                 var settings = _settingsService.LoadSettings();
                 settings.Profiles = Profiles.ToList();
                 _settingsService.SaveSettings(settings);

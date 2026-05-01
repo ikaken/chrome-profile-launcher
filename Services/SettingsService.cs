@@ -25,6 +25,8 @@ namespace ChromeProfileLauncher.Services
     {
         AppSettings LoadSettings();
         void SaveSettings(AppSettings settings);
+        (double left, double top, double width, double height, bool isMaximized) LoadWindowPosition();
+        void SaveWindowPosition(double left, double top, double width, double height, bool isMaximized);
     }
 
     public class SettingsService : ISettingsService
@@ -83,6 +85,23 @@ namespace ChromeProfileLauncher.Services
                 Helpers.Logger.Error("Failed to save settings.", ex);
                 System.Windows.MessageBox.Show($"Failed to save settings: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
+        }
+
+        public (double left, double top, double width, double height, bool isMaximized) LoadWindowPosition()
+        {
+            var settings = LoadSettings();
+            return (settings.WindowLeft ?? 100, settings.WindowTop ?? 100, settings.WindowWidth ?? 420, settings.WindowHeight ?? 500, settings.IsMaximized);
+        }
+
+        public void SaveWindowPosition(double left, double top, double width, double height, bool isMaximized)
+        {
+            var settings = LoadSettings();
+            settings.WindowLeft = left;
+            settings.WindowTop = top;
+            settings.WindowWidth = width;
+            settings.WindowHeight = height;
+            settings.IsMaximized = isMaximized;
+            SaveSettings(settings);
         }
     }
 }
