@@ -162,13 +162,6 @@ namespace ChromeProfileLauncher.ViewModels
         {
             var settings = _settingsService.LoadSettings();
             
-            // Load window settings
-            WindowTop = settings.WindowTop ?? 100; // Default if null
-            WindowLeft = settings.WindowLeft ?? 100;
-            WindowWidth = settings.WindowWidth ?? 420;
-            WindowHeight = settings.WindowHeight ?? 500;
-            WindowState = settings.IsMaximized ? System.Windows.WindowState.Maximized : System.Windows.WindowState.Normal;
-
             var detected = _discoveryService.GetAvailableProfiles().ToList();
 
             var merged = new System.Collections.Generic.List<ProfileInfo>();
@@ -192,7 +185,10 @@ namespace ChromeProfileLauncher.ViewModels
             }
 
             _allProfiles = merged.OrderBy(p => p.Order).ToList();
-            _settingsService.SaveSettings(new AppSettings { Profiles = _allProfiles });
+            
+            // Preserve window settings when saving profiles
+            settings.Profiles = _allProfiles;
+            _settingsService.SaveSettings(settings);
 
             Profiles.Clear();
             foreach (var p in _allProfiles.Where(p => p.IsVisible))

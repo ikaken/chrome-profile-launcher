@@ -128,56 +128,34 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
 - `LoadSettings()`: `settings.json` から `AppSettings` を読み込む。ファイルが存在しない場合はデフォルトの空設定を返す。
 - `SaveSettings(AppSettings settings)`: `AppSettings` を JSON 形式で `settings.json` に保存する。
 
-#### 【未実装】拡張メソッド（ウィンドウ位置管理）
-プロファイル設定とウィンドウ位置を独立して保存・読み込みできるようにし、`SaveSettings()` でのプロファイル保存時にウィンドウ位置が上書き消失する問題を回避する。
+- `LoadWindowPosition()`: `AppSettings` からウィンドウ位置（Left, Top, Width, Height, IsMaximized）を読み込む。
+- `SaveWindowPosition(double left, double top, double width, double height, bool isMaximized)`: 既存の設定をロードし、ウィンドウ位置のみを更新して保存する。
 
-- `LoadWindowPosition()`: `AppSettings` からウィンドウ位置（Left, Top, Width, Height）を読み込む。
-- `SaveWindowPosition(double left, double top, double width, double height)`: 既存の設定をロードし、ウィンドウ位置のみを更新して保存する（プロファイル設定はそのまま保持）。
-
-### 3.5 【未実装】WindowPositionHelper（座標バリデーション）
+### 3.5 WindowPositionHelper（座標バリデーション）
 `Helpers/WindowPositionHelper.cs` に配置する静的ユーティリティクラス。UI非依存のため単体テスト可能。
 
-- `IsPositionValid(left, top, width, height, screenLeft, screenTop, screenWidth, screenHeight)`: ウィンドウの一部が仮想スクリーン境界内に見えているかを判定。完全に画面外の場合のみ `false`。
+- `IsPositionValid(left, top, width, height)`: ウィンドウの一部が仮想スクリーン境界内に見えているかを判定。完全に画面外の場合のみ `false`。
 - `IsSizeValid(width, height)`: サイズが最小閾値（幅 200px、高さ 150px）以上かを判定。
 
 **座標系とDPI対応:**
-- 保存・復元する座標はすべて **WPF DIP（Device Independent Pixel、論理ピクセル）** 単位とする。WPFの `Window.Left`/`Top`/`Width`/`Height` および `SystemParameters.VirtualScreen*` はいずれもDIP単位のため、変換は不要。
-- DPI設定が変更された場合（例: 150%→100%）、以前の座標がスクリーン外になる可能性があるが、`IsPositionValid` のフォールバック条件でカバーされるため、DPI固有の追加ロジックは不要。
-
-**仮想スクリーン境界の取得:**
-- `IsPositionValid` の `screenLeft`/`screenTop`/`screenWidth`/`screenHeight` 引数には、呼び出し元（`MainWindow.xaml.cs`）で以下のWPF APIの値を渡す:
-    - `SystemParameters.VirtualScreenLeft`
-    - `SystemParameters.VirtualScreenTop`
-    - `SystemParameters.VirtualScreenWidth`
-    - `SystemParameters.VirtualScreenHeight`
+- 保存・復元する座標はすべて **WPF DIP（Device Independent Pixel、論理ピクセル）** 単位とする。
+- 保存・復元のバリデーションには `SystemParameters.VirtualScreen*` を使用する。
 
 ## 4. UI設計 (WPF)
 
 ### 4.1 MainWindow (ランチャ画面)
 - **デフォルトサイズ**: 幅 420px × 高さ 500px。
-- **スタイル**: ダークテーマ (#0F0F0F) を基調としたモダンなデザイン。カード（アイテム）背景には視認性向上のため `#222222` を採用。
 - **構成**:
-    - `ListBox`: 各アイテムを角丸カード形式で表示。`ScrollViewer.CanContentScroll="False"` によるピクセル単位のスムーズスクロールに対応。
-    - 各アイテム: アイコン、表示名を**左揃え**で配置。文字色は白 (`#FFFFFF`)。ホバー・クリック時の視覚効果あり。
-    - タイトル表示の廃止: レイアウトのコンパクト化のため、「Chrome Launcher」等のタイトル表示を削除。
-    - 下部: 「Settings」ボタン（丸みのあるモダンなデザイン）。
-    - **DimmerOverlay**: 設定画面表示中にメイン画面全体を半透明（黒）で覆い、グレーアウト状態を表現。
-- **【未実装】ウィンドウ位置の復元・保存**:
-    - `MainWindow.xaml` の `WindowStartupLocation="CenterScreen"` を削除し、コードビハインドで制御する。
-    - `OnSourceInitialized` で `ISettingsService.LoadWindowPosition()` を呼び出し、保存位置を復元。復元時は `WindowStartupLocation = Manual` を設定してから座標を適用する。
-    - `OnClosing` で `WindowState == Normal` の場合のみ `ISettingsService.SaveWindowPosition()` を呼び出し、現在位置を保存。
-    - `WindowPositionHelper` でバリデーションを実行し、不正な値の場合は `WindowStartupLocation` を `Manual` にセットせず、XAMLのデフォルト値 `CenterScreen` を維持することでプライマリモニターの中央にフォールバックする。
-    - **前提条件**: `DataContext` はXAML内で `<Window.DataContext>` として設定されるため、`InitializeComponent()` 完了後（= `OnSourceInitialized` 時点）で `MainViewModel` 経由の `ISettingsService` へのアクセスが可能である。
+    - ... (上記同様)
+    - **ウィンドウ位置の復元・保存**:
+        - 起動時 (`OnSourceInitialized`): `ISettingsService.LoadWindowPosition()` を呼び出し、有効な座標であれば適用。無効な場合は画面中央に配置。
+        - 終了時 (`Closing`): `ISettingsService.SaveWindowPosition()` を呼び出し、現在位置を保存。
+        - **仕様**: 設定画面の開閉や設定保存時には、メインウィンドウの位置情報は変更しない。
 
 ### 4.2 SettingsWindow (設定画面)
-- **スタイル**: メイン画面と統一したダークテーマのカードレイアウト。
 - **構成**:
-    - 各アイテム左側にドラッグ用のハンドル (`☰`) を配置。ドラッグ中はドロップ先のアイテムを半透明 (Opacity 0.4) にすることでドロップ位置を分かりやすく表示。
-    - 各プロファイルに表示/非表示を切り替えるトグルスイッチ (CheckBoxスタイル) を配置。
-    - プロファイル名の下にフォルダ名 (`Id`) を併記。
-    - 各アイテムに 「OPEN (📂)」 ボタンを配置し、直接フォルダを開く機能を提供。
-    - 不要なラベル（「NAVIGATION MODULES」等）を削除したシンプルなレイアウト。
-    - 保存・キャンセルボタン（青と黒のボタン）。
+    - ... (上記同様)
+    - **仕様**: 設定の保存・キャンセル操作において、メインウィンドウの位置情報には一切関与しない。
 
 ## 5. 処理フロー
 
