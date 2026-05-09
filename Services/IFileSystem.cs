@@ -10,6 +10,7 @@ namespace ChromeProfileLauncher.Services
         void WriteAllText(string path, string contents);
         bool DirectoryExists(string path);
         DirectoryInfo CreateDirectory(string path);
+        bool CanReadFile(string path);
     }
 
     public class FileSystem : IFileSystem
@@ -19,5 +20,21 @@ namespace ChromeProfileLauncher.Services
         public void WriteAllText(string path, string contents) => File.WriteAllText(path, contents, System.Text.Encoding.UTF8);
         public bool DirectoryExists(string path) => Directory.Exists(path);
         public DirectoryInfo CreateDirectory(string path) => Directory.CreateDirectory(path);
+
+        public bool CanReadFile(string path)
+        {
+            try
+            {
+                if (!File.Exists(path)) return false;
+                using (var stream = File.OpenRead(path))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

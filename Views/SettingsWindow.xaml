@@ -19,6 +19,7 @@
     </Window.DataContext>
     
     <Window.Resources>
+        <helpers:IconPathToImageConverter x:Key="IconPathToImageConverter" />
 
         <!-- Colors -->
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#0F0F0F" />
@@ -191,7 +192,7 @@
 
                         <!-- Icon -->
                         <Border Grid.Column="1" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Source="{Binding IconPath}" Width="32" Height="32" />
+                            <Image Source="{Binding IconPath, Converter={StaticResource IconPathToImageConverter}}" Width="32" Height="32" />
                         </Border>
 
                         <!-- Name & ID -->

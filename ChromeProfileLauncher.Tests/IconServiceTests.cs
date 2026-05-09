@@ -23,12 +23,12 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void GetIconPath_ShouldReturnPath_WhenFileExists()
+        public void GetIconPath_ShouldReturnPngPath_WhenPngIsReadable()
         {
             // Arrange
             var profileId = "Default";
             var expectedPicPath = Path.Combine(_userDataPath, profileId, "Google Profile Picture.png");
-            _fileSystemMock.Setup(f => f.FileExists(expectedPicPath)).Returns(true);
+            _fileSystemMock.Setup(f => f.CanReadFile(expectedPicPath)).Returns(true);
 
             // Act
             var result = _service.GetIconPath(profileId);
@@ -38,15 +38,33 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void GetIconPath_ShouldReturnEmpty_WhenFileDoesNotExist()
+        public void GetIconPath_ShouldReturnIcoPath_WhenPngIsNotReadable()
         {
             // Arrange
+            var profileId = "Default";
+            var pngPath = Path.Combine(_userDataPath, profileId, "Google Profile Picture.png");
+            var icoPath = Path.Combine(_userDataPath, profileId, "Google Profile.ico");
+            _fileSystemMock.Setup(f => f.CanReadFile(pngPath)).Returns(false);
+            _fileSystemMock.Setup(f => f.CanReadFile(icoPath)).Returns(true);
+
+            // Act
+            var result = _service.GetIconPath(profileId);
+
+            // Assert
+            result.Should().Be(icoPath);
+        }
+
+        [Fact]
+        public void GetIconPath_ShouldReturnChromePath_WhenNoIconAvailable()
+        {
+            // Arrange
+            _fileSystemMock.Setup(f => f.CanReadFile(It.IsAny<string>())).Returns(false);
             _fileSystemMock.Setup(f => f.FileExists(It.IsAny<string>())).Returns(false);
 
             // Act
             var result = _service.GetIconPath("NonExistent");
 
-            // Assert
+            // Assert - chrome.exe も見つからない場合は空文字列
             result.Should().BeEmpty();
         }
     }
