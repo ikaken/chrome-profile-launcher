@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Media.Imaging;
 using ChromeProfileLauncher.Models;
+using ChromeProfileLauncher.Helpers;
 
 namespace ChromeProfileLauncher.Services
 {
@@ -28,19 +29,20 @@ namespace ChromeProfileLauncher.Services
             var profilePath = Path.Combine(_userDataPath, profileId);
             var picPath = Path.Combine(profilePath, "Google Profile Picture.png");
 
-            if (_fileSystem.FileExists(picPath))
+            if (_fileSystem.CanReadFile(picPath))
             {
                 return picPath;
             }
-
+            
             // 2. Fallback to Google Profile.ico
             var icoPath = Path.Combine(profilePath, "Google Profile.ico");
-            if (_fileSystem.FileExists(icoPath))
+            if (_fileSystem.CanReadFile(icoPath))
             {
                 return icoPath;
             }
 
-            return string.Empty;
+            // 3. Final Fallback to Chrome icon (EXE)
+            return ChromePathHelper.GetChromePath(_fileSystem);
         }
     }
 }
