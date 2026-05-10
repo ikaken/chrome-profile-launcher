@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Management" Version="10.0.5" />
+    <PackageReference Include="Velopack" Version="0.0.1054" />
   </ItemGroup>
 
   <ItemGroup>

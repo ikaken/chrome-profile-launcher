@@ -20,6 +20,9 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        // Velopack のセットアップ。アップデート後の再起動などをハンドルする。
+        Velopack.VelopackApp.Build().Run();
+
         Helpers.Logger.Info("Application starting...");
         
         // Mutex の取得を試みる

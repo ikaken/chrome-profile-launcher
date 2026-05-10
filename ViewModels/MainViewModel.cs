@@ -13,6 +13,7 @@ namespace ChromeProfileLauncher.ViewModels
         private readonly IProfileDiscoveryService _discoveryService;
         private readonly ILauncherService _launcherService;
         private readonly ISettingsService _settingsService;
+        private readonly IUpdateService _updateService;
 
         private System.Collections.Generic.List<ProfileInfo> _allProfiles = new();
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
@@ -47,7 +48,7 @@ namespace ChromeProfileLauncher.ViewModels
                     IconPath = p.IconPath
                 }).ToList();
 
-                var vm = new SettingsViewModel(clone);
+                var vm = new SettingsViewModel(clone, _settingsService, _updateService);
                 var settingsWin = new SettingsWindow();
                 settingsWin.DataContext = vm;
                 settingsWin.Owner = System.Windows.Application.Current.MainWindow;
@@ -71,7 +72,7 @@ namespace ChromeProfileLauncher.ViewModels
             }
         });
 
-        public MainViewModel() : this(new FileSystem(), null, null, null)
+        public MainViewModel() : this(new FileSystem(), null, null, null, null)
         {
         }
 
@@ -79,15 +80,72 @@ namespace ChromeProfileLauncher.ViewModels
             IFileSystem fileSystem, 
             IProfileDiscoveryService? discoveryService = null, 
             ILauncherService? launcherService = null, 
-            ISettingsService? settingsService = null)
+            ISettingsService? settingsService = null,
+            IUpdateService? updateService = null)
         {
             Logger.Info("Initializing MainViewModel.");
             
             _discoveryService = discoveryService ?? new ProfileDiscoveryService(new IconService(fileSystem), fileSystem);
             _launcherService = launcherService ?? new LauncherService(fileSystem);
             _settingsService = settingsService ?? new SettingsService(fileSystem);
+            _updateService = updateService ?? new UpdateService();
 
             LoadProfiles();
+            CheckForUpdatesAsync().ConfigureAwait(false);
+        }
+
+        private async System.Threading.Tasks.Task CheckForUpdatesAsync()
+        {
+            try
+            {
+                // UIスレッドをブロックしないよう少し遅延させる（UX配慮）
+                await System.Threading.Tasks.Task.Delay(3000);
+                
+                var updateInfo = await _updateService.CheckForUpdatesAsync();
+                if (updateInfo != null)
+                {
+                    Logger.Info($"Update available: {updateInfo.TargetFullRelease.Version}");
+                    
+                    // アップデート通知ダイアログを表示（簡易版としてMessageBoxを使用）
+                    // 実際にはもっとリッチなUIが望ましい
+                    await System.Windows.Application.Current.Dispatcher.InvokeAsync(async () =>
+                    {
+                        var result = System.Windows.MessageBox.Show(
+                            $"新しいバージョン ({updateInfo.TargetFullRelease.Version}) が利用可能です。アップデートをダウンロードしますか？",
+                            "アップデートの通知",
+                            System.Windows.MessageBoxButton.YesNo,
+                            System.Windows.MessageBoxImage.Information);
+
+                        if (result == System.Windows.MessageBoxResult.Yes)
+                        {
+                            try
+                            {
+                                await _updateService.DownloadUpdateAsync(updateInfo);
+                                
+                                var restartResult = System.Windows.MessageBox.Show(
+                                    "ダウンロードが完了しました。今すぐ適用して再起動しますか？",
+                                    "アップデートの準備完了",
+                                    System.Windows.MessageBoxButton.YesNo,
+                                    System.Windows.MessageBoxImage.Question);
+
+                                if (restartResult == System.Windows.MessageBoxResult.Yes)
+                                {
+                                    _updateService.ApplyUpdateAndRestart(updateInfo);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error("Update download failed.", ex);
+                                System.Windows.MessageBox.Show("アップデートのダウンロードに失敗しました。");
+                            }
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error during update check.", ex);
+            }
         }
 
         private double _windowTop;
