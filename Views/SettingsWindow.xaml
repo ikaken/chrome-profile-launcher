@@ -21,6 +21,8 @@
     <Window.Resources>
         <helpers:IconPathToImageConverter x:Key="IconPathToImageConverter" />
 
+        <helpers:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
         <!-- Colors -->
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#0F0F0F" />
         <SolidColorBrush x:Key="ItemBackgroundBrush" Color="#1A1A1A" />
@@ -174,7 +176,7 @@
                         Padding="12,5" 
                         FontSize="12"
                         Command="{Binding CheckForUpdatesCommand}"
-                        IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource ValueConverters.InverseBooleanConverter}}" />
+                        IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}" />
             </StackPanel>
         </Grid>
 
