@@ -11,7 +11,65 @@ namespace ChromeProfileLauncher.ViewModels
     public class SettingsViewModel : ViewModelBase
     {
         private readonly ISettingsService _settingsService;
+        private readonly IUpdateService _updateService;
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
+
+        public string CurrentVersion => _updateService.GetCurrentVersion();
+
+        private bool _isCheckingForUpdates;
+        public bool IsCheckingForUpdates
+        {
+            get => _isCheckingForUpdates;
+            set { if (_isCheckingForUpdates != value) { _isCheckingForUpdates = value; OnPropertyChanged(); } }
+        }
+
+        private ICommand? _checkForUpdatesCommand;
+        public ICommand CheckForUpdatesCommand => _checkForUpdatesCommand ??= new RelayCommand(async _ =>
+        {
+            try
+            {
+                IsCheckingForUpdates = true;
+                var updateInfo = await _updateService.CheckForUpdatesAsync();
+                
+                if (updateInfo != null)
+                {
+                    var result = System.Windows.MessageBox.Show(
+                        $"新しいバージョン ({updateInfo.TargetFullRelease.Version}) が利用可能です。ダウンロードしますか？",
+                        "アップデートの通知",
+                        System.Windows.MessageBoxButton.YesNo,
+                        System.Windows.MessageBoxImage.Information);
+
+                    if (result == System.Windows.MessageBoxResult.Yes)
+                    {
+                        await _updateService.DownloadUpdateAsync(updateInfo);
+                        
+                        var restartResult = System.Windows.MessageBox.Show(
+                            "ダウンロードが完了しました。今すぐ適用して再起動しますか？",
+                            "アップデートの準備完了",
+                            System.Windows.MessageBoxButton.YesNo,
+                            System.Windows.MessageBoxImage.Question);
+
+                        if (restartResult == System.Windows.MessageBoxResult.Yes)
+                        {
+                            _updateService.ApplyUpdateAndRestart(updateInfo);
+                        }
+                    }
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("現在、最新のバージョンを使用しています。", "アップデートの確認");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Manual update check failed.", ex);
+                System.Windows.MessageBox.Show($"アップデートの確認中にエラーが発生しました: {ex.Message}");
+            }
+            finally
+            {
+                IsCheckingForUpdates = false;
+            }
+        });
 
         private double _windowTop;
         public double WindowTop
@@ -131,14 +189,15 @@ namespace ChromeProfileLauncher.ViewModels
             }
         });
 
-        public SettingsViewModel() : this(null, new SettingsService(new FileSystem())) { }
+        public SettingsViewModel() : this(null, new SettingsService(new FileSystem()), null) { }
 
         public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles)
-            : this(initialProfiles, new SettingsService(new FileSystem())) { }
+            : this(initialProfiles, new SettingsService(new FileSystem()), null) { }
 
-        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService)
+        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null)
         {
             _settingsService = settingsService;
+            _updateService = updateService ?? new UpdateService();
             
             // Load window settings
             var settings = _settingsService.LoadSettings();

@@ -158,7 +158,25 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Launcher Settings" FontSize="24" FontWeight="Bold" Margin="0,0,0,30" />
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Launcher Settings" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
+            
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" 
+                           Foreground="{StaticResource TextSecondaryBrush}" 
+                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                <Button Content="アップデートを確認" 
+                        Style="{StaticResource OutlineButtonStyle}" 
+                        Padding="12,5" 
+                        FontSize="12"
+                        Command="{Binding CheckForUpdatesCommand}"
+                        IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource ValueConverters.InverseBooleanConverter}}" />
+            </StackPanel>
+        </Grid>
 
 
         <ListBox Grid.Row="2" 
