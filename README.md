@@ -19,12 +19,12 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 
 ## 📦 ダウンロード
 
-最新バージョンのインストール用セットアップファイルおよびポータブル版は、以下のリンクからダウンロードできます。
+最新バージョンのインストール用セットアップファイルは、以下のリンクから直接ダウンロードできます。
 
-**[最新版のダウンロードはこちら (GitHub Releases)](https://github.com/ikaken/chrome-profile-launcher/releases/latest)**
+**[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/latest/download/ChromeProfileLauncher-win-Setup.exe)**
 
 ### インストール方法
-1. 上記リンク先から `ChromeProfileLauncher-win-Setup.exe` をダウンロードし、実行してください。
+1. 上記のリンクをクリックして `ChromeProfileLauncher-win-Setup.exe` をダウンロードし、実行してください。
 2. インストーラーに従ってインストールすると、自動アップデート機能が有効になります。
 3. すでにインストール済みの場合は、アプリ起動時に自動的にアップデートが検知されます。
 
