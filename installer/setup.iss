@@ -36,6 +36,7 @@ Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 Name: "startupicon"; Description: "{cm:AutoStartProgram, {#MyAppName}}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "startuppath"; Description: "スタートアップに登録する"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
 
 [Files]
 Source: "{#MyBuildOutputDir}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
@@ -57,3 +58,18 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 
 [Code]
 // 将来的に .NET 10.0 ランタイムのチェックを追加可能
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if (CurStep = ssPostInstall) and IsTaskSelected('startuppath') then
+  begin
+    RegWriteStringValue(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Run', 'ChromeProfileLauncher', ExpandConstant('{app}\{#MyAppExeName}'));
+  end;
+end;
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usPostUninstall then
+  begin
+    RegDeleteValue(HKEY_CURRENT_USER, 'Software\Microsoft\Windows\CurrentVersion\Run', 'ChromeProfileLauncher');
+  end;
+end;

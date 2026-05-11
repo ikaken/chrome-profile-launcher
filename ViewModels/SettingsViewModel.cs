@@ -11,8 +11,20 @@ namespace ChromeProfileLauncher.ViewModels
     public class SettingsViewModel : ViewModelBase
     {
         private readonly ISettingsService _settingsService;
+        private readonly IStartupService _startupService;
         private readonly IUpdateService _updateService;
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
+
+        public bool LaunchAtStartup
+        {
+            get => _startupService.IsRegistered();
+            set
+            {
+                if (value) _startupService.Register();
+                else _startupService.Unregister();
+                OnPropertyChanged();
+            }
+        }
 
         public string CurrentVersion => _updateService.GetCurrentVersion();
 
@@ -197,6 +209,7 @@ namespace ChromeProfileLauncher.ViewModels
         public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null)
         {
             _settingsService = settingsService;
+            _startupService = new StartupService();
             _updateService = updateService ?? new UpdateService();
             
             // Load window settings

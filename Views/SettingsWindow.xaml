@@ -168,6 +168,11 @@
             <TextBlock Text="Launcher Settings" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
             
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="Launch at Startup" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{StaticResource TextSecondaryBrush}" />
+                <CheckBox IsChecked="{Binding LaunchAtStartup}" 
+                          Style="{StaticResource ToggleSwitchStyle}" 
+                          VerticalAlignment="Center" Margin="0,0,20,0" />
+
                 <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" 
                            Foreground="{StaticResource TextSecondaryBrush}" 
                            VerticalAlignment="Center" Margin="0,0,10,0" />
