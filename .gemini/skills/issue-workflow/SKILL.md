@@ -44,11 +44,12 @@ description: GitHubのIssue対応を自動化するマルチエージェント�
     - 実装完了とテスト通過を確認後、エージェントは自動的に「PRの作成が可能です。以下の情報で作成しますか？」とタイトル・概要・変更履歴を添えてユーザーに提案する。
 11. **[Generalist]** Step 11: **Push および Pull Request 作成**
     - ユーザーの承認後、GitHub CLI (`gh pr create`) を実行する。
-12. **[User/Generalist]** Step 12: **マージ後の整理**
+12. [Generalist] Step 12: **マージ後の整理とクローズ**
     - ユーザーからPull Requestのマージ完了報告を受ける。
-    - エージェントは GitHub CLI (`gh pr view`) 等でマージ状態を客観的に確認する。
+    - エージェントは GitHub CLI (`gh pr view`) 等でマージ状態を確認する。
     - `git checkout main && git pull origin main` を実行し、ローカル環境を最新のメインラインに同期する。
     - 不要となった作業用ブランチを削除する（任意）。
+    - 関連する GitHub Issue を `gh issue close <number>` で自動的にクローズし、その旨を報告する。
 
 ---
 
