@@ -29,9 +29,10 @@ jobs:
 
       - name: Package
         run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
           vpk pack `
             --packId ChromeProfileLauncher `
-            --packVersion ${{ github.ref_name }} `
+            --packVersion $version `
             --packDir ./bin/Release/net10.0-windows/win-x64/publish `
             --outputDir ./releases
 
