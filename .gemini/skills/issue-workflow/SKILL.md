@@ -1,88 +1,49 @@
 ---
 name: issue-workflow
-description: GitHubのIssueへの対応を自動化します。高度な推論と一般作業を使い分け、環境チェックからブランチ作成、実装、ドキュメント同期、プルリクエスト作成までを標準フローに従って詳細に実行します。
+description: GitHubのIssue対応を自動化するマルチエージェント・ワークフロー。ArchitectとGeneralistが連携し、高品質な開発を実現します。
 ---
 
-# Gemini AI Agent Skill: Issue Handling Workflow (Multi-Agent Support)
+# Issue Handling Workflow (Core)
 
 ## 🎯 目的
-GeminiがGitHubのIssue対応を行う際の標準フローを定義します。本スキルは「高度な推論（Architect）」と「一般作業（Generalist）」を使い分け、効率的かつ高品質な開発を実現します。
+高度な推論を必要とする設計・実装（Architect）と、定型的なGit操作・検証（Generalist）を組み合わせた、GitHub Issue対応の全体プロセスを定義します。
 
-## 🤖 役割分担と使用モデル
-作業の性質に応じて、以下のエージェントとモデルを使い分けます。
+## 🤖 エージェント構成
+| エージェント | 役割 | モデル | ガイドライン |
+| :--- | :--- | :--- | :--- |
+| **Architect** | 分析・設計・高度な実装・仕様同期 | gemini-3-flash-preview | [ARCHITECT.md](./ARCHITECT.md) |
+| **Generalist** | 定型作業・Git操作・テスト・記録 | gemini-3.1-flash-lite-preview | [GENERALIST.md](./GENERALIST.md) |
 
-| 役割 | 担当 | 推奨モデル |
-| :--- | :--- | :--- |
-| **Architect (メイン)** | 分析、設計、高度な実装、最終同期 | **gemini-3-flash-preview** |
-| **Generalist (サブ)** | 定型作業、Git操作、単純な記録、テスト | **gemini-3.1-flash-lite-preview** |
-| **User (ユーザー)** | 設計および実装の最終承認 | - |
-
-## 🛑 基本原則
-1. **直接コミットの禁止**: `main` ブランチへ直接コミットしない。
-2. **Issue単位の管理**: 作業は必ずIssue単位の作業ブランチで行う。
-3. **ドキュメントの同期**: 仕様書・設計書・テスト仕様書を常に最新の実装状態と一致させる。
-4. **履歴の保存**: 設計上の判断は必ず `docs/changes/` に記録する。
-5. **サブエージェントの活用**: 定型作業は `invoke_agent` を用いて Generalist に委譲する。
+## 🛑 共通規約
+全ての作業は [CONVENTIONS.md](./CONVENTIONS.md) に定義された命名規則とテンプレートに従ってください。
 
 ---
 
-## 🔄 実行フロー
+## 🔄 全体フロー
 
-### Step 0: 環境チェック [Generalist]
-`invoke_agent(generalist, "...")` を使用して以下を確認する。
-1. Git設定（user.name/email, remote）
-2. GitHub CLI (`gh`) の認証状態
-3. リポジトリのクリーン状態
+### Phase 1: 初期化
+1. **[Generalist]** Step 0: 環境チェックを実行。
+2. **[Architect]** Step 1: Issue分析と要件定義。
 
-### Step 1: Issue内容の確認と明確化 [Architect]
-1. 指定されたIssueの内容を高度な推論で分析し、要件を明確化する。
-2. 不明点があればユーザーに質問する。
+### Phase 2: 作業準備
+3. **[Generalist]** Step 2: 作業用ブランチ作成。
+4. **[Generalist]** Step 3: `docs/changes/` ドキュメントの初期化。
 
-### Step 2, 3: ブランチ作成と履歴ドキュメント初期化 [Generalist]
-`invoke_agent(generalist, "...")` を使用して以下を実行する。
-1. `feature/{Issue番号}-{内容}` ブランチの作成。
-2. `docs/changes/{Issue番号}-{内容}.md` の作成とテンプレート展開。
+### Phase 3: 設計とレビュー
+5. **[Architect]** Step 4: 設計・方針策定。
+6. **[User]** Step 4.5: **設計レビュー（承認必須）**
 
-### Step 4: 設計と方針の策定 [Architect]
-1. 実装方針を決定し、`docs/changes/` ファイルに詳細を記録する。
+### Phase 4: 実装と検証
+7. **[Architect & Generalist]** Step 5-8: 実装、コミット、テストの反復。
+   - Architectが実装し、Generalistがコミットとテストを担当する。
+8. **[User]** Step 8.5: **実装・動作確認（承認必須）**
 
-### Step 4.5: 【ユーザー作業】設計レビュー
-1. 設計方針をユーザーに報告し、承認（「実装開始」の合図）を得る。
-
-### Step 5: 実装 [Architect]
-1. 決定した設計方針に基づき、高度な推論を用いてコードを実装する。
-2. 複雑なロジックやアーキテクチャへの配慮が必要な場合、このフェーズを最優先する。
-
-### Step 6, 7, 8: コミット・随時ドキュメント更新・テスト [Generalist]
-`invoke_agent(generalist, "...")` を使用して以下を反復実行する。
-1. 小さな単位でのコミット（規約遵守）。
-2. 実装に伴う `changes` ファイルへの追記。
-3. 動作確認およびテストコードの実行。
-
-### Step 8.5: 【ユーザー作業】実装・テスト確認
-1. 実装内容とテスト結果をユーザーに報告し、承認を得る。
-
-### Step 9: 最終ドキュメントの反映 [Architect]
-1. 実装結果を元に、プロジェクトの主要ドキュメント（仕様書、設計書、テスト仕様書等）を最新状態に更新する。
-
-### Step 10, 11: Push と Pull Request作成 [Generalist]
-`invoke_agent(generalist, "...")` を使用して以下を実行する。
-1. リモートへのPush。
-2. `Fixes #{Issue番号}` を含む Pull Request の作成。
+### Phase 5: 完了
+9. **[Architect]** Step 9: プロジェクト主要ドキュメントへの反映。
+10. **[Generalist]** Step 10-11: Push および Pull Request 作成。
 
 ---
 
-## ⚠️ クォータエラー・フォールバック
-高度モデル（Architect）でクォータ制限（`429 Too Many Requests` 等）が発生した場合、以下の手順を踏むこと。
-
-1. **状況報告**: 現在の進捗とエラー内容をユーザーに報告する。
-2. **切り替え提案**: 一般モデル（Generalist）での作業継続をユーザーに提案する。
-3. **継続**: ユーザーの同意を得た場合のみ、モデルを切り替えて作業を続行する。
-
----
-
-## ✅ 必須チェックリスト
-- [ ] `main` ブランチで直接作業していないか？
-- [ ] `docs/changes/` に今回の変更履歴が残されているか？
-- [ ] 主要ドキュメント（仕様書・設計書等）が最新化されているか？
-- [ ] ユーザーによる Step 4.5 / 8.5 の承認を得たか？
+## ⚠️ エラー・フォールバック
+- クォータエラー発生時は、Architectから状況を報告し、Generalist（軽量モデル）への切り替えをユーザーに提案してください。
+- 詳細は [ARCHITECT.md](./ARCHITECT.md) を参照。
