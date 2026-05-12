@@ -34,7 +34,8 @@ jobs:
             --packId ChromeProfileLauncher `
             --packVersion $version `
             --packDir ./bin/Release/net10.0-windows/win-x64/publish `
-            --outputDir ./releases
+            --outputDir ./releases `
+            --icon ./Assets/setup-icon.ico
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
