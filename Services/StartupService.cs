@@ -33,7 +33,7 @@ namespace ChromeProfileLauncher.Services
                 ?? Assembly.GetExecutingAssembly().Location;
             using (var key = Registry.CurrentUser.OpenSubKey(RunKeyPath, true))
             {
-                key?.SetValue(AppName, exePath);
+                key?.SetValue(AppName, exePath ?? string.Empty);
             }
         }
 
