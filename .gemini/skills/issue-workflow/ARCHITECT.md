@@ -6,6 +6,7 @@
 ## 📝 担当フェーズ詳細
 
 ### Step 1: Issue分析
+- GitHub上のIssue一覧を `gh issue list` (またはAPI経由) で最新化し、ローカルの `issues.json` と同期する。
 - 高度な推論（gemini-3-flash-preview）を用い、ソースコードを精査してIssueの根本原因と波及範囲を特定する。
 - 不明点やエッジケースについては、実装前に必ずユーザーに質問すること。
 
