@@ -14,6 +14,14 @@ public partial class MainWindow : Window
         InitializeComponent();
         _settingsService = new SettingsService(new FileSystem());
         SourceInitialized += MainWindow_SourceInitialized;
+        InitializeAdWebView();
+    }
+
+    private async void InitializeAdWebView()
+    {
+        await AdWebView.EnsureCoreWebView2Async();
+        // テスト用のダミー広告ページ（Bing検索ページを代用）
+        AdWebView.Source = new Uri("https://www.bing.com");
     }
 
     private void MainWindow_SourceInitialized(object? sender, EventArgs e)

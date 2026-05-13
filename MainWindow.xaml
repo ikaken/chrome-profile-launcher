@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ChromeProfileLauncher"
         xmlns:vm="clr-namespace:ChromeProfileLauncher.ViewModels"
         xmlns:helpers="clr-namespace:ChromeProfileLauncher.Helpers"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
         Title="Chrome Profile Launcher"
         Icon="pack://application:,,,/ChromeProfileLauncher;component/Assets/app.ico"
@@ -128,7 +129,7 @@
                         Visibility="{Binding IsAdVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid>
                         <TextBlock Text="広告" Foreground="#666666" FontSize="8" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,4,0"/>
-                        <ContentControl x:Name="AdControlContainer" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <wv2:WebView2 x:Name="AdWebView" Width="320" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </Border>
 
