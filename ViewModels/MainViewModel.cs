@@ -14,7 +14,8 @@ namespace ChromeProfileLauncher.ViewModels
         private readonly ILauncherService _launcherService;
         private readonly ISettingsService _settingsService;
         private readonly IUpdateService _updateService;
-
+        private readonly AdHelper _adHelper;
+        
         private System.Collections.Generic.List<ProfileInfo> _allProfiles = new();
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
         
@@ -23,6 +24,13 @@ namespace ChromeProfileLauncher.ViewModels
         {
             get => _isDimmed;
             set { if (_isDimmed != value) { _isDimmed = value; OnPropertyChanged(); } }
+        }
+
+        private bool _isAdVisible;
+        public bool IsAdVisible
+        {
+            get => _isAdVisible;
+            set { if (_isAdVisible != value) { _isAdVisible = value; OnPropertyChanged(); } }
         }
 
         private ICommand? _launchCommand;
@@ -89,8 +97,12 @@ namespace ChromeProfileLauncher.ViewModels
             _launcherService = launcherService ?? new LauncherService(fileSystem);
             _settingsService = settingsService ?? new SettingsService(fileSystem);
             _updateService = updateService ?? new UpdateService();
+            _adHelper = new AdHelper();
+            _adHelper.AdVisibilityChanged += (visible) => 
+                System.Windows.Application.Current.Dispatcher.Invoke(() => IsAdVisible = visible);
 
             LoadProfiles();
+            _adHelper.InitializeAsync().ConfigureAwait(false);
             CheckForUpdatesAsync().ConfigureAwait(false);
         }
 

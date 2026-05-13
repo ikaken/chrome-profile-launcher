@@ -122,7 +122,16 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
 
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                <!-- Ad Container -->
+                <Border Width="333" Height="63" Background="#1E1E1E" BorderBrush="#333333" BorderThickness="1" CornerRadius="8" Margin="0,0,12,0"
+                        Visibility="{Binding IsAdVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid>
+                        <TextBlock Text="広告" Foreground="#666666" FontSize="8" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,4,0"/>
+                        <ContentControl x:Name="AdControlContainer" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
                 <Button Style="{StaticResource SettingsButtonStyle}" Command="{Binding SettingsCommand}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="⚙ Settings" VerticalAlignment="Center" />
