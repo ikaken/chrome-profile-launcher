@@ -168,14 +168,36 @@
             <TextBlock Text="Launcher Settings" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
             
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Launch at Startup" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{StaticResource TextSecondaryBrush}" />
+                <TextBlock Text="Launch at Startup" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" />
                 <CheckBox IsChecked="{Binding LaunchAtStartup}" 
                           Style="{StaticResource ToggleSwitchStyle}" 
-                          VerticalAlignment="Center" Margin="0,0,20,0" />
+                          VerticalAlignment="Center" Margin="0,0,15,0">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <TextBlock Text="Minimize to Tray" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" />
+                <CheckBox IsChecked="{Binding MinimizeToTray}" 
+                          Style="{StaticResource ToggleSwitchStyle}" 
+                          VerticalAlignment="Center" Margin="0,0,15,0">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+
+                <TextBlock Text="Close to Tray" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" />
+                <CheckBox IsChecked="{Binding CloseToTray}" 
+                          Style="{StaticResource ToggleSwitchStyle}" 
+                          VerticalAlignment="Center" Margin="0,0,15,0">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
 
                 <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" 
                            Foreground="{StaticResource TextSecondaryBrush}" 
-                           VerticalAlignment="Center" Margin="0,0,10,0" />
+                           VerticalAlignment="Center" Margin="0,0,10,0" FontSize="11" />
                 <Button Content="アップデートを確認" 
                         Style="{StaticResource OutlineButtonStyle}" 
                         Padding="12,5" 

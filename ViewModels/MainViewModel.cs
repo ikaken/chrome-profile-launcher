@@ -25,6 +25,13 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_isDimmed != value) { _isDimmed = value; OnPropertyChanged(); } }
         }
 
+        private System.Windows.Visibility _visibility = System.Windows.Visibility.Visible;
+        public System.Windows.Visibility Visibility
+        {
+            get => _visibility;
+            set { if (_visibility != value) { _visibility = value; OnPropertyChanged(); } }
+        }
+
         private ICommand? _launchCommand;
         public ICommand LaunchCommand => _launchCommand ??= new RelayCommand(p =>
         {
@@ -32,6 +39,26 @@ namespace ChromeProfileLauncher.ViewModels
             {
                 _launcherService.LaunchOrFocus(profile);
             }
+        });
+
+        private ICommand? _showWindowCommand;
+        public ICommand ShowWindowCommand => _showWindowCommand ??= new RelayCommand(_ =>
+        {
+            Visibility = System.Windows.Visibility.Visible;
+            if (WindowState == System.Windows.WindowState.Minimized)
+            {
+                WindowState = System.Windows.WindowState.Normal;
+            }
+            System.Windows.Application.Current.MainWindow?.Activate();
+            System.Windows.Application.Current.MainWindow?.Focus();
+        });
+
+        private ICommand? _exitApplicationCommand;
+        public ICommand ExitApplicationCommand => _exitApplicationCommand ??= new RelayCommand(_ =>
+        {
+            // Set a flag or just shutdown. To bypass tray logic on exit, we might need a flag.
+            // For now, let's just shutdown.
+            System.Windows.Application.Current.Shutdown();
         });
 
         private ICommand? _settingsCommand;

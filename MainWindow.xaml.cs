@@ -32,6 +32,20 @@ public partial class MainWindow : Window
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+        var settings = _settingsService.LoadSettings();
+
+        // トレイ常駐が有効な場合、終了をキャンセルして非表示にする
+        if (settings.CloseToTray)
+        {
+            e.Cancel = true;
+            this.Visibility = Visibility.Collapsed;
+            if (DataContext is ViewModels.MainViewModel vm)
+            {
+                vm.Visibility = Visibility.Collapsed;
+            }
+            return;
+        }
+
         if (WindowState == WindowState.Normal)
         {
             _settingsService.SaveWindowPosition(Left, Top, Width, Height, false);
@@ -39,6 +53,27 @@ public partial class MainWindow : Window
         else if (WindowState == WindowState.Maximized)
         {
             _settingsService.SaveWindowPosition(Left, Top, Width, Height, true);
+        }
+    }
+
+    private void Window_StateChanged(object? sender, EventArgs e)
+    {
+        if (DataContext is ViewModels.MainViewModel vm)
+        {
+            vm.WindowState = WindowState;
+        }
+
+        if (WindowState == WindowState.Minimized)
+        {
+            var settings = _settingsService.LoadSettings();
+            if (settings.MinimizeToTray)
+            {
+                this.Visibility = Visibility.Collapsed;
+                if (DataContext is ViewModels.MainViewModel vm2)
+                {
+                    vm2.Visibility = Visibility.Collapsed;
+                }
+            }
         }
     }
 }

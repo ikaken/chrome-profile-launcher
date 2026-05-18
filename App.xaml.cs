@@ -121,9 +121,22 @@ public partial class App : Application
 
         Helpers.Logger.Info("Activating MainWindow requested via IPC.");
 
+        // トレイ格納中などで非表示の場合は表示させる
+        if (window.Visibility != Visibility.Visible)
+        {
+            window.Visibility = Visibility.Visible;
+        }
+
         if (window.WindowState == WindowState.Minimized)
         {
             window.WindowState = WindowState.Normal;
+        }
+
+        // ViewModel のプロパティも同期させる
+        if (window.DataContext is ViewModels.MainViewModel vm)
+        {
+            vm.Visibility = Visibility.Visible;
+            vm.WindowState = window.WindowState;
         }
 
         // 最前面に持ってくる

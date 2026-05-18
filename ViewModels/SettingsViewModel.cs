@@ -26,6 +26,20 @@ namespace ChromeProfileLauncher.ViewModels
             }
         }
 
+        private bool _minimizeToTray;
+        public bool MinimizeToTray
+        {
+            get => _minimizeToTray;
+            set { if (_minimizeToTray != value) { _minimizeToTray = value; OnPropertyChanged(); } }
+        }
+
+        private bool _closeToTray;
+        public bool CloseToTray
+        {
+            get => _closeToTray;
+            set { if (_closeToTray != value) { _closeToTray = value; OnPropertyChanged(); } }
+        }
+
         public string CurrentVersion => _updateService.GetCurrentVersion();
 
         private bool _isCheckingForUpdates;
@@ -119,6 +133,8 @@ namespace ChromeProfileLauncher.ViewModels
                 SaveWindowSettings();
                 var settings = _settingsService.LoadSettings();
                 settings.Profiles = Profiles.ToList();
+                settings.MinimizeToTray = MinimizeToTray;
+                settings.CloseToTray = CloseToTray;
                 _settingsService.SaveSettings(settings);
                 
                 if (p is System.Windows.Window window)
@@ -218,6 +234,8 @@ namespace ChromeProfileLauncher.ViewModels
             WindowLeft = settings?.SettingsWindowLeft ?? 200;
             WindowWidth = settings?.SettingsWindowWidth ?? 500;
             WindowHeight = settings?.SettingsWindowHeight ?? 450;
+            MinimizeToTray = settings?.MinimizeToTray ?? true;
+            CloseToTray = settings?.CloseToTray ?? true;
             
             if (initialProfiles != null)
             {
