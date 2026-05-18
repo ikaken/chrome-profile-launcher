@@ -22,7 +22,7 @@ description: GitHubのIssue対応を自動化するマルチエージェント�
 ## 🔄 全体フロー
 
 ### Phase 1: 初期化
-1. **[Generalist]** Step 0: 環境チェックを実行。
+1. **[Generalist]** Step 0: 環境チェックを実行（Windows環境では `chcp 65001` 等によるエンコーディング設定を含む）。
 2. **[Architect]** Step 1: Issue分析と要件定義。
 
 ## 🚀 ワークフローの実行条件

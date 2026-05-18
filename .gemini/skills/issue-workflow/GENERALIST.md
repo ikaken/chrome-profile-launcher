@@ -8,6 +8,7 @@
 ### Step 0: 環境チェック
 - `git status` で作業ディレクトリがクリーンか確認。
 - `gh auth status` でPR作成が可能か確認。
+- **重要 (Windows環境)**: 日本語の文字化けを防ぐため、`gh` コマンド実行前に必ず `chcp 65001` を実行するか、PowerShell のエンコーディングを UTF-8 に設定してください。
 
 ### Step 2-3: 準備
 - `[CONVENTIONS.md](./CONVENTIONS.md)` に従い、作業用ブランチと `changes` ファイルを正確に作成する。
@@ -25,5 +26,5 @@
 
 ## 🛠 推奨コマンド
 - **Git**: `git checkout -b ...`, `git commit -m "..."`, `git push origin ...`
-- **GitHub CLI**: `gh issue view {number}`, `gh pr create --title "..." --body "..."`
+- **GitHub CLI (Windows)**: `chcp 65001; gh issue view {number}`, `chcp 65001; gh pr create --title "..." --body "..."`
 - **検証**: `npm test`, `dotnet test` など、プロジェクトに応じたテストコマンド。
