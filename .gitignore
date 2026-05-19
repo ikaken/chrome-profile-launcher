@@ -30,4 +30,5 @@ build_log*.txt
 test_results.txt
 
 # インストーラーの出力フォルダ
+releases/
 installer/Output/

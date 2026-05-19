@@ -5,9 +5,9 @@
 - 設定画面へのトグルスイッチ追加。
 - インストーラーでのスタートアップ登録選択機能の追加。
 - デスクトップショートカット登録のデフォルトOFF化。
-- ランタイム依存問題の解消（単一ファイルビルドへの構成変更）。
+- ランタイム依存問題の解消（Velopackインストーラー方式への構成変更）。
 
 ## 実装詳細
 - `Services/StartupService.cs` によるレジストリ (`HKCU\...\Run`) の制御。
 - `installer/setup.iss` にてインストール時の選択オプションを追加。
-- `.csproj` の `SelfContained` 設定によるランタイムのバンドル。
+- `.csproj` の `SelfContained` 設定を `false` に変更（Velopack方式）。

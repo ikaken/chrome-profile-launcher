@@ -241,19 +241,21 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
 
 ## 8. 配布・ビルド設計 (Deployment)
 
-本アプリは、仕様書の「配布容易なアプリ」を実現するため、以下のビルド構成を採用する。
+本アプリは、Velopackを使用したインストーラー配布方式を採用する。
 
-### 8.1 単一EXE形式 (Self-contained Single-file)
-- **方式**: `.NET Runtime` を含めた単一の実行ファイル (`.exe`) として出力。
-- **メリット**: ターゲットPCに .NET 10 がインストールされていなくても、EXE単体で即座に動作する。
+### 8.1 Velopackインストーラー方式
+- **方式**: Velopackフレームワークを使用した自動更新対応のインストーラー。
+- **メリット**: 
+  - 自動更新機能の提供
+  - レジストリ登録・ショートカット作成の自動化
+  - アンインストールの容易さ
 - **ターゲットアーキテクチャ**: `win-x64` (Windows 10/11 64bit)
 - **リリースビルド設定**:
-    - `PublishSingleFile`: `true` (単一ファイル化)
-    - `SelfContained`: `true` (ランタイム同梱)
+    - `SelfContained`: `false` (フレームワーク依存)
     - `PublishReadyToRun`: `true` (起動速度の最適化)
-
-> **注記**: 開発中は `PublishSingleFile` および `SelfContained` を `false` に設定しており、デバッグビルドではランタイム同梱は行わない。リリース時に `dotnet publish` コマンドで上記設定を適用する。
+    - Velopackによるパッケージング
 
 ### 8.2 配布ファイル
-- `ChromeProfileLauncher.exe` (約100MB)
-- インストーラーは使用せず、実行ファイルを任意のフォルダ（デスクトップやドキュメント等）に配置するだけで使用可能とする。
+- `ChromeProfileLauncher-setup.exe` (インストーラー)
+- GitHub Actionsによる自動ビルド・リリース
+- インストーラー実行によりプログラムファイルとショートカットが配置される
