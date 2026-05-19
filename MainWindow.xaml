@@ -89,21 +89,6 @@
     </Window.Resources>
     
     <Grid>
-        <!-- Taskbar Icon -->
-        <tb:TaskbarIcon x:Name="MyNotifyIcon"
-                        IconSource="pack://application:,,,/ChromeProfileLauncher;component/Assets/app.ico"
-                        ToolTipText="Chrome Profile Launcher"
-                        DoubleClickCommand="{Binding ShowWindowCommand}">
-            <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu Background="#1A1A1A" Foreground="White" BorderBrush="#333" BorderThickness="1">
-                    <MenuItem Header="ランチャを開く" Command="{Binding ShowWindowCommand}" FontWeight="Bold" />
-                    <MenuItem Header="設定" Command="{Binding SettingsCommand}" />
-                    <Separator Background="#333" />
-                    <MenuItem Header="終了" Command="{Binding ExitApplicationCommand}" />
-                </ContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
-        </tb:TaskbarIcon>
-
         <Grid Margin="20,10,20,20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

@@ -56,10 +56,36 @@ public partial class App : Application
         // Named Pipe サーバーの開始
         StartPipeServer();
 
-        // MainWindow を作成して表示
+        // MainWindow を作成
+        var settings = new Services.SettingsService(new Services.FileSystem()).LoadSettings();
         var mainWindow = new MainWindow();
+        
+        // 常駐オンなら隠しオーナーを作成してタスクバーを隠す
+        if (settings.EnableTaskTray)
+        {
+            var ownerWindow = new Window
+            {
+                Width = 0,
+                Height = 0,
+                WindowStyle = WindowStyle.None,
+                ShowInTaskbar = false,
+                AllowsTransparency = true,
+                Background = System.Windows.Media.Brushes.Transparent,
+                Opacity = 0
+            };
+            ownerWindow.Show();
+            mainWindow.Owner = ownerWindow;
+            mainWindow.ShowInTaskbar = false;
+            Helpers.Logger.Info("Configured for task tray (ShowInTaskbar=false).");
+        }
+        else
+        {
+            mainWindow.ShowInTaskbar = true;
+            Helpers.Logger.Info("Configured for task bar (ShowInTaskbar=true).");
+        }
+
         mainWindow.Show();
-        Helpers.Logger.Info("MainWindow shown.");
+        Helpers.Logger.Info($"MainWindow.Show() called. Window.ShowInTaskbar={mainWindow.ShowInTaskbar}");
     }
 
     private bool SendMessageToExistingInstance(string message)
@@ -121,28 +147,33 @@ public partial class App : Application
 
         Helpers.Logger.Info("Activating MainWindow requested via IPC.");
 
-        // トレイ格納中などで非表示の場合は表示させる
-        if (window.Visibility != Visibility.Visible)
+        // 1. まず表示状態にする
+        window.ShowInTaskbar = false;
+        window.Visibility = Visibility.Visible;
+        window.Show();
+
+        // 2. 復元処理 (Win32 API 併用)
+        window.WindowState = WindowState.Normal;
+        
+        var hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+        if (hwnd != IntPtr.Zero)
         {
-            window.Visibility = Visibility.Visible;
+            Helpers.Win32Api.ShowWindow(hwnd, Helpers.Win32Api.SW_RESTORE);
+            Helpers.Win32Api.SetForegroundWindow(hwnd);
         }
 
-        if (window.WindowState == WindowState.Minimized)
-        {
-            window.WindowState = WindowState.Normal;
-        }
-
-        // ViewModel のプロパティも同期させる
+        // 3. ViewModel のプロパティも同期させる
         if (window.DataContext is ViewModels.MainViewModel vm)
         {
             vm.Visibility = Visibility.Visible;
             vm.WindowState = window.WindowState;
+            vm.ShowInTaskbar = false;
         }
 
-        // 最前面に持ってくる
+        // 4. アクティブ化
         window.Activate();
         window.Topmost = true;
-        window.Topmost = false; // 一瞬だけ Topmost にして前面化を確実にする
+        window.Topmost = false;
         window.Focus();
     }
 

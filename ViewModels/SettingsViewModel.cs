@@ -26,18 +26,11 @@ namespace ChromeProfileLauncher.ViewModels
             }
         }
 
-        private bool _minimizeToTray;
-        public bool MinimizeToTray
+        private bool _enableTaskTray;
+        public bool EnableTaskTray
         {
-            get => _minimizeToTray;
-            set { if (_minimizeToTray != value) { _minimizeToTray = value; OnPropertyChanged(); } }
-        }
-
-        private bool _closeToTray;
-        public bool CloseToTray
-        {
-            get => _closeToTray;
-            set { if (_closeToTray != value) { _closeToTray = value; OnPropertyChanged(); } }
+            get => _enableTaskTray;
+            set { if (_enableTaskTray != value) { _enableTaskTray = value; OnPropertyChanged(); } }
         }
 
         public string CurrentVersion => _updateService.GetCurrentVersion();
@@ -133,8 +126,7 @@ namespace ChromeProfileLauncher.ViewModels
                 SaveWindowSettings();
                 var settings = _settingsService.LoadSettings();
                 settings.Profiles = Profiles.ToList();
-                settings.MinimizeToTray = MinimizeToTray;
-                settings.CloseToTray = CloseToTray;
+                settings.EnableTaskTray = EnableTaskTray;
                 _settingsService.SaveSettings(settings);
                 
                 if (p is System.Windows.Window window)
@@ -234,8 +226,7 @@ namespace ChromeProfileLauncher.ViewModels
             WindowLeft = settings?.SettingsWindowLeft ?? 200;
             WindowWidth = settings?.SettingsWindowWidth ?? 500;
             WindowHeight = settings?.SettingsWindowHeight ?? 450;
-            MinimizeToTray = settings?.MinimizeToTray ?? true;
-            CloseToTray = settings?.CloseToTray ?? true;
+            EnableTaskTray = settings?.EnableTaskTray ?? true;
             
             if (initialProfiles != null)
             {
