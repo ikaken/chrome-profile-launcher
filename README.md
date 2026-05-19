@@ -54,12 +54,25 @@ WindowsのSmartScreenにより警告が表示されることがあります。
 - OS: Windows 10 / 11 (64bit)
 - 開発環境: .NET 10.0 SDK, Visual Studio 2022 以降
 
-### ビルド手順
-配布用の単一EXEを作成するには、以下のコマンドを実行します：
+### ビルドとパッケージング手順
+本アプリはインストーラーによる配布と自動アップデート機能（Velopack）に対応しています。以下の手順でビルドとパッケージングを行います：
 
+1. **プロジェクトのビルド**
 ```bash
-dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:PublishReadyToRun=true
+dotnet publish -c Release -r win-x64 --self-contained false /p:PublishReadyToRun=true
 ```
+
+2. **Velopack ツールのインストール** (初回のみ)
+```bash
+dotnet tool install -g vpk
+```
+
+3. **インストーラーの作成**
+バージョン番号（例：`1.0.0`）を指定してパッケージングを実行します：
+```bash
+vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Release/net10.0-windows/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
+```
+作成されたセットアップファイル等のリリース成果物は `releases` フォルダに出力されます。
 
 ## 📂 プロジェクト構造
 
