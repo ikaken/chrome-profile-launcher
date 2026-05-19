@@ -25,6 +25,78 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_isDimmed != value) { _isDimmed = value; OnPropertyChanged(); } }
         }
 
+        private System.Windows.Visibility _visibility = System.Windows.Visibility.Visible;
+        public System.Windows.Visibility Visibility
+        {
+            get => _visibility;
+            set 
+            { 
+                if (_visibility != value) 
+                { 
+                    _visibility = value; 
+                    OnPropertyChanged();
+                } 
+            }
+        }
+
+        private bool _showInTaskbar = false;
+        public bool ShowInTaskbar
+        {
+            get => _showInTaskbar;
+            set 
+            { 
+                if (_showInTaskbar != value) 
+                { 
+                    _showInTaskbar = value; 
+                    Logger.Info($"ShowInTaskbar changed to: {_showInTaskbar}");
+                    OnPropertyChanged(); 
+                } 
+            }
+        }
+
+        private bool _enableTaskTray;
+        public bool EnableTaskTray
+        {
+            get => _enableTaskTray;
+            set 
+            { 
+                if (_enableTaskTray != value) 
+                { 
+                    _enableTaskTray = value; 
+                    OnPropertyChanged();
+                    // ウィンドウのタスクバー表示切り替え
+                    var window = System.Windows.Application.Current.MainWindow as MainWindow;
+                    if (window != null)
+                    {
+                        window.Dispatcher.Invoke(() =>
+                        {
+                            window.ShowInTaskbar = !_enableTaskTray;
+
+                            // トレイアイコンの動的生成/削除
+                            if (_enableTaskTray)
+                            {
+                                Logger.Info("Enabling TaskTray icon.");
+                                window.InitializeTaskbarIcon();
+                            }
+                            else
+                            {
+                                Logger.Info("Disabling TaskTray icon.");
+                                window.RemoveTaskbarIcon();
+                            }
+                        });
+                    }
+                    Logger.Info($"System state: ShowInTaskbar={!_enableTaskTray}, TrayIconVisibility={(_enableTaskTray ? "Visible" : "Collapsed")}");
+                } 
+            }
+        }
+
+        private System.Windows.Visibility _notifyIconVisibility = System.Windows.Visibility.Collapsed;
+        public System.Windows.Visibility NotifyIconVisibility
+        {
+            get => _notifyIconVisibility;
+            set { if (_notifyIconVisibility != value) { _notifyIconVisibility = value; OnPropertyChanged(); } }
+        }
+
         private ICommand? _launchCommand;
         public ICommand LaunchCommand => _launchCommand ??= new RelayCommand(p =>
         {
@@ -32,6 +104,54 @@ namespace ChromeProfileLauncher.ViewModels
             {
                 _launcherService.LaunchOrFocus(profile);
             }
+        });
+
+        private ICommand? _showWindowCommand;
+        public ICommand ShowWindowCommand => _showWindowCommand ??= new RelayCommand(_ =>
+        {
+            Logger.Info("ShowWindowCommand executed.");
+            var window = System.Windows.Application.Current.MainWindow;
+            if (window != null)
+            {
+                // 1. プロパティ更新
+                Visibility = System.Windows.Visibility.Visible;
+                ShowInTaskbar = !EnableTaskTray;
+                
+                // 2. ウィンドウ表示
+                window.Visibility = System.Windows.Visibility.Visible;
+                window.ShowInTaskbar = !EnableTaskTray;
+                window.Show();
+
+                // 3. 状態復元
+                Logger.Info($"Restoring window. Current State={window.WindowState}");
+                window.WindowState = System.Windows.WindowState.Normal;
+                WindowState = System.Windows.WindowState.Normal;
+
+                var hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+                if (hwnd != IntPtr.Zero)
+                {
+                    Win32Api.ShowWindow(hwnd, Win32Api.SW_RESTORE);
+                    Win32Api.SetForegroundWindow(hwnd);
+                }
+
+                window.Activate();
+                window.Topmost = true;
+                window.Topmost = false;
+                window.Focus();
+                
+                Logger.Info($"ShowWindowCommand finished. Visibility={window.Visibility}, State={window.WindowState}");
+            }
+            else
+            {
+                Logger.Error("ShowWindowCommand: MainWindow is null.");
+            }
+        });
+
+        private ICommand? _exitApplicationCommand;
+        public ICommand ExitApplicationCommand => _exitApplicationCommand ??= new RelayCommand(_ =>
+        {
+            Logger.Info("ExitApplicationCommand executed.");
+            System.Windows.Application.Current.Shutdown();
         });
 
         private ICommand? _settingsCommand;
@@ -98,7 +218,6 @@ namespace ChromeProfileLauncher.ViewModels
         {
             try
             {
-                // UIスレッドをブロックしないよう少し遅延させる（UX配慮）
                 await System.Threading.Tasks.Task.Delay(3000);
                 
                 var updateInfo = await _updateService.CheckForUpdatesAsync();
@@ -106,8 +225,6 @@ namespace ChromeProfileLauncher.ViewModels
                 {
                     Logger.Info($"Update available: {updateInfo.TargetFullRelease.Version}");
                     
-                    // アップデート通知ダイアログを表示（簡易版としてMessageBoxを使用）
-                    // 実際にはもっとリッチなUIが望ましい
                     await System.Windows.Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
                         var result = System.Windows.MessageBox.Show(
@@ -202,7 +319,6 @@ namespace ChromeProfileLauncher.ViewModels
         {
             var settings = _settingsService.LoadSettings();
             
-            // Only save position and size if not maximized/minimized
             if (WindowState == System.Windows.WindowState.Normal)
             {
                 settings.WindowTop = WindowTop;
@@ -212,13 +328,15 @@ namespace ChromeProfileLauncher.ViewModels
             }
             
             settings.IsMaximized = (WindowState == System.Windows.WindowState.Maximized);
-            settings.Profiles = _allProfiles; // Preserve profiles
+            settings.Profiles = _allProfiles;
             _settingsService.SaveSettings(settings);
         }
 
         private void LoadProfiles()
         {
             var settings = _settingsService.LoadSettings();
+            // プロパティ経由で ShowInTaskbar も更新する
+            EnableTaskTray = settings.EnableTaskTray;
             
             var detected = _discoveryService.GetAvailableProfiles().ToList();
 
@@ -244,7 +362,6 @@ namespace ChromeProfileLauncher.ViewModels
 
             _allProfiles = merged.OrderBy(p => p.Order).ToList();
             
-            // Preserve window settings when saving profiles
             settings.Profiles = _allProfiles;
             _settingsService.SaveSettings(settings);
 

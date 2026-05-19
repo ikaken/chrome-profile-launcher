@@ -26,6 +26,13 @@ namespace ChromeProfileLauncher.ViewModels
             }
         }
 
+        private bool _enableTaskTray;
+        public bool EnableTaskTray
+        {
+            get => _enableTaskTray;
+            set { if (_enableTaskTray != value) { _enableTaskTray = value; OnPropertyChanged(); } }
+        }
+
         public string CurrentVersion => _updateService.GetCurrentVersion();
 
         private bool _isCheckingForUpdates;
@@ -119,6 +126,7 @@ namespace ChromeProfileLauncher.ViewModels
                 SaveWindowSettings();
                 var settings = _settingsService.LoadSettings();
                 settings.Profiles = Profiles.ToList();
+                settings.EnableTaskTray = EnableTaskTray;
                 _settingsService.SaveSettings(settings);
                 
                 if (p is System.Windows.Window window)
@@ -218,6 +226,7 @@ namespace ChromeProfileLauncher.ViewModels
             WindowLeft = settings?.SettingsWindowLeft ?? 200;
             WindowWidth = settings?.SettingsWindowWidth ?? 500;
             WindowHeight = settings?.SettingsWindowHeight ?? 450;
+            EnableTaskTray = settings?.EnableTaskTray ?? true;
             
             if (initialProfiles != null)
             {

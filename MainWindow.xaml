@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:ChromeProfileLauncher"
         xmlns:vm="clr-namespace:ChromeProfileLauncher.ViewModels"
         xmlns:helpers="clr-namespace:ChromeProfileLauncher.Helpers"
@@ -10,6 +11,9 @@
         Title="Chrome Profile Launcher"
         Icon="pack://application:,,,/ChromeProfileLauncher;component/Assets/app.ico"
         Closing="Window_Closing"
+        StateChanged="Window_StateChanged"
+        Visibility="{Binding Visibility, Mode=TwoWay}"
+        WindowState="{Binding WindowState, Mode=TwoWay}"
         Background="#0F0F0F" Foreground="White"
         FontFamily="Segoe UI, Meiryo, Yu Gothic UI, Roboto, Helvetica Neue, Arial">
     <Window.DataContext>

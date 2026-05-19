@@ -15,6 +15,7 @@ namespace ChromeProfileLauncher.Services
         public double? WindowHeight { get; set; }
         public bool IsMaximized { get; set; }
         public bool LaunchAtStartup { get; set; }
+        public bool EnableTaskTray { get; set; } = true;
 
         public double? SettingsWindowTop { get; set; }
         public double? SettingsWindowLeft { get; set; }
