@@ -226,7 +226,7 @@ namespace ChromeProfileLauncher.ViewModels
             WindowLeft = settings?.SettingsWindowLeft ?? 200;
             WindowWidth = settings?.SettingsWindowWidth ?? 500;
             WindowHeight = settings?.SettingsWindowHeight ?? 450;
-            EnableTaskTray = settings?.EnableTaskTray ?? true;
+            EnableTaskTray = settings?.EnableTaskTray ?? false;
             
             if (initialProfiles != null)
             {
