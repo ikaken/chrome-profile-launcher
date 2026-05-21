@@ -1,0 +1,32 @@
+[
+  {
+    "number": 32,
+    "title": "設定画面のタブ分け",
+    "state": "OPEN",
+    "labels": [
+      "enhancement"
+    ],
+    "description": "設定画面のスイッチ類が増えてきたので、プロファイル並び替えの画面と設定のスイッチ画面をタブで切り替えられるようにする",
+    "updatedAt": "2026-05-19T04:40:36Z"
+  },
+  {
+    "number": 30,
+    "title": "ドネーション対応",
+    "state": "OPEN",
+    "labels": [
+      "enhancement"
+    ],
+    "description": "アプリの特性上、広告と相性が悪いのでドネーションにする",
+    "updatedAt": "2026-05-15T01:57:39Z"
+  },
+  {
+    "number": 8,
+    "title": "ポータブル版への対応",
+    "state": "OPEN",
+    "labels": [
+      "enhancement"
+    ],
+    "description": "USBメモリなどでも運用できるようにポータブル版を開発する",
+    "updatedAt": "2026-04-21T09:07:00Z"
+  }
+]
