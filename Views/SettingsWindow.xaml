@@ -6,7 +6,7 @@
         xmlns:vm="clr-namespace:ChromeProfileLauncher.ViewModels"
         xmlns:helpers="clr-namespace:ChromeProfileLauncher.Helpers"
         mc:Ignorable="d"
-        d:DesignHeight="450" d:DesignWidth="500"
+        d:DesignHeight="550" d:DesignWidth="500"
         Title="Settings" Height="{Binding WindowHeight, Mode=TwoWay}" Width="{Binding WindowWidth, Mode=TwoWay}"
         Top="{Binding WindowTop, Mode=TwoWay}" Left="{Binding WindowLeft, Mode=TwoWay}"
         Icon="pack://application:,,,/ChromeProfileLauncher;component/Assets/app.ico"
@@ -150,117 +150,246 @@
             <Setter Property="Content" Value="OPEN" />
         </Style>
 
+        <!-- Modern TabControl & TabItem Styles -->
+        <Style x:Key="ModernTabItemStyle" TargetType="TabItem">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="20,10" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid x:Name="Root" Cursor="Hand">
+                            <Border x:Name="Border" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderBrush="Transparent" 
+                                    BorderThickness="0,0,0,2" 
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter x:Name="ContentSite"
+                                                  ContentSource="Header"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#0DFFFFFF" />
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource AccentBlueBrush}" />
+                                <Setter TargetName="Border" Property="Background" Value="#05FFFFFF" />
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ModernTabControlStyle" TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <Grid KeyboardNavigation.TabNavigation="Local">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TabPanel x:Name="HeaderPanel"
+                                      Grid.Row="0"
+                                      Panel.ZIndex="1"
+                                      Margin="0,0,0,15"
+                                      IsItemsHost="True"
+                                      KeyboardNavigation.TabNavigation="Once" />
+                            <Border x:Name="ContentPanel"
+                                    Grid.Row="1"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    KeyboardNavigation.DirectionalNavigation="Contained"
+                                    KeyboardNavigation.TabIndex="2"
+                                    KeyboardNavigation.TabNavigation="Cycle">
+                                <ContentPresenter x:Name="PART_SelectedContentHost"
+                                                  ContentSource="SelectedContent"
+                                                  Margin="{TemplateBinding Padding}" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Margin="0,0,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+        <!-- Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,15">
             <TextBlock Text="Launcher Settings" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
-            
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="Launch at Startup" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" />
-                <CheckBox IsChecked="{Binding LaunchAtStartup}" 
-                          Style="{StaticResource ToggleSwitchStyle}" 
-                          VerticalAlignment="Center" Margin="0,0,15,0">
-                    <CheckBox.LayoutTransform>
-                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
-                    </CheckBox.LayoutTransform>
-                </CheckBox>
-
-                <TextBlock Text="Stay in Task Tray" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="{StaticResource TextSecondaryBrush}" FontSize="11" />
-                <CheckBox IsChecked="{Binding EnableTaskTray}" 
-                          Style="{StaticResource ToggleSwitchStyle}" 
-                          VerticalAlignment="Center" Margin="0,0,15,0">
-                    <CheckBox.LayoutTransform>
-                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
-                    </CheckBox.LayoutTransform>
-                </CheckBox>
-
-                <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" 
-                           Foreground="{StaticResource TextSecondaryBrush}" 
-                           VerticalAlignment="Center" Margin="0,0,10,0" FontSize="11" />
-                <Button Content="アップデートを確認" 
-                        Style="{StaticResource OutlineButtonStyle}" 
-                        Padding="12,5" 
-                        FontSize="12"
-                        Command="{Binding CheckForUpdatesCommand}"
-                        IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}" />
-            </StackPanel>
         </Grid>
 
+        <!-- Tabs -->
+        <TabControl Grid.Row="1" Style="{StaticResource ModernTabControlStyle}">
+            
+            <!-- Tab 1: Profiles -->
+            <TabItem Header="プロファイル管理" Style="{StaticResource ModernTabItemStyle}">
+                <ListBox ItemsSource="{Binding Profiles}" 
+                         Background="Transparent" 
+                         BorderThickness="0"
+                         ItemContainerStyle="{StaticResource ModernListBoxItemStyle}"
+                         HorizontalContentAlignment="Stretch" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.CanContentScroll="False"
+                         AllowDrop="True"
+                         PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"
+                         MouseMove="ListBox_MouseMove"
+                         DragOver="ListBox_DragOver"
+                         DragLeave="ListBox_DragLeave"
+                         Drop="ListBox_Drop"
+                         Margin="0,5,0,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" /> <!-- Handle -->
+                                    <ColumnDefinition Width="60" /> <!-- Icon -->
+                                    <ColumnDefinition Width="*" />  <!-- Name & ID -->
+                                    <ColumnDefinition Width="Auto" /> <!-- Toggle -->
+                                    <ColumnDefinition Width="Auto" /> <!-- Open Button -->
+                                </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="2" 
-                 ItemsSource="{Binding Profiles}" 
-                 Background="Transparent" 
-                 BorderThickness="0"
-                 ItemContainerStyle="{StaticResource ModernListBoxItemStyle}"
-                 HorizontalContentAlignment="Stretch" 
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.CanContentScroll="False"
-                 AllowDrop="True"
-                 PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"
-                 MouseMove="ListBox_MouseMove"
-                 DragOver="ListBox_DragOver"
-                 DragLeave="ListBox_DragLeave"
-                 Drop="ListBox_Drop">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" /> <!-- Handle -->
-                            <ColumnDefinition Width="60" /> <!-- Icon -->
-                            <ColumnDefinition Width="*" />  <!-- Name & ID -->
-                            <ColumnDefinition Width="Auto" /> <!-- Toggle -->
-                            <ColumnDefinition Width="Auto" /> <!-- Open Button -->
-                        </Grid.ColumnDefinitions>
+                                <!-- Handle -->
+                                <TextBlock Text="☰" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                           FontSize="20" Foreground="#555" Cursor="SizeAll" />
 
-                        <!-- Handle -->
-                        <TextBlock Text="☰" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                   FontSize="20" Foreground="#555" Cursor="SizeAll" />
+                                <!-- Icon -->
+                                <Border Grid.Column="1" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Source="{Binding IconPath, Converter={StaticResource IconPathToImageConverter}}" Width="32" Height="32" />
+                                </Border>
 
-                        <!-- Icon -->
-                        <Border Grid.Column="1" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Source="{Binding IconPath, Converter={StaticResource IconPathToImageConverter}}" Width="32" Height="32" />
+                                <!-- Name & ID -->
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0">
+                                    <TextBlock Text="{Binding DisplayName}" FontSize="18" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="{Binding Id, StringFormat='/{0}'}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
+                                </StackPanel>
+
+                                <!-- Visibility Toggle -->
+                                <CheckBox Grid.Column="3" IsChecked="{Binding IsVisible}" 
+                                          Style="{StaticResource ToggleSwitchStyle}" 
+                                          VerticalAlignment="Center" Margin="10,0" />
+
+                                <!-- Open Folder Button -->
+                                <Button Grid.Column="4" 
+                                        Style="{StaticResource SmallOpenButtonStyle}"
+                                        Command="{Binding DataContext.OpenFolderCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding}"
+                                        VerticalAlignment="Center" Margin="5,0,0,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="📂 " FontSize="10" VerticalAlignment="Center" />
+                                        <TextBlock Text="OPEN" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+
+            <!-- Tab 2: General Settings -->
+            <TabItem Header="アプリ設定" Style="{StaticResource ModernTabItemStyle}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,5,0,0">
+                    <StackPanel>
+                        <!-- Startup Setting -->
+                        <Border Background="{StaticResource ItemBackgroundBrush}" 
+                                CornerRadius="20" 
+                                Padding="20,15"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                Margin="0,0,0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <TextBlock Text="スタートアップ時に起動" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="Windowsの起動時に本アプリを自動的に起動します。" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding LaunchAtStartup}" 
+                                          Style="{StaticResource ToggleSwitchStyle}" 
+                                          VerticalAlignment="Center" />
+                            </Grid>
                         </Border>
 
-                        <!-- Name & ID -->
-                        <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="10,0">
-                            <TextBlock Text="{Binding DisplayName}" FontSize="18" FontWeight="SemiBold" Foreground="White" />
-                            <TextBlock Text="{Binding Id, StringFormat='/{0}'}" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" />
-                        </StackPanel>
+                        <!-- Task Tray Setting -->
+                        <Border Background="{StaticResource ItemBackgroundBrush}" 
+                                CornerRadius="20" 
+                                Padding="20,15"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                Margin="0,0,0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <TextBlock Text="タスクトレイに常駐" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="ウィンドウを閉じた際にアプリを終了せず、システムトレイに常駐させます。" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <CheckBox Grid.Column="1" IsChecked="{Binding EnableTaskTray}" 
+                                          Style="{StaticResource ToggleSwitchStyle}" 
+                                          VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
 
-                        <!-- Visibility Toggle -->
-                        <CheckBox Grid.Column="3" IsChecked="{Binding IsVisible}" 
-                                  Style="{StaticResource ToggleSwitchStyle}" 
-                                  VerticalAlignment="Center" Margin="10,0" />
+                        <!-- Update Setting -->
+                        <Border Background="{StaticResource ItemBackgroundBrush}" 
+                                CornerRadius="20" 
+                                Padding="20,15"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                Margin="0,0,0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <TextBlock Text="アプリケーションアップデート" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                        <TextBlock Text="現在のバージョン: " FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <Button Grid.Column="1" Content="アップデートを確認" 
+                                        Style="{StaticResource OutlineButtonStyle}" 
+                                        Padding="15,8" 
+                                        FontSize="13"
+                                        Command="{Binding CheckForUpdatesCommand}"
+                                        IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}"
+                                        VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            
+        </TabControl>
 
-                        <!-- Open Folder Button -->
-                        <Button Grid.Column="4" 
-                                Style="{StaticResource SmallOpenButtonStyle}"
-                                Command="{Binding DataContext.OpenFolderCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}"
-                                VerticalAlignment="Center" Margin="5,0,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="📂 " FontSize="10" VerticalAlignment="Center" />
-                                <TextBlock Text="OPEN" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Button>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
-        <Grid Grid.Row="3" Margin="0,20,0,0">
+        <!-- Footer Buttons -->
+        <Grid Grid.Row="2" Margin="0,20,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
