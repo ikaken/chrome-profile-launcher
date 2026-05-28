@@ -18,18 +18,29 @@ namespace ChromeProfileLauncher.Helpers
 
             try
             {
+                object? result = null;
                 // EXEファイルのアイコン抽出
                 if (path.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
                 {
-                    return ExtractIconFromExe(path);
+                    result = ExtractIconFromExe(path);
                 }
-
-                // Pack URI または 通常のファイルパス
-                var uri = new Uri(path, path.StartsWith("pack://") ? UriKind.Absolute : UriKind.RelativeOrAbsolute);
-                return new BitmapImage(uri);
+                else
+                {
+                    // Pack URI または 通常のファイルパス
+                    var uri = new Uri(path, path.StartsWith("pack://") ? UriKind.Absolute : UriKind.RelativeOrAbsolute);
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = uri;
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad; // メモリキャッシュを活用
+                    bitmap.EndInit();
+                    result = bitmap;
+                }
+                
+                return result;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error($"Icon conversion failed for {path}", ex);
                 return null;
             }
         }

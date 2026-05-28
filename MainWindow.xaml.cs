@@ -139,6 +139,63 @@ public partial class MainWindow : Window
         Application.Current.Shutdown();
     }
 
+    /// <summary>
+    /// ウィンドウを表示し、最前面に持ってきます。
+    /// 表示ラグを最小限に抑えるため、プロパティ変更のガードと Win32 API を活用します。
+    /// </summary>
+    public void ShowAndActivate()
+    {
+        Logger.Info("ShowAndActivate: Process started.");
+
+        // 1. 表示設定 (ガード条件付き)
+        if (this.Visibility != Visibility.Visible)
+        {
+            this.Visibility = Visibility.Visible;
+        }
+
+        var settings = _settingsService.LoadSettings();
+        bool shouldShowInTaskbar = !settings.EnableTaskTray;
+        if (this.ShowInTaskbar != shouldShowInTaskbar)
+        {
+            this.ShowInTaskbar = shouldShowInTaskbar;
+        }
+
+        // ViewModel の状態も同期
+        if (DataContext is ViewModels.MainViewModel vm)
+        {
+            vm.Visibility = Visibility.Visible;
+            vm.ShowInTaskbar = shouldShowInTaskbar;
+        }
+
+        this.Show();
+
+        // 2. ウィンドウ状態の復元
+        if (this.WindowState == WindowState.Minimized)
+        {
+            this.WindowState = WindowState.Normal;
+        }
+
+        // 3. 最前面化 (Win32 API)
+        var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+        if (hwnd != IntPtr.Zero)
+        {
+            Win32Api.ShowWindow(hwnd, Win32Api.SW_RESTORE);
+            Win32Api.SetForegroundWindow(hwnd);
+        }
+
+        // 4. フォーカスと強制最前面ハック
+        this.Activate();
+        
+        if (!this.IsActive)
+        {
+            this.Topmost = true;
+            this.Topmost = false;
+        }
+        this.Focus();
+
+        Logger.Info("ShowAndActivate: Finished.");
+    }
+
     private void Window_StateChanged(object? sender, EventArgs e)
     {
         Logger.Info($"Window_StateChanged: New State={WindowState}, Current Visibility={Visibility}");
@@ -165,7 +222,7 @@ public partial class MainWindow : Window
                 // 非表示の状態で WindowState を Normal に戻しておく（デスクトップ左下の残像防止）
                 this.WindowState = WindowState.Normal;
                 
-                Logger.Info("Window_StateChanged: Collapsed window and reset state to Normal for tray.");
+                Logger.Info("Window_StateChanged: Collapsed window for tray.");
             }
         }
     }

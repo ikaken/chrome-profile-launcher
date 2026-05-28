@@ -142,39 +142,15 @@ public partial class App : Application
 
     private void ActivateWindow()
     {
-        var window = MainWindow;
-        if (window == null) return;
-
         Helpers.Logger.Info("Activating MainWindow requested via IPC.");
-
-        // 1. まず表示状態にする
-        window.ShowInTaskbar = false;
-        window.Visibility = Visibility.Visible;
-        window.Show();
-
-        // 2. 復元処理 (Win32 API 併用)
-        window.WindowState = WindowState.Normal;
-        
-        var hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
-        if (hwnd != IntPtr.Zero)
+        if (MainWindow is MainWindow window)
         {
-            Helpers.Win32Api.ShowWindow(hwnd, Helpers.Win32Api.SW_RESTORE);
-            Helpers.Win32Api.SetForegroundWindow(hwnd);
+            window.ShowAndActivate();
         }
-
-        // 3. ViewModel のプロパティも同期させる
-        if (window.DataContext is ViewModels.MainViewModel vm)
+        else
         {
-            vm.Visibility = Visibility.Visible;
-            vm.WindowState = window.WindowState;
-            vm.ShowInTaskbar = false;
+            Helpers.Logger.Error("ActivateWindow: MainWindow is null or not of type MainWindow.");
         }
-
-        // 4. アクティブ化
-        window.Activate();
-        window.Topmost = true;
-        window.Topmost = false;
-        window.Focus();
     }
 
     protected override void OnExit(ExitEventArgs e)

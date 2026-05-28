@@ -110,40 +110,13 @@ namespace ChromeProfileLauncher.ViewModels
         public ICommand ShowWindowCommand => _showWindowCommand ??= new RelayCommand(_ =>
         {
             Logger.Info("ShowWindowCommand executed.");
-            var window = System.Windows.Application.Current.MainWindow;
-            if (window != null)
+            if (System.Windows.Application.Current.MainWindow is MainWindow window)
             {
-                // 1. プロパティ更新
-                Visibility = System.Windows.Visibility.Visible;
-                ShowInTaskbar = !EnableTaskTray;
-                
-                // 2. ウィンドウ表示
-                window.Visibility = System.Windows.Visibility.Visible;
-                window.ShowInTaskbar = !EnableTaskTray;
-                window.Show();
-
-                // 3. 状態復元
-                Logger.Info($"Restoring window. Current State={window.WindowState}");
-                window.WindowState = System.Windows.WindowState.Normal;
-                WindowState = System.Windows.WindowState.Normal;
-
-                var hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
-                if (hwnd != IntPtr.Zero)
-                {
-                    Win32Api.ShowWindow(hwnd, Win32Api.SW_RESTORE);
-                    Win32Api.SetForegroundWindow(hwnd);
-                }
-
-                window.Activate();
-                window.Topmost = true;
-                window.Topmost = false;
-                window.Focus();
-                
-                Logger.Info($"ShowWindowCommand finished. Visibility={window.Visibility}, State={window.WindowState}");
+                window.ShowAndActivate();
             }
             else
             {
-                Logger.Error("ShowWindowCommand: MainWindow is null.");
+                Logger.Error("ShowWindowCommand: MainWindow is null or not of type MainWindow.");
             }
         });
 
