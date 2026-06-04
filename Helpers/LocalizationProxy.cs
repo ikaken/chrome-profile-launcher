@@ -25,7 +25,6 @@ namespace ChromeProfileLauncher.Helpers
         public string Save => LocalizationManager.GetString("Save");
         public string Language => LocalizationManager.GetString("Language");
         public string LanguageDescription => LocalizationManager.GetString("LanguageDescription");
-        public string LanguageAuto => LocalizationManager.GetString("LanguageAuto");
         public string LanguageJapanese => LocalizationManager.GetString("LanguageJapanese");
         public string LanguageEnglish => LocalizationManager.GetString("LanguageEnglish");
         public string Error => LocalizationManager.GetString("Error");

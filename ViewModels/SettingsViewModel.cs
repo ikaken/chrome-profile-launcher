@@ -33,7 +33,7 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_enableTaskTray != value) { _enableTaskTray = value; OnPropertyChanged(); } }
         }
 
-        private string _language = "auto";
+        private string _language = "ja-JP";
         public string Language
         {
             get => _language;
