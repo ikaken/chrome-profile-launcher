@@ -20,12 +20,17 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        // 言語設定の読み込みと適用
+        var settingsService = new Services.SettingsService(new Services.FileSystem());
+        var settings = settingsService.LoadSettings();
+        Helpers.LocalizationManager.SetLanguage(settings.Language);
+
         // Velopack のセットアップ。アップデート後の再起動などをハンドルする。
         Velopack.VelopackApp.Build().Run();
 
-        Helpers.Logger.Info("Application starting...");
+        Helpers.Logger.Info($"Application starting... Language: {settings.Language}");
         
-        // Mutex の取得を試みる
+        // Mutex の取得を試める
         _mutex = new Mutex(true, MutexName, out bool createdNew);
 
         if (!createdNew)
@@ -43,11 +48,6 @@ public partial class App : Application
             }
 
             Helpers.Logger.Info("IPC failed (zombie process?). Proceeding as primary instance.");
-            // IPCに失敗した場合（ゾンビプロセスの可能性）、自分をプライマリとして続行
-            // この場合 Mutex は前のプロセスが持っているが、強制的に奪うことはできないため
-            // 既存の Mutex を閉じて、新しく取得し直す（あるいはそのまま進む）
-            // 実際には Mutex が残っていると new Mutex(true, ...) で createdNew が false になり続ける
-            // ここでは簡易的に「IPCが通らなければ起動を許可する」方針とする
         }
 
         Helpers.Logger.Info("Starting as primary instance.");
@@ -57,7 +57,6 @@ public partial class App : Application
         StartPipeServer();
 
         // MainWindow を作成
-        var settings = new Services.SettingsService(new Services.FileSystem()).LoadSettings();
         var mainWindow = new MainWindow();
         
         // 常駐オンなら隠しオーナーを作成してタスクバーを隠す
@@ -93,7 +92,6 @@ public partial class App : Application
         try
         {
             using var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
-            // 200ms タイムアウト（設計書通り）
             client.Connect(200);
 
             using var writer = new StreamWriter(client, Encoding.UTF8);

@@ -33,6 +33,13 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_enableTaskTray != value) { _enableTaskTray = value; OnPropertyChanged(); } }
         }
 
+        private string _language = "auto";
+        public string Language
+        {
+            get => _language;
+            set { if (_language != value) { _language = value; OnPropertyChanged(); } }
+        }
+
         public string CurrentVersion => _updateService.GetCurrentVersion();
 
         private bool _isCheckingForUpdates;
@@ -127,6 +134,7 @@ namespace ChromeProfileLauncher.ViewModels
                 var settings = _settingsService.LoadSettings();
                 settings.Profiles = Profiles.ToList();
                 settings.EnableTaskTray = EnableTaskTray;
+                settings.Language = Language; // 言語設定を保存
                 _settingsService.SaveSettings(settings);
                 
                 if (p is System.Windows.Window window)
@@ -137,7 +145,7 @@ namespace ChromeProfileLauncher.ViewModels
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show($"Error during save: {ex.Message}");
+                System.Windows.MessageBox.Show(string.Format(LocalizationManager.GetString("ErrorDuringSave"), ex.Message), LocalizationManager.GetString("Error"));
             }
         });
 
@@ -227,6 +235,7 @@ namespace ChromeProfileLauncher.ViewModels
             WindowWidth = settings?.SettingsWindowWidth ?? 500;
             WindowHeight = settings?.SettingsWindowHeight ?? 550;
             EnableTaskTray = settings?.EnableTaskTray ?? false;
+            Language = settings?.Language ?? "auto";
             
             if (initialProfiles != null)
             {

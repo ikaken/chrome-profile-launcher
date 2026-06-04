@@ -236,14 +236,14 @@
 
         <!-- Header -->
         <Grid Grid.Row="0" Margin="0,0,0,15">
-            <TextBlock Text="Launcher Settings" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding Source={StaticResource Resources}, Path=LauncherSettings}" FontSize="24" FontWeight="Bold" VerticalAlignment="Center" />
         </Grid>
 
         <!-- Tabs -->
         <TabControl Grid.Row="1" Style="{StaticResource ModernTabControlStyle}">
             
             <!-- Tab 1: Profiles -->
-            <TabItem Header="プロファイル管理" Style="{StaticResource ModernTabItemStyle}">
+            <TabItem Header="{Binding Source={StaticResource Resources}, Path=ProfileManagement}" Style="{StaticResource ModernTabItemStyle}">
                 <ListBox ItemsSource="{Binding Profiles}" 
                          Background="Transparent" 
                          BorderThickness="0"
@@ -307,9 +307,35 @@
             </TabItem>
 
             <!-- Tab 2: General Settings -->
-            <TabItem Header="アプリ設定" Style="{StaticResource ModernTabItemStyle}">
+            <TabItem Header="{Binding Source={StaticResource Resources}, Path=AppSettings}" Style="{StaticResource ModernTabItemStyle}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,5,0,0">
                     <StackPanel>
+                        <!-- Language Selection -->
+                        <Border Background="{StaticResource ItemBackgroundBrush}" 
+                                CornerRadius="20" 
+                                Padding="20,15"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                Margin="0,0,0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=Language}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=LanguageDescription}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <ComboBox Grid.Column="1" Width="150" VerticalAlignment="Center"
+                                          SelectedValuePath="Tag"
+                                          SelectedValue="{Binding Language}">
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=LanguageAuto}" Tag="auto" />
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=LanguageJapanese}" Tag="ja-JP" />
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=LanguageEnglish}" Tag="en-US" />
+                                </ComboBox>
+                            </Grid>
+                        </Border>
+
                         <!-- Startup Setting -->
                         <Border Background="{StaticResource ItemBackgroundBrush}" 
                                 CornerRadius="20" 
@@ -323,8 +349,8 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
-                                    <TextBlock Text="スタートアップ時に起動" FontSize="16" FontWeight="SemiBold" Foreground="White" />
-                                    <TextBlock Text="Windowsの起動時に本アプリを自動的に起動します。" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=LaunchAtStartup}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=LaunchAtStartupDescription}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
                                 </StackPanel>
                                 <CheckBox Grid.Column="1" IsChecked="{Binding LaunchAtStartup}" 
                                           Style="{StaticResource ToggleSwitchStyle}" 
@@ -345,8 +371,8 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
-                                    <TextBlock Text="タスクトレイに常駐" FontSize="16" FontWeight="SemiBold" Foreground="White" />
-                                    <TextBlock Text="ウィンドウを閉じた際にアプリを終了せず、システムトレイに常駐させます。" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=EnableTaskTray}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=EnableTaskTrayDescription}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
                                 </StackPanel>
                                 <CheckBox Grid.Column="1" IsChecked="{Binding EnableTaskTray}" 
                                           Style="{StaticResource ToggleSwitchStyle}" 
@@ -367,13 +393,13 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
-                                    <TextBlock Text="アプリケーションアップデート" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=AppUpdate}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
                                     <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                        <TextBlock Text="現在のバージョン: " FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
+                                        <TextBlock Text="{Binding Source={StaticResource Resources}, Path=CurrentVersion}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
                                         <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" />
                                     </StackPanel>
                                 </StackPanel>
-                                <Button Grid.Column="1" Content="アップデートを確認" 
+                                <Button Grid.Column="1" Content="{Binding Source={StaticResource Resources}, Path=CheckForUpdates}" 
                                         Style="{StaticResource OutlineButtonStyle}" 
                                         Padding="15,8" 
                                         FontSize="13"
@@ -394,8 +420,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="キャンセル" Style="{StaticResource OutlineButtonStyle}" Margin="0,0,10,0" IsCancel="True" Height="45" />
-            <Button Grid.Column="1" Content="保存" Style="{StaticResource ModernButtonStyle}" Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsDefault="True" Height="45" />
+            <Button Grid.Column="0" Content="{Binding Source={StaticResource Resources}, Path=Cancel}" Style="{StaticResource OutlineButtonStyle}" Margin="0,0,10,0" IsCancel="True" Height="45" />
+            <Button Grid.Column="1" Content="{Binding Source={StaticResource Resources}, Path=Save}" Style="{StaticResource ModernButtonStyle}" Command="{Binding SaveCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" IsDefault="True" Height="45" />
         </Grid>
     </Grid>
 </Window>
