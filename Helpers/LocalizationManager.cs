@@ -8,41 +8,80 @@ namespace ChromeProfileLauncher.Helpers
 {
     public static class LocalizationManager
     {
-        private static readonly ResourceManager _resourceManager = new ResourceManager("ChromeProfileLauncher.Properties.Resources", typeof(LocalizationManager).Assembly);
+        private static ResourceManager? _resourceManager;
 
-        public static void SetLanguage(string languageCode)
+        private static ResourceManager GetResourceManager()
         {
-            CultureInfo culture;
-            if (string.IsNullOrEmpty(languageCode) || languageCode.ToLower() == "auto")
-            {
-                culture = CultureInfo.CurrentUICulture;
-            }
-            else
+            if (_resourceManager == null)
             {
                 try
                 {
-                    culture = new CultureInfo(languageCode);
+                    _resourceManager = new ResourceManager("ChromeProfileLauncher.Properties.Resources", typeof(LocalizationManager).Assembly);
                 }
-                catch
+                catch (Exception ex)
+                {
+                    Logger.Error("Failed to initialize ResourceManager", ex);
+                    throw;
+                }
+            }
+            return _resourceManager;
+        }
+
+        public static event EventHandler? LanguageChanged;
+
+        public static void SetLanguage(string languageCode)
+        {
+            try
+            {
+                CultureInfo culture;
+                if (string.IsNullOrEmpty(languageCode) || languageCode.ToLower() == "auto")
                 {
                     culture = CultureInfo.CurrentUICulture;
                 }
-            }
+                else
+                {
+                    try
+                    {
+                        culture = new CultureInfo(languageCode);
+                    }
+                    catch
+                    {
+                        culture = CultureInfo.CurrentUICulture;
+                    }
+                }
 
-            Thread.CurrentThread.CurrentCulture = culture;
-            Thread.CurrentThread.CurrentUICulture = culture;
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
+                Thread.CurrentThread.CurrentCulture = culture;
+                Thread.CurrentThread.CurrentUICulture = culture;
+                CultureInfo.DefaultThreadCurrentCulture = culture;
+                CultureInfo.DefaultThreadCurrentUICulture = culture;
+                
+                Logger.Info($"Language set to: {culture.Name}");
+                LanguageChanged?.Invoke(null, EventArgs.Empty);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to set language", ex);
+            }
         }
 
         public static string GetString(string key)
         {
             try
             {
-                return _resourceManager.GetString(key) ?? key;
+                var rm = GetResourceManager();
+                var value = rm.GetString(key);
+                if (value == null)
+                {
+                    Logger.Info($"Resource key not found: {key}");
+                    return $"!{key}!";
+                }
+                return value;
             }
-            catch
+            catch (Exception ex)
             {
+                // ここでエラーが出るとループする可能性があるので注意（LoggerがGetStringを呼ぶ場合など）
+                // ただし現在の Logger は呼んでいない。
+                System.Diagnostics.Debug.WriteLine($"Error getting string for {key}: {ex.Message}");
                 return key;
             }
         }

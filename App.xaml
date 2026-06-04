@@ -1,9 +1,11 @@
 <Application x:Class="ChromeProfileLauncher.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ChromeProfileLauncher">
+             xmlns:local="clr-namespace:ChromeProfileLauncher"
+             xmlns:helpers="clr-namespace:ChromeProfileLauncher.Helpers">
     <Application.Resources>
         <ResourceDictionary>
+            <helpers:LocalizationProxy x:Key="Resources" />
             <ResourceDictionary.MergedDictionaries>
                 <!-- Existing styles if any -->
             </ResourceDictionary.MergedDictionaries>

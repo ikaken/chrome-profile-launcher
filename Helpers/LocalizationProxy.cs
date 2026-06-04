@@ -1,0 +1,42 @@
+using System.ComponentModel;
+
+namespace ChromeProfileLauncher.Helpers
+{
+    public class LocalizationProxy : INotifyPropertyChanged
+    {
+        public LocalizationProxy()
+        {
+            LocalizationManager.LanguageChanged += (s, e) => Refresh();
+        }
+
+        public string AppTitle => LocalizationManager.GetString("AppTitle");
+        public string Settings => LocalizationManager.GetString("Settings");
+        public string LauncherSettings => LocalizationManager.GetString("LauncherSettings");
+        public string ProfileManagement => LocalizationManager.GetString("ProfileManagement");
+        public string AppSettings => LocalizationManager.GetString("AppSettings");
+        public string LaunchAtStartup => LocalizationManager.GetString("LaunchAtStartup");
+        public string LaunchAtStartupDescription => LocalizationManager.GetString("LaunchAtStartupDescription");
+        public string EnableTaskTray => LocalizationManager.GetString("EnableTaskTray");
+        public string EnableTaskTrayDescription => LocalizationManager.GetString("EnableTaskTrayDescription");
+        public string AppUpdate => LocalizationManager.GetString("AppUpdate");
+        public string CurrentVersion => LocalizationManager.GetString("CurrentVersion");
+        public string CheckForUpdates => LocalizationManager.GetString("CheckForUpdates");
+        public string Cancel => LocalizationManager.GetString("Cancel");
+        public string Save => LocalizationManager.GetString("Save");
+        public string Language => LocalizationManager.GetString("Language");
+        public string LanguageDescription => LocalizationManager.GetString("LanguageDescription");
+        public string LanguageAuto => LocalizationManager.GetString("LanguageAuto");
+        public string LanguageJapanese => LocalizationManager.GetString("LanguageJapanese");
+        public string LanguageEnglish => LocalizationManager.GetString("LanguageEnglish");
+        public string Error => LocalizationManager.GetString("Error");
+        public string Success => LocalizationManager.GetString("Success");
+        public string ErrorDuringSave => LocalizationManager.GetString("ErrorDuringSave");
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void Refresh()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));
+        }
+    }
+}

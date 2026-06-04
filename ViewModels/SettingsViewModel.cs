@@ -137,6 +137,9 @@ namespace ChromeProfileLauncher.ViewModels
                 settings.Language = Language; // 言語設定を保存
                 _settingsService.SaveSettings(settings);
                 
+                // 言語設定を即時反映
+                LocalizationManager.SetLanguage(Language);
+                
                 if (p is System.Windows.Window window)
                 {
                     window.DialogResult = true;
