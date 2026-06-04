@@ -176,4 +176,4 @@ vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Rele
 
 ### 📝 ライセンス
 
-このプロジェクトは [MIT ライセンス](LICENSE) の下で公開されています。
+このプロジェクトは [MIT ライセンス](LICENSE) の下で公開されています
