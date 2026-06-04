@@ -129,7 +129,7 @@
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
                 <Button Style="{StaticResource SettingsButtonStyle}" Command="{Binding SettingsCommand}">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="⚙ Settings" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Source={StaticResource Resources}, Path=Settings}" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </StackPanel>
