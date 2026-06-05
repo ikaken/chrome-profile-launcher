@@ -90,6 +90,27 @@ namespace ChromeProfileLauncher.ViewModels
             }
         });
 
+        private ICommand? _openUrlCommand;
+        public ICommand OpenUrlCommand => _openUrlCommand ??= new RelayCommand(url =>
+        {
+            if (url is string urlString && !string.IsNullOrEmpty(urlString))
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = urlString,
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Failed to open URL: {urlString}", ex);
+                    System.Windows.MessageBox.Show($"リンクを開けませんでした: {ex.Message}");
+                }
+            }
+        });
+
         private double _windowTop;
         public double WindowTop
         {
