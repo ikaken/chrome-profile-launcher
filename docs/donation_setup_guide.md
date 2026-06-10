@@ -34,11 +34,11 @@ Ko-fi は気軽な一回払い支援用のサブ手段としてお勧めしま�
 ### ステップ 1: Ko-fi に登録
 1. [Ko-fi](https://ko-fi.com/) にアクセスします。
 2. アカウントを作成し、プロフィールを設定します。
-3. 支援ページの URL が発行されます（例: `https://ko-fi.com/yourname`）。
+3. 支援ページの URL が発行されます（例: `https://ko-fi.com/ikaken`）。
 
 ### ステップ 2: 支援リンクの反映
 - Ko-fi の支援ページ URL を、アプリの `Views/SettingsWindow.xaml` に設定します。
-- 例: `https://ko-fi.com/yourname`
+- 例: `https://ko-fi.com/ikaken`
 
 ### ステップ 3: 受け取り方法の設定
 - Ko-fi は Stripe との連携で受け取りが可能です。

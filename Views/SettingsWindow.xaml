@@ -401,7 +401,7 @@
                                         <TextBlock Text="GitHub Sponsors で支援する" />
                                     </Button>
                                     <Button Style="{StaticResource OutlineButtonStyle}" Margin="0" 
-                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://ko-fi.com/yourname">
+                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://ko-fi.com/ikaken">
                                         <TextBlock Text="Ko-fi で気軽に応援する" />
                                     </Button>
                                 </StackPanel>
