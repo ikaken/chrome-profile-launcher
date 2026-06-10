@@ -1,12 +1,12 @@
 # ドネーション（開発支援）設定手順書
 
-このドキュメントでは、Chrome Profile Launcher のドネーション機能で使用する **GitHub Sponsors** と **PayPal** の設定方法を解説します。
+このドキュメントでは、Chrome Profile Launcher のドネーション機能で使用する **GitHub Sponsors** と **Ko-fi** の設定方法を解説します。
 
 ---
 
 ## 1. GitHub Sponsors の設定方法
 
-GitHub Sponsors は、手数料が無料でエンジニア文化に馴染みやすいため、最も推奨される方法です。
+GitHub Sponsors は、継続的な支援を得やすい月額サポートを推奨します。日本から利用できる場合は、まずこちらをメインの支援手段としてください。
 
 ### ステップ 1: プログラムへの参加
 1. [GitHub Sponsors](https://github.com/sponsors) にアクセスします。
@@ -14,10 +14,10 @@ GitHub Sponsors は、手数料が無料でエンジニア文化に馴染みや�
 3. 支払先情報（Stripe アカウントの作成が必要）やプロフィールの設定を完了させます。
    - ※ 審査に数日かかる場合があります。
 
-### ステップ 2: 支援ティア（金額）の設定
+### ステップ 2: 支援ティアの設定
 1. 管理画面の「Sponsorship tiers」から「Add a tier」をクリックします。
-2. 「One-time payment（単発）」を選択します。
-3. アプリの実装に合わせて以下の金額を作成するとスムーズです。
+2. 「Monthly payment（月額）」を中心に設定することを推奨します。
+3. アプリの実装に合わせて以下の金額を検討してください。
    - **300円**: 「コーヒー1杯」
    - **500円**: 「軽く応援」
    - **1000円**: 「開発支援」
@@ -29,32 +29,42 @@ GitHub Sponsors は、手数料が無料でエンジニア文化に馴染みや�
 
 ---
 
-## 2. PayPal の設定方法
+## 2. Ko-fi の設定方法
 
-GitHub アカウントを持っていないユーザー向けに、PayPal での支援も受け付けることができます。
+日本の PayPal が利用できない場合や、気軽な一回払いを受け付けたい場合には、Ko-fi をお勧めします。
 
-### 方法 A: 寄付ボタンを作成する（推奨）
-1. [PayPal 寄付ボタン作成ページ](https://www.paypal.com/donate/buttons) にアクセスします。
-2. 「寄付ボタン」を選択し、指示に従って作成します。
-3. 完了すると「ボタン ID（Hosted Button ID）」が発行されます。
-4. アプリの `SettingsWindow.xaml` の以下の箇所に ID を記入します。
-   - `https://www.paypal.com/donate/?hosted_button_id=ここにIDを入力`
+### ステップ 1: Ko-fi に登録
+1. [Ko-fi](https://ko-fi.com/) にアクセスします。
+2. アカウントを作成し、プロフィールを設定します。
+3. 支援ページの URL が発行されます（例: `https://ko-fi.com/yourname`）。
 
-### 方法 B: PayPal.Me を使用する（最も簡単）
-1. [PayPal.Me](https://www.paypal.me/) で自分専用のリンク（例: `paypal.me/yourname`）を作成します。
-2. その URL をアプリに直接設定します。
-   - `SettingsWindow.xaml` の `CommandParameter` をこの URL に書き換えるだけで完了です。
+### ステップ 2: 支援リンクの反映
+- Ko-fi の支援ページ URL を、アプリの `Views/SettingsWindow.xaml` に設定します。
+- 例: `https://ko-fi.com/yourname`
+
+### ステップ 3: 受け取り方法の設定
+- Ko-fi は Stripe との連携で受け取りが可能です。
+- 既に Stripe アカウントを持っている場合は、Ko-fi の設定画面から Stripe を接続してください。
 
 ---
 
-## 3. アプリへの反映（コードの修正箇所）
+## 3. PayPal の扱いについて
+
+現在のところ、日本の PayPal アカウントでは寄付ページ作成が利用できない場合があります。そのため、PayPal は本手順書のメイン対象から外しています。
+
+- PayPal が利用できる場合は `PayPal.Me` を検討できますが、日本国内では利用不可となる可能性があります。
+- 代替として、`GitHub Sponsors` や `Ko-fi` を優先してください。
+
+---
+
+## 4. アプリへの反映（コードの修正箇所）
 
 手順書に従って取得した ID や URL は、プロジェクト内の以下のファイルを修正して反映させます。
 
 - **ファイルパス**: `Views/SettingsWindow.xaml`
 - **修正箇所**:
   - `500行目付近`: GitHub Sponsors リンク（3箇所の `ikaken` を自分の ID に変更）
-  - `520行目付近`: PayPal リンク（`YOUR_PAYPAL_ID` を自分の ID に変更）
+  - `520行目付近`: Ko-fi / Stripe リンク（`YOUR_PAYPAL_ID` の代わりに Ko-fi や Stripe の URL を設定）
 
 ---
 
