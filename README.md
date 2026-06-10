@@ -25,6 +25,19 @@ Launch your target profile with a single click, or instantly focus an already op
 - **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection).
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
 
+### ❤️ Support / Sponsor this Project
+
+If this app helps streamline your daily work or browsing, your support is greatly appreciated!
+
+- **GitHub Sponsors** — Monthly support and one-time support are both available.
+- **Ko-fi** — Support with a one-time contribution from a cup of coffee.
+
+[![Sponsor this project](https://img.shields.io/badge/Sponsor%20this%20project-%231EAEDB?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/ikaken)
+
+[Ko-fi で支援する ☕](https://ko-fi.com/ikaken)
+
+---
+
 ### 📦 Download
 
 You can download the latest installer from the link below.
@@ -113,6 +126,19 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
     - **プロファイルフォルダを開く**: 設定画面から直接エクスプローラーでプロファイルフォルダを開けます。
 - **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
+
+### ❤️ このアプリを応援する
+
+このアプリが便利だと思ったら、開発の継続にご協力いただけるととても嬉しいです！
+
+- **GitHub Sponsors** — 月額支援も一回払いも可能です
+- **Ko-fi** — コーヒー1杯分から気軽に応援できます
+
+[![Sponsor this project](https://img.shields.io/badge/Sponsor%20this%20project-%231EAEDB?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/ikaken)
+
+[Ko-fi で支援する ☕](https://ko-fi.com/ikaken)
+
+---
 
 ### 📦 ダウンロード
 

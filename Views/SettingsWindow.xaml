@@ -493,6 +493,35 @@
                                         VerticalAlignment="Center" />
                             </Grid>
                         </Border>
+
+                        <!-- Donation Card -->
+                        <Border Background="{StaticResource ItemBackgroundBrush}" 
+                                CornerRadius="20" 
+                                Padding="20,15"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="☕ 開発を支援" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,10" />
+                                <TextBlock Text="Chrome Profile Launcher が作業効率化に役立ったら、継続開発を支援していただけると嬉しいです。支援金はAIエージェント利用料や継続開発に利用されます。" 
+                                           FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,0,0,15" LineHeight="18" />
+                                
+                                <StackPanel>
+                                    <Button Style="{StaticResource OutlineButtonStyle}" Margin="0,0,0,10" 
+                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/sponsors/ikaken">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="💖 GitHub Sponsors で支援 (月額・単発)" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Style="{StaticResource OutlineButtonStyle}" Margin="0" 
+                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://ko-fi.com/ikaken">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="☕ Ko-fi で応援 (単発・少額)" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
