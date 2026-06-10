@@ -24,6 +24,19 @@ Launch your target profile with a single click, or instantly focus an already op
     - **Open Profile Folder**: Directly open the profile folder in File Explorer from the settings screen.
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
 
+### ❤️ Support / Sponsor this Project
+
+If this app helps streamline your daily work or browsing, your support is greatly appreciated!
+
+- **GitHub Sponsors** — Monthly support and one-time support are both available.
+- **Ko-fi** — Support with a one-time contribution from a cup of coffee.
+
+[![Sponsor this project](https://img.shields.io/badge/Sponsor%20this%20project-%231EAEDB?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/ikaken)
+
+[Ko-fi で支援する ☕](https://ko-fi.com/ikaken)
+
+---
+
 ### 📦 Download
 
 You can download the latest installer from the link below.
@@ -111,6 +124,19 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
     - **トレイアイコンの常駐設定**: ウィンドウを閉じた際にタスクトレイへ常駐させるか選択可能です（デフォルトは常駐OFF）。
     - **プロファイルフォルダを開く**: 設定画面から直接エクスプローラーでプロファイルフォルダを開けます。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
+
+### ❤️ このアプリを応援する
+
+このアプリが便利だと思ったら、開発の継続にご協力いただけるととても嬉しいです！
+
+- **GitHub Sponsors** — 月額支援も一回払いも可能です
+- **Ko-fi** — コーヒー1杯分から気軽に応援できます
+
+[![Sponsor this project](https://img.shields.io/badge/Sponsor%20this%20project-%231EAEDB?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/ikaken)
+
+[Ko-fi で支援する ☕](https://ko-fi.com/ikaken)
+
+---
 
 ### 📦 ダウンロード
 

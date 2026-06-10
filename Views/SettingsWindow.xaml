@@ -395,36 +395,16 @@
                                 <TextBlock Text="Chrome Profile Launcher が作業効率化に役立ったら、継続開発を支援していただけると嬉しいです。支援金はAIエージェント利用料や継続開発に利用されます。" 
                                            FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,0,0,15" LineHeight="18" />
                                 
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="0" Style="{StaticResource OutlineButtonStyle}" Margin="0,0,5,0" 
-                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/sponsors/ikaken?frequency=one-time&amp;amount=300">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="☕ 300円" />
-                                        </StackPanel>
+                                <StackPanel>
+                                    <Button Style="{StaticResource OutlineButtonStyle}" Margin="0,0,0,8" 
+                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/sponsors/ikaken">
+                                        <TextBlock Text="GitHub Sponsors で支援する" />
                                     </Button>
-                                    <Button Grid.Column="1" Style="{StaticResource OutlineButtonStyle}" Margin="5,0,5,0" 
-                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/sponsors/ikaken?frequency=one-time&amp;amount=500">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="👍 500円" />
-                                        </StackPanel>
+                                    <Button Style="{StaticResource OutlineButtonStyle}" Margin="0" 
+                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://ko-fi.com/yourname">
+                                        <TextBlock Text="Ko-fi で気軽に応援する" />
                                     </Button>
-                                    <Button Grid.Column="2" Style="{StaticResource OutlineButtonStyle}" Margin="5,0,0,0" 
-                                            Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/sponsors/ikaken?frequency=one-time&amp;amount=1000">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="🚀 1000円" />
-                                        </StackPanel>
-                                    </Button>
-                                </Grid>
-                                
-                                <Button Style="{StaticResource OutlineButtonStyle}" Margin="0,10,0,0" HorizontalAlignment="Center" BorderThickness="0"
-                                        Command="{Binding OpenUrlCommand}" CommandParameter="https://www.paypal.com/donate/?hosted_button_id=YOUR_PAYPAL_ID">
-                                    <TextBlock Text="PayPalでの支援はこちら" FontSize="12" TextDecorations="Underline" />
-                                </Button>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
                     </StackPanel>
