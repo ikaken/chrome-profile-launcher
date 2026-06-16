@@ -70,6 +70,9 @@
   <data name="ProfileManagement" xml:space="preserve">
     <value>プロファイル管理</value>
   </data>
+  <data name="ReloadProfiles" xml:space="preserve">
+    <value>プロファイルをリロード</value>
+  </data>
   <data name="AppSettings" xml:space="preserve">
     <value>アプリ設定</value>
   </data>

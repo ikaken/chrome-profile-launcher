@@ -13,6 +13,7 @@ namespace ChromeProfileLauncher.Helpers
         public string Settings => LocalizationManager.GetString("Settings");
         public string LauncherSettings => LocalizationManager.GetString("LauncherSettings");
         public string ProfileManagement => LocalizationManager.GetString("ProfileManagement");
+        public string ReloadProfiles => LocalizationManager.GetString("ReloadProfiles");
         public string AppSettings => LocalizationManager.GetString("AppSettings");
         public string LaunchAtStartup => LocalizationManager.GetString("LaunchAtStartup");
         public string LaunchAtStartupDescription => LocalizationManager.GetString("LaunchAtStartupDescription");

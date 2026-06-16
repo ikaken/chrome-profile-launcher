@@ -14,12 +14,14 @@ namespace ChromeProfileLauncher.Tests
     {
         private readonly Mock<ISettingsService> _settingsServiceMock;
         private readonly Mock<IUpdateService> _updateServiceMock;
+        private readonly Mock<IProfileDiscoveryService> _discoveryServiceMock;
 
         public SettingsViewModelTests()
         {
             _settingsServiceMock = new Mock<ISettingsService>();
             _updateServiceMock = new Mock<IUpdateService>();
             _updateServiceMock.Setup(u => u.GetCurrentVersion()).Returns("1.0.0");
+            _discoveryServiceMock = new Mock<IProfileDiscoveryService>();
         }
 
         [Fact]
@@ -33,7 +35,7 @@ namespace ChromeProfileLauncher.Tests
             };
 
             // Act
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
 
             // Assert
             vm.Profiles.Should().HaveCount(2);
@@ -50,7 +52,7 @@ namespace ChromeProfileLauncher.Tests
                 new ProfileInfo { Id = "P1", Order = 0 },
                 new ProfileInfo { Id = "P2", Order = 1 }
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
             var p2 = vm.Profiles[1];
 
             // Act
@@ -72,7 +74,7 @@ namespace ChromeProfileLauncher.Tests
                 new ProfileInfo { Id = "P1", Order = 0 },
                 new ProfileInfo { Id = "P2", Order = 1 }
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
             var p1 = vm.Profiles[0];
 
             // Act
@@ -99,7 +101,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
 
             // Assert
             vm.WindowTop.Should().Be(300);
@@ -112,7 +114,7 @@ namespace ChromeProfileLauncher.Tests
         public void SaveWindowSettings_ShouldPersistCurrentState()
         {
             // Arrange
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
             vm.WindowTop = 500;
             vm.WindowLeft = 600;
             vm.WindowWidth = 1000;
@@ -140,10 +142,40 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
 
             // Assert
             vm.Language.Should().Be("ja-JP");
+        }
+
+        [Fact]
+        public void ReloadProfilesCommand_ShouldMergeDetectedProfiles()
+        {
+            // Arrange
+            var initial = new List<ProfileInfo>
+            {
+                new ProfileInfo { Id = "P1", DisplayName = "Custom P1", Order = 0 },
+                new ProfileInfo { Id = "P2", DisplayName = "P2", Order = 1 }
+            };
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+
+            var detected = new List<ProfileInfo>
+            {
+                new ProfileInfo { Id = "P1", DisplayName = "Default P1" }, // P1 exists
+                new ProfileInfo { Id = "P3", DisplayName = "New P3" }      // P2 removed, P3 added
+            };
+            _discoveryServiceMock.Setup(d => d.GetAvailableProfiles()).Returns(detected);
+
+            // Act
+            vm.ReloadProfilesCommand.Execute(null);
+
+            // Assert
+            vm.Profiles.Should().HaveCount(2);
+            vm.Profiles[0].Id.Should().Be("P1");
+            vm.Profiles[0].DisplayName.Should().Be("Custom P1"); // Should preserve custom name
+            vm.Profiles[1].Id.Should().Be("P3");
+            vm.Profiles[1].DisplayName.Should().Be("New P3");
+            vm.Profiles.Any(p => p.Id == "P2").Should().BeFalse(); // P2 should be removed
         }
     }
 }
