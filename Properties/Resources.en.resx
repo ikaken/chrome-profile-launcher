@@ -67,6 +67,9 @@
   <data name="ProfileManagement" xml:space="preserve">
     <value>Profile Management</value>
   </data>
+  <data name="ReloadProfiles" xml:space="preserve">
+    <value>Reload Profiles</value>
+  </data>
   <data name="AppSettings" xml:space="preserve">
     <value>App Settings</value>
   </data>

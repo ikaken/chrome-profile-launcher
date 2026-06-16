@@ -13,6 +13,7 @@ namespace ChromeProfileLauncher.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly IStartupService _startupService;
         private readonly IUpdateService _updateService;
+        private readonly IProfileDiscoveryService _discoveryService;
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
 
         public bool LaunchAtStartup
@@ -115,6 +116,49 @@ namespace ChromeProfileLauncher.ViewModels
                     Logger.Error($"Failed to open URL: {urlString}", ex);
                     System.Windows.MessageBox.Show($"リンクを開けませんでした: {ex.Message}");
                 }
+            }
+        });
+
+        private ICommand? _reloadProfilesCommand;
+        public ICommand ReloadProfilesCommand => _reloadProfilesCommand ??= new RelayCommand(_ =>
+        {
+            try
+            {
+                var detected = _discoveryService.GetAvailableProfiles().ToList();
+                var current = Profiles.ToList();
+                var merged = new System.Collections.Generic.List<ProfileInfo>();
+
+                // Preserve existing settings for profiles that still exist
+                foreach (var cProfile in current)
+                {
+                    var dProfile = detected.FirstOrDefault(p => p.Id == cProfile.Id);
+                    if (dProfile != null)
+                    {
+                        // Update icon path in case it changed
+                        cProfile.IconPath = dProfile.IconPath;
+                        merged.Add(cProfile);
+                        detected.Remove(dProfile);
+                    }
+                }
+
+                // Add newly discovered profiles
+                foreach (var dProfile in detected)
+                {
+                    int nextOrder = merged.Count > 0 ? merged.Max(p => p.Order) + 1 : 0;
+                    dProfile.Order = nextOrder;
+                    merged.Add(dProfile);
+                }
+
+                Profiles.Clear();
+                foreach (var p in merged.OrderBy(p => p.Order))
+                {
+                    Profiles.Add(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to reload profiles.", ex);
+                System.Windows.MessageBox.Show($"プロファイルのリロード中にエラーが発生しました: {ex.Message}");
             }
         });
 
@@ -241,16 +285,18 @@ namespace ChromeProfileLauncher.ViewModels
             }
         });
 
-        public SettingsViewModel() : this(null, new SettingsService(new FileSystem()), null) { }
+        public SettingsViewModel() : this(null, new SettingsService(new FileSystem()), null, null) { }
 
         public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles)
-            : this(initialProfiles, new SettingsService(new FileSystem()), null) { }
+            : this(initialProfiles, new SettingsService(new FileSystem()), null, null) { }
 
-        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null)
+        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null, IProfileDiscoveryService? discoveryService = null)
         {
             _settingsService = settingsService;
             _startupService = new StartupService();
             _updateService = updateService ?? new UpdateService();
+            var fileSystem = new FileSystem();
+            _discoveryService = discoveryService ?? new ProfileDiscoveryService(new IconService(fileSystem), fileSystem);
             
             // Load window settings
             var settings = _settingsService.LoadSettings();

@@ -329,21 +329,34 @@
             
             <!-- Tab 1: Profiles -->
             <TabItem Header="{Binding Source={StaticResource Resources}, Path=ProfileManagement}" Style="{StaticResource ModernTabItemStyle}">
-                <ListBox ItemsSource="{Binding Profiles}" 
-                         Background="Transparent" 
-                         BorderThickness="0"
-                         ItemContainerStyle="{StaticResource ModernListBoxItemStyle}"
-                         HorizontalContentAlignment="Stretch" 
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         ScrollViewer.CanContentScroll="False"
-                         AllowDrop="True"
-                         PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"
-                         MouseMove="ListBox_MouseMove"
-                         DragOver="ListBox_DragOver"
-                         DragLeave="ListBox_DragLeave"
-                         Drop="ListBox_Drop"
-                         Margin="0,5,0,0">
-                    <ListBox.ItemTemplate>
+                <Grid Margin="0,5,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0" 
+                            Content="{Binding Source={StaticResource Resources}, Path=ReloadProfiles}" 
+                            Command="{Binding ReloadProfilesCommand}" 
+                            Style="{StaticResource OutlineButtonStyle}" 
+                            HorizontalAlignment="Right"
+                            Margin="0,0,5,10"
+                            Padding="15,5"/>
+
+                    <ListBox Grid.Row="1" ItemsSource="{Binding Profiles}" 
+                             Background="Transparent" 
+                             BorderThickness="0"
+                             ItemContainerStyle="{StaticResource ModernListBoxItemStyle}"
+                             HorizontalContentAlignment="Stretch" 
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ScrollViewer.CanContentScroll="False"
+                             AllowDrop="True"
+                             PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"
+                             MouseMove="ListBox_MouseMove"
+                             DragOver="ListBox_DragOver"
+                             DragLeave="ListBox_DragLeave"
+                             Drop="ListBox_Drop">
+                        <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -389,6 +402,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                </Grid>
             </TabItem>
 
             <!-- Tab 2: General Settings -->

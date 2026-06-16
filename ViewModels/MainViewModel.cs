@@ -141,7 +141,7 @@ namespace ChromeProfileLauncher.ViewModels
                     IconPath = p.IconPath
                 }).ToList();
 
-                var vm = new SettingsViewModel(clone, _settingsService, _updateService);
+                var vm = new SettingsViewModel(clone, _settingsService, _updateService, _discoveryService);
                 var settingsWin = new SettingsWindow();
                 settingsWin.DataContext = vm;
                 settingsWin.Owner = System.Windows.Application.Current.MainWindow;
