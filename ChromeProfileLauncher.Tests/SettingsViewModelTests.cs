@@ -13,10 +13,13 @@ namespace ChromeProfileLauncher.Tests
     public class SettingsViewModelTests
     {
         private readonly Mock<ISettingsService> _settingsServiceMock;
+        private readonly Mock<IUpdateService> _updateServiceMock;
 
         public SettingsViewModelTests()
         {
             _settingsServiceMock = new Mock<ISettingsService>();
+            _updateServiceMock = new Mock<IUpdateService>();
+            _updateServiceMock.Setup(u => u.GetCurrentVersion()).Returns("1.0.0");
         }
 
         [Fact]
@@ -30,7 +33,7 @@ namespace ChromeProfileLauncher.Tests
             };
 
             // Act
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object);
 
             // Assert
             vm.Profiles.Should().HaveCount(2);
@@ -47,7 +50,7 @@ namespace ChromeProfileLauncher.Tests
                 new ProfileInfo { Id = "P1", Order = 0 },
                 new ProfileInfo { Id = "P2", Order = 1 }
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object);
             var p2 = vm.Profiles[1];
 
             // Act
@@ -69,7 +72,7 @@ namespace ChromeProfileLauncher.Tests
                 new ProfileInfo { Id = "P1", Order = 0 },
                 new ProfileInfo { Id = "P2", Order = 1 }
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object);
             var p1 = vm.Profiles[0];
 
             // Act
@@ -96,7 +99,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object);
 
             // Assert
             vm.WindowTop.Should().Be(300);
@@ -109,7 +112,7 @@ namespace ChromeProfileLauncher.Tests
         public void SaveWindowSettings_ShouldPersistCurrentState()
         {
             // Arrange
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object);
             vm.WindowTop = 500;
             vm.WindowLeft = 600;
             vm.WindowWidth = 1000;
@@ -128,6 +131,19 @@ namespace ChromeProfileLauncher.Tests
             savedSettings.SettingsWindowLeft.Should().Be(600);
             savedSettings.SettingsWindowWidth.Should().Be(1000);
             savedSettings.SettingsWindowHeight.Should().Be(800);
+        }
+
+        [Fact]
+        public void Constructor_ShouldInitializeWithDefaultLanguage()
+        {
+            // Arrange
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
+
+            // Act
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object);
+
+            // Assert
+            vm.Language.Should().Be("ja-JP");
         }
     }
 }

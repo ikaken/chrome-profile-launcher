@@ -16,6 +16,7 @@ namespace ChromeProfileLauncher.Tests
         private readonly Mock<IProfileDiscoveryService> _discoveryServiceMock;
         private readonly Mock<ILauncherService> _launcherServiceMock;
         private readonly Mock<ISettingsService> _settingsServiceMock;
+        private readonly Mock<IUpdateService> _updateServiceMock;
 
         public MainViewModelTests()
         {
@@ -23,10 +24,12 @@ namespace ChromeProfileLauncher.Tests
             _discoveryServiceMock = new Mock<IProfileDiscoveryService>();
             _launcherServiceMock = new Mock<ILauncherService>();
             _settingsServiceMock = new Mock<ISettingsService>();
+            _updateServiceMock = new Mock<IUpdateService>();
 
             // Default setups to avoid null refs
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
             _discoveryServiceMock.Setup(d => d.GetAvailableProfiles()).Returns(new List<ProfileInfo>());
+            _updateServiceMock.Setup(u => u.GetCurrentVersion()).Returns("1.0.0");
         }
 
         [Fact]
@@ -47,7 +50,7 @@ namespace ChromeProfileLauncher.Tests
             _discoveryServiceMock.Setup(d => d.GetAvailableProfiles()).Returns(discoveredProfiles);
 
             // Act
-            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object);
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
 
             // Assert
             vm.Profiles.Should().HaveCount(2);
@@ -82,7 +85,7 @@ namespace ChromeProfileLauncher.Tests
             _discoveryServiceMock.Setup(d => d.GetAvailableProfiles()).Returns(discoveredProfiles);
 
             // Act
-            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object);
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
 
             // Assert
             vm.Profiles.Should().BeEmpty();
@@ -103,7 +106,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object);
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
 
             // Assert
             vm.WindowTop.Should().Be(150);
@@ -117,7 +120,7 @@ namespace ChromeProfileLauncher.Tests
         public void SaveWindowSettings_ShouldPersistCurrentState()
         {
             // Arrange
-            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object);
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
             vm.WindowTop = 300;
             vm.WindowLeft = 400;
             vm.WindowWidth = 800;
