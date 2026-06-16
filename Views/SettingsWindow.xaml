@@ -516,21 +516,21 @@
                                 BorderThickness="1"
                                 Margin="0,0,0,12">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={StaticResource Loc}, Path=DonationTitle}" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,10" />
-                                <TextBlock Text="{Binding Source={StaticResource Loc}, Path=DonationDescription}" 
+                                <TextBlock Text="{Binding Source={StaticResource Resources}, Path=DonationTitle}" FontSize="18" FontWeight="Bold" Foreground="White" Margin="0,0,0,10" />
+                                <TextBlock Text="{Binding Source={StaticResource Resources}, Path=DonationDescription}" 
                                            FontSize="13" Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" Margin="0,0,0,15" LineHeight="18" />
                                 
                                 <StackPanel>
                                     <Button Style="{StaticResource OutlineButtonStyle}" Margin="0,0,0,10" 
                                             Command="{Binding OpenUrlCommand}" CommandParameter="https://github.com/sponsors/ikaken">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Source={StaticResource Loc}, Path=DonationGitHub}" />
+                                            <TextBlock Text="{Binding Source={StaticResource Resources}, Path=DonationGitHub}" />
                                         </StackPanel>
                                     </Button>
                                     <Button Style="{StaticResource OutlineButtonStyle}" Margin="0" 
                                             Command="{Binding OpenUrlCommand}" CommandParameter="https://ko-fi.com/ikaken">
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Source={StaticResource Loc}, Path=DonationKofi}" />
+                                            <TextBlock Text="{Binding Source={StaticResource Resources}, Path=DonationKofi}" />
                                         </StackPanel>
                                     </Button>
                                 </StackPanel>
