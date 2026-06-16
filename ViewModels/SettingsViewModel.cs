@@ -259,7 +259,7 @@ namespace ChromeProfileLauncher.ViewModels
             WindowWidth = settings?.SettingsWindowWidth ?? 500;
             WindowHeight = settings?.SettingsWindowHeight ?? 550;
             EnableTaskTray = settings?.EnableTaskTray ?? false;
-            Language = settings?.Language ?? "auto";
+            Language = settings?.Language ?? "ja-JP";
             
             if (initialProfiles != null)
             {

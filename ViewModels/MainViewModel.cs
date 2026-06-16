@@ -308,6 +308,14 @@ namespace ChromeProfileLauncher.ViewModels
         private void LoadProfiles()
         {
             var settings = _settingsService.LoadSettings();
+
+            // Restore window settings
+            WindowTop = settings.WindowTop ?? 100;
+            WindowLeft = settings.WindowLeft ?? 100;
+            WindowWidth = settings.WindowWidth ?? 420;
+            WindowHeight = settings.WindowHeight ?? 500;
+            WindowState = settings.IsMaximized ? System.Windows.WindowState.Maximized : System.Windows.WindowState.Normal;
+
             // プロパティ経由で ShowInTaskbar も更新する
             EnableTaskTray = settings.EnableTaskTray;
             
