@@ -124,6 +124,18 @@
   <data name="Success" xml:space="preserve">
     <value>成功</value>
   </data>
+  <data name="DonationTitle" xml:space="preserve">
+    <value>☕ 開発を支援</value>
+  </data>
+  <data name="DonationDescription" xml:space="preserve">
+    <value>Chrome Profile Launcher が作業効率化に役立ったら、継続開発を支援していただけると嬉しいです。支援金はAIエージェント利用料や継続開発に利用されます。</value>
+  </data>
+  <data name="DonationGitHub" xml:space="preserve">
+    <value>💖 GitHub Sponsors で支援 (月額・単発)</value>
+  </data>
+  <data name="DonationKofi" xml:space="preserve">
+    <value>☕ Ko-fi で応援 (単発・少額)</value>
+  </data>
   <data name="ErrorDuringSave" xml:space="preserve">
     <value>保存中にエラーが発生しました: {0}</value>
   </data>

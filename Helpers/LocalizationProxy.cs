@@ -30,6 +30,10 @@ namespace ChromeProfileLauncher.Helpers
         public string LanguageEnglish => LocalizationManager.GetString("LanguageEnglish");
         public string Error => LocalizationManager.GetString("Error");
         public string Success => LocalizationManager.GetString("Success");
+        public string DonationTitle => LocalizationManager.GetString("DonationTitle");
+        public string DonationDescription => LocalizationManager.GetString("DonationDescription");
+        public string DonationGitHub => LocalizationManager.GetString("DonationGitHub");
+        public string DonationKofi => LocalizationManager.GetString("DonationKofi");
         public string ErrorDuringSave => LocalizationManager.GetString("ErrorDuringSave");
 
         public event PropertyChangedEventHandler? PropertyChanged;

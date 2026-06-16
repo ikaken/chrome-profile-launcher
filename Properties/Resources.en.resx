@@ -121,6 +121,18 @@
   <data name="Success" xml:space="preserve">
     <value>Success</value>
   </data>
+  <data name="DonationTitle" xml:space="preserve">
+    <value>☕ Support Development</value>
+  </data>
+  <data name="DonationDescription" xml:space="preserve">
+    <value>If Chrome Profile Launcher helps improve your workflow, please consider supporting its continued development. Donations are used for AI agent fees and ongoing maintenance.</value>
+  </data>
+  <data name="DonationGitHub" xml:space="preserve">
+    <value>💖 Support on GitHub Sponsors (Monthly/One-time)</value>
+  </data>
+  <data name="DonationKofi" xml:space="preserve">
+    <value>☕ Support on Ko-fi (One-time/Small)</value>
+  </data>
   <data name="ErrorDuringSave" xml:space="preserve">
     <value>Error during save: {0}</value>
   </data>
