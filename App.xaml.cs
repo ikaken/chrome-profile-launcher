@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using ChromeProfileLauncher.Services;
 
 namespace ChromeProfileLauncher;
 
@@ -17,6 +18,7 @@ public partial class App : Application
     private const string MutexName = "Global\\ChromeProfileLauncher-SingleInstance-Mutex";
     private const string PipeName = "ChromeProfileLauncher-SingleInstance-Pipe";
     private CancellationTokenSource? _pipeCts;
+    private KeyboardTriggerService? _triggerService;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -55,6 +57,19 @@ public partial class App : Application
 
         // Named Pipe サーバーの開始
         StartPipeServer();
+
+        // キーボードトリガーサービスの開始
+        _triggerService = new KeyboardTriggerService();
+        _triggerService.CtrlDoubleTapped += (s, ev) =>
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (MainWindow is MainWindow window)
+                {
+                    window.ShowAndActivate();
+                }
+            });
+        };
 
         // MainWindow を作成
         var mainWindow = new MainWindow();
@@ -134,6 +149,7 @@ public partial class App : Application
     protected override void OnExit(ExitEventArgs e)
     {
         _pipeCts?.Cancel();
+        _triggerService?.Dispose();
         if (_mutex != null)
         {
             try { _mutex.ReleaseMutex(); } catch { }
