@@ -142,6 +142,7 @@ public partial class MainWindow : Window
     /// <summary>
     /// ウィンドウを表示し、最前面に持ってきます。
     /// 表示ラグを最小限に抑えるため、プロパティ変更のガードと Win32 API を活用します。
+    /// 裏に隠れている状態からでも確実に出すため、フォアグラウンドスレッドのアタッチを行います。
     /// </summary>
     public void ShowAndActivate()
     {
@@ -178,18 +179,27 @@ public partial class MainWindow : Window
         var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
         if (hwnd != IntPtr.Zero)
         {
+            // 強制的に前面に出すためのアタッチ処理
+            IntPtr foregroundHwnd = Win32Api.GetForegroundWindow();
+            uint foregroundThreadId = Win32Api.GetWindowThreadProcessId(foregroundHwnd, out _);
+            uint currentThreadId = Win32Api.GetCurrentThreadId();
+
+            if (foregroundThreadId != currentThreadId)
+            {
+                Win32Api.AttachThreadInput(currentThreadId, foregroundThreadId, true);
+                Win32Api.SetForegroundWindow(hwnd);
+                Win32Api.AttachThreadInput(currentThreadId, foregroundThreadId, false);
+            }
+            else
+            {
+                Win32Api.SetForegroundWindow(hwnd);
+            }
+
             Win32Api.ShowWindow(hwnd, Win32Api.SW_RESTORE);
-            Win32Api.SetForegroundWindow(hwnd);
         }
 
-        // 4. フォーカスと強制最前面ハック
+        // 4. フォーカス処理
         this.Activate();
-        
-        if (!this.IsActive)
-        {
-            this.Topmost = true;
-            this.Topmost = false;
-        }
         this.Focus();
 
         Logger.Info("ShowAndActivate: Finished.");
