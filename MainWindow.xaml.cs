@@ -153,18 +153,17 @@ public partial class MainWindow : Window
             this.Visibility = Visibility.Visible;
         }
 
-        var settings = _settingsService.LoadSettings();
-        bool shouldShowInTaskbar = !settings.EnableTaskTray;
-        if (this.ShowInTaskbar != shouldShowInTaskbar)
+        // 常にタスクバーに表示する（Issue #50 対応）
+        if (this.ShowInTaskbar != true)
         {
-            this.ShowInTaskbar = shouldShowInTaskbar;
+            this.ShowInTaskbar = true;
         }
 
         // ViewModel の状態も同期
         if (DataContext is ViewModels.MainViewModel vm)
         {
             vm.Visibility = Visibility.Visible;
-            vm.ShowInTaskbar = shouldShowInTaskbar;
+            vm.ShowInTaskbar = true;
         }
 
         this.Show();

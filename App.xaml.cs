@@ -59,29 +59,9 @@ public partial class App : Application
         // MainWindow を作成
         var mainWindow = new MainWindow();
         
-        // 常駐オンなら隠しオーナーを作成してタスクバーを隠す
-        if (settings.EnableTaskTray)
-        {
-            var ownerWindow = new Window
-            {
-                Width = 0,
-                Height = 0,
-                WindowStyle = WindowStyle.None,
-                ShowInTaskbar = false,
-                AllowsTransparency = true,
-                Background = System.Windows.Media.Brushes.Transparent,
-                Opacity = 0
-            };
-            ownerWindow.Show();
-            mainWindow.Owner = ownerWindow;
-            mainWindow.ShowInTaskbar = false;
-            Helpers.Logger.Info("Configured for task tray (ShowInTaskbar=false).");
-        }
-        else
-        {
-            mainWindow.ShowInTaskbar = true;
-            Helpers.Logger.Info("Configured for task bar (ShowInTaskbar=true).");
-        }
+        // 常にタスクバーに表示する（Issue #50 対応）
+        mainWindow.ShowInTaskbar = true;
+        Helpers.Logger.Info("MainWindow configured to show in taskbar.");
 
         mainWindow.Show();
         Helpers.Logger.Info($"MainWindow.Show() called. Window.ShowInTaskbar={mainWindow.ShowInTaskbar}");
