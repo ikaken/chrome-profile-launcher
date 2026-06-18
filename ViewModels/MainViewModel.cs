@@ -39,7 +39,7 @@ namespace ChromeProfileLauncher.ViewModels
             }
         }
 
-        private bool _showInTaskbar = false;
+        private bool _showInTaskbar = true;
         public bool ShowInTaskbar
         {
             get => _showInTaskbar;
@@ -70,7 +70,8 @@ namespace ChromeProfileLauncher.ViewModels
                     {
                         window.Dispatcher.Invoke(() =>
                         {
-                            window.ShowInTaskbar = !_enableTaskTray;
+                            // 常にタスクバーに表示する（Issue #50 対応）
+                            window.ShowInTaskbar = true;
 
                             // トレイアイコンの動的生成/削除
                             if (_enableTaskTray)
@@ -85,7 +86,7 @@ namespace ChromeProfileLauncher.ViewModels
                             }
                         });
                     }
-                    Logger.Info($"System state: ShowInTaskbar={!_enableTaskTray}, TrayIconVisibility={(_enableTaskTray ? "Visible" : "Collapsed")}");
+                    Logger.Info($"System state: ShowInTaskbar=True, TrayIconVisibility={(_enableTaskTray ? "Visible" : "Collapsed")}");
                 } 
             }
         }

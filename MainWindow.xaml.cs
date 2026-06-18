@@ -153,18 +153,17 @@ public partial class MainWindow : Window
             this.Visibility = Visibility.Visible;
         }
 
-        var settings = _settingsService.LoadSettings();
-        bool shouldShowInTaskbar = !settings.EnableTaskTray;
-        if (this.ShowInTaskbar != shouldShowInTaskbar)
+        // 常にタスクバーに表示する（Issue #50 対応）
+        if (this.ShowInTaskbar != true)
         {
-            this.ShowInTaskbar = shouldShowInTaskbar;
+            this.ShowInTaskbar = true;
         }
 
         // ViewModel の状態も同期
         if (DataContext is ViewModels.MainViewModel vm)
         {
             vm.Visibility = Visibility.Visible;
-            vm.ShowInTaskbar = shouldShowInTaskbar;
+            vm.ShowInTaskbar = true;
         }
 
         this.Show();
@@ -205,25 +204,7 @@ public partial class MainWindow : Window
             vm.WindowState = WindowState;
         }
 
-        if (WindowState == WindowState.Minimized)
-        {
-            var settings = _settingsService.LoadSettings();
-            Logger.Info($"Window_StateChanged: Minimized. EnableTaskTray={settings.EnableTaskTray}");
-            
-            if (settings.EnableTaskTray)
-            {
-                // 先に非表示にする
-                this.Visibility = Visibility.Collapsed;
-                if (DataContext is ViewModels.MainViewModel vm2)
-                {
-                    vm2.Visibility = Visibility.Collapsed;
-                }
-
-                // 非表示の状態で WindowState を Normal に戻しておく（デスクトップ左下の残像防止）
-                this.WindowState = WindowState.Normal;
-                
-                Logger.Info("Window_StateChanged: Collapsed window for tray.");
-            }
-        }
+        // 最小化時のタスクトレイ格納ロジックを削除（Issue #50 修正案）
+        // 常駐設定時でも、最小化ボタンではタスクバーに残るようにする
     }
 }
