@@ -42,9 +42,9 @@ If this app helps streamline your daily work or browsing, your support is greatl
 
 You can download the latest installer from the link below.
 
-**[Download Latest Version (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v0.1.13-beta/ChromeProfileLauncher-win-Setup.exe)**
+**[Download Latest Version (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v0.1.14-beta/ChromeProfileLauncher-win-Setup.exe)**
 
-*Note: Automatically points to the latest release (v0.1.13-beta).*
+*Note: Automatically points to the latest release (v0.1.14-beta).*
 
 #### Installation
 1. Download and run `ChromeProfileLauncher-win-Setup.exe`.
@@ -144,9 +144,9 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 
 最新バージョンのインストール用セットアップファイルは、以下のリンクから直接ダウンロードできます。
 
-**[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v0.1.13-beta/ChromeProfileLauncher-win-Setup.exe)**
+**[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v0.1.14-beta/ChromeProfileLauncher-win-Setup.exe)**
 
-*※v0.1.13-betaへのリリース対応済み。ダウンロードリンクは自動的に最新のリリースを指します。*
+*※v0.1.14-betaへのリリース対応済み。ダウンロードリンクは自動的に最新のリリースを指します。*
 
 #### インストール方法
 1. 上記のリンクをクリックして `ChromeProfileLauncher-win-Setup.exe` をダウンロードし、実行してください。
