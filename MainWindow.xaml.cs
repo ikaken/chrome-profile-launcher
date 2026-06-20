@@ -54,7 +54,7 @@ public partial class MainWindow : Window
         
         var contextMenu = new System.Windows.Controls.ContextMenu();
         var menuOpen = new System.Windows.Controls.MenuItem { Header = "ランチャを開く", FontWeight = FontWeights.Bold };
-        menuOpen.Click += (s, ev) => (DataContext as ViewModels.MainViewModel)?.ShowWindowCommand.Execute(null);
+        menuOpen.Click += (s, ev) => Dispatcher.Invoke(ShowAndActivate);
         contextMenu.Items.Add(menuOpen);
         
         var menuSettings = new System.Windows.Controls.MenuItem { Header = "設定" };
@@ -68,8 +68,8 @@ public partial class MainWindow : Window
         contextMenu.Items.Add(menuExit);
         
         icon.ContextMenu = contextMenu;
-        icon.LeftClickCommand = (DataContext as ViewModels.MainViewModel)?.ShowWindowCommand;
-        icon.DoubleClickCommand = (DataContext as ViewModels.MainViewModel)?.ShowWindowCommand;
+        icon.TrayLeftMouseUp += (s, ev) => Dispatcher.Invoke(ShowAndActivate);
+        icon.TrayLeftMouseDoubleClick += (s, ev) => Dispatcher.Invoke(ShowAndActivate);
         
         if (Content is Grid g)
         {
