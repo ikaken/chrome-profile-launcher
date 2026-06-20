@@ -18,7 +18,7 @@ description: GitHub Issue対応ワークフロー。設計レビューと実装�
 ## フロー
 
 ### Phase 1: 初期化
-1. **Step 0 環境チェック**: `git status`, `gh auth status`。`gh` 実行前に `chcp 65001` または UTF-8 設定。GitHub CLI で最新 Issue 情報を取得し、ローカルキャッシュに依存しない。
+1. **Step 0 環境チェック**: `git status`, `gh auth status`。`gh` 実行前に `chcp 65001` または UTF-8 設定。GitHub CLI で最新 Issue 情報を取得し、ローカルキャッシュに依存しない。**Issue 一覧は必ず `--json number,title,state,createdAt,updatedAt,url` で取得し、`createdAt` / `updatedAt` を確認して最新の Issue かどうかを検証すること。必要に応じて `-S \"sort:updated-desc\"` または `-S \"sort:created-desc\"` で検索ソートを指定する。**
 2. **Step 1 Issue分析**: コードを精査し根本原因を特定。不明点は実装前に質問する。
 
 ### Phase 2: 準備
@@ -39,6 +39,11 @@ description: GitHub Issue対応ワークフロー。設計レビューと実装�
 11. **Step 11 PR作成**: 承認後、Push して `gh pr create` を実行。`Fixes #{Issue番号}`、changes ファイルリンク、動作確認エビデンスを必ず含める。
 12. **Step 12 マージ後整理**: `gh pr view` で確認、`git checkout main && git pull origin main`、作業ブランチ削除（任意）、`gh issue close <number>`。
 
+## ツール実行時の注意
+- コマンドは簡潔に、1 つの目的ごとに個別に実行する。長いコマンド文字列や過度な `&&` / `;` 連鎖は避ける。
+- 複数の情報が必要な場合は、複数回の `run_command` を使用するか、ユーザーに結果を確認しながら進める。
+- 詳細なコマンド例は [CONVENTIONS.md](./CONVENTIONS.md) を参照。
+
 ## エラー・フォールバック
 - `429` 等が発生したら即座に中断し、完了ステップと未完了タスクを報告する。
-- 詳細なテンプレート・コマンド・命名規約は [CONVENTIONS.md](./CONVENTIONS.md) を参照。
+- ツール呼び出しエラー（トークン超過等）が発生した場合は、コマンドをさらに短くして再試行する。

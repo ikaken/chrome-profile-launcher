@@ -46,7 +46,8 @@
 ## 推奨コマンド
 - **Git**: `git checkout -b ...`, `git commit -m "..."`, `git push origin ...`
 - **GitHub CLI (Windows)**:
-  - Issue一覧取得（UTF-8対策済み）: `powershell -Command "$OutputEncoding = [System.Text.Encoding]::UTF8; gh issue list -s open --limit 20"`
+  - Issue一覧取得（最新確認・UTF-8対策済み）: `powershell -Command "$OutputEncoding = [System.Text.Encoding]::UTF8; gh issue list --state open --limit 20 --json number,title,state,createdAt,updatedAt,url"`
+  - Issue一覧取得（検索ソート）: `gh issue list -S "sort:updated-desc" --limit 20 --json number,title,state,createdAt,updatedAt,url`
   - Issue詳細取得: `chcp 65001; gh issue view {number}`
   - PR作成: `chcp 65001; gh pr create --title "..." --body "..."`
 - **検証**: `dotnet test` 等、プロジェクトに応じたテストコマンド。
