@@ -33,7 +33,7 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void LoadProfiles_ShouldMergeSettingsAndDiscovery()
+        public async System.Threading.Tasks.Task LoadProfiles_ShouldMergeSettingsAndDiscovery()
         {
             // Arrange
             var settingsProfiles = new List<ProfileInfo>
@@ -51,6 +51,7 @@ namespace ChromeProfileLauncher.Tests
 
             // Act
             var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
+            await vm.InitializationTask;
 
             // Assert
             vm.Profiles.Should().HaveCount(2);
@@ -69,7 +70,7 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void LoadProfiles_ShouldFilterInvisibleProfiles()
+        public async System.Threading.Tasks.Task LoadProfiles_ShouldFilterInvisibleProfiles()
         {
             // Arrange
             var settingsProfiles = new List<ProfileInfo>
@@ -86,13 +87,14 @@ namespace ChromeProfileLauncher.Tests
 
             // Act
             var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
+            await vm.InitializationTask;
 
             // Assert
             vm.Profiles.Should().BeEmpty();
         }
 
         [Fact]
-        public void LoadProfiles_ShouldRestoreWindowSettings()
+        public async System.Threading.Tasks.Task LoadProfiles_ShouldRestoreWindowSettings()
         {
             // Arrange
             var settings = new AppSettings
@@ -107,6 +109,7 @@ namespace ChromeProfileLauncher.Tests
 
             // Act
             var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
+            await vm.InitializationTask;
 
             // Assert
             vm.WindowTop.Should().Be(150);
@@ -117,10 +120,11 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void SaveWindowSettings_ShouldPersistCurrentState()
+        public async System.Threading.Tasks.Task SaveWindowSettings_ShouldPersistCurrentState()
         {
             // Arrange
             var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object);
+            await vm.InitializationTask;
             vm.WindowTop = 300;
             vm.WindowLeft = 400;
             vm.WindowWidth = 800;

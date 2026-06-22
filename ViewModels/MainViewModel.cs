@@ -17,7 +17,7 @@ namespace ChromeProfileLauncher.ViewModels
 
         private System.Collections.Generic.List<ProfileInfo> _allProfiles = new();
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
-        
+        public System.Threading.Tasks.Task InitializationTask { get; private set; } = System.Threading.Tasks.Task.CompletedTask;
         private bool _isDimmed;
         public bool IsDimmed
         {
@@ -184,8 +184,8 @@ namespace ChromeProfileLauncher.ViewModels
             _settingsService = settingsService ?? new SettingsService(fileSystem);
             _updateService = updateService ?? new UpdateService();
 
-            LoadProfiles();
-            CheckForUpdatesAsync().ConfigureAwait(false);
+            InitializationTask = LoadProfilesAsync();
+            _ = CheckForUpdatesAsync();
         }
 
         private async System.Threading.Tasks.Task CheckForUpdatesAsync()
@@ -304,6 +304,61 @@ namespace ChromeProfileLauncher.ViewModels
             settings.IsMaximized = (WindowState == System.Windows.WindowState.Maximized);
             settings.Profiles = _allProfiles;
             _settingsService.SaveSettings(settings);
+        }
+
+        private async System.Threading.Tasks.Task LoadProfilesAsync()
+        {
+            try
+            {
+                var settings = await System.Threading.Tasks.Task.Run(() => _settingsService.LoadSettings());
+                var detected = await System.Threading.Tasks.Task.Run(() => _discoveryService.GetAvailableProfiles().ToList());
+
+                var merged = new System.Collections.Generic.List<ProfileInfo>();
+
+                foreach (var sProfile in settings.Profiles)
+                {
+                    var dProfile = detected.FirstOrDefault(p => p.Id == sProfile.Id);
+                    if (dProfile != null)
+                    {
+                        sProfile.IconPath = dProfile.IconPath;
+                        merged.Add(sProfile);
+                        detected.Remove(dProfile);
+                    }
+                }
+
+                foreach (var dProfile in detected)
+                {
+                    int nextOrder = merged.Count > 0 ? merged.Max(p => p.Order) + 1 : 0;
+                    dProfile.Order = nextOrder;
+                    merged.Add(dProfile);
+                }
+
+                _allProfiles = merged.OrderBy(p => p.Order).ToList();
+
+                settings.Profiles = _allProfiles;
+                await System.Threading.Tasks.Task.Run(() => _settingsService.SaveSettings(settings));
+
+                // await により呼び出し元の SynchronizationContext（UI スレッド）に復帰
+                // Restore window settings
+                WindowTop = settings.WindowTop ?? 100;
+                WindowLeft = settings.WindowLeft ?? 100;
+                WindowWidth = settings.WindowWidth ?? 420;
+                WindowHeight = settings.WindowHeight ?? 500;
+                WindowState = settings.IsMaximized ? System.Windows.WindowState.Maximized : System.Windows.WindowState.Normal;
+
+                // プロパティ経由で ShowInTaskbar も更新する
+                EnableTaskTray = settings.EnableTaskTray;
+
+                Profiles.Clear();
+                foreach (var p in _allProfiles.Where(p => p.IsVisible))
+                {
+                    Profiles.Add(p);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to load profiles asynchronously.", ex);
+            }
         }
 
         private void LoadProfiles()
