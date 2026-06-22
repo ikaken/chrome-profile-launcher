@@ -5,7 +5,7 @@ Issue #49 の対応。アプリの起動時間を短縮する。
 
 ## 変更内容
 - `MainViewModel` のプロファイル読み込みを非同期化し、Chrome プロファイル検出 / アイコン取得 / 設定保存をバックグラウンドスレッドで実行。UI スレッドのブロックを解消し、ウィンドウを先に表示する。
-- `MainWindow` のタスクトレイアイコンクリックを、`LeftClickCommand` / `DoubleClickCommand` 経由から `TrayLeftMouseUp` / `TrayLeftMouseDoubleClick` 直接イベントへ変更。`ShowAndActivate()` を直接呼び出し、Ctrl 2 回押しと同等の応答速度を実現。
+- `MainWindow` のタスクトレイアイコンクリックを、`LeftClickCommand` / `DoubleClickCommand` 経由から `TrayLeftMouseDown` / `TrayLeftMouseDoubleClick` 直接イベントへ変更。`ShowAndActivate()` を直接呼び出し、Windows のダブルクリック判定待ちを回避してシングルクリックでも高速に表示する。
 - 非同期初期化完了を待てるように `MainViewModel.InitializationTask` を公開。既存の `LoadProfiles()` 同期メソッドは設定ダイアログ用に維持。
 - テストを非同期化し、`InitializationTask` の完了を待ってアサーションするように更新。
 

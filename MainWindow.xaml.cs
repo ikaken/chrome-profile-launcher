@@ -68,7 +68,7 @@ public partial class MainWindow : Window
         contextMenu.Items.Add(menuExit);
         
         icon.ContextMenu = contextMenu;
-        icon.TrayLeftMouseUp += (s, ev) => Dispatcher.Invoke(ShowAndActivate);
+        icon.TrayLeftMouseDown += (s, ev) => Dispatcher.Invoke(ShowAndActivate);
         icon.TrayLeftMouseDoubleClick += (s, ev) => Dispatcher.Invoke(ShowAndActivate);
         
         if (Content is Grid g)
