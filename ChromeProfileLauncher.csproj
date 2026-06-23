@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="ChromeProfileLauncher.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="H.NotifyIcon.Wpf" Version="2.2.0" />
     <PackageReference Include="System.Management" Version="10.0.5" />
     <PackageReference Include="Velopack" Version="0.0.1054" />
