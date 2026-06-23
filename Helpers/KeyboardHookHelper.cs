@@ -9,12 +9,15 @@ public class KeyboardHookHelper : IDisposable
 {
     private const int WH_KEYBOARD_LL = 13;
     private const int WM_KEYDOWN = 0x0100;
+    private const int WM_KEYUP = 0x0101;
     private const int WM_SYSKEYDOWN = 0x0104;
+    private const int WM_SYSKEYUP = 0x0105;
 
     private readonly LowLevelKeyboardProc _proc;
     private IntPtr _hookId = IntPtr.Zero;
 
     public event EventHandler<Key>? KeyDown;
+    public event EventHandler<Key>? KeyUp;
 
     public KeyboardHookHelper()
     {
@@ -46,11 +49,19 @@ public class KeyboardHookHelper : IDisposable
 
     private IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        if (nCode >= 0 && (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN))
+        if (nCode >= 0)
         {
             int vkCode = Marshal.ReadInt32(lParam);
             var key = KeyInterop.KeyFromVirtualKey(vkCode);
-            KeyDown?.Invoke(this, key);
+
+            if (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN)
+            {
+                KeyDown?.Invoke(this, key);
+            }
+            else if (wParam == (IntPtr)WM_KEYUP || wParam == (IntPtr)WM_SYSKEYUP)
+            {
+                KeyUp?.Invoke(this, key);
+            }
         }
         return CallNextHookEx(_hookId, nCode, wParam, lParam);
     }
