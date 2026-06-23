@@ -10,11 +10,11 @@ public class KeyboardTriggerService : IDisposable
     private readonly KeyboardHookHelper _hook;
     private readonly Stopwatch _stopwatch = new();
     private bool _firstTapCompleted;
-    private bool _ctrlHeld;
+    private bool _keyHeld;
     private bool _ignoreNextKeyUp;
     private const int DoubleClickTime = 300; // ms
 
-    public event EventHandler? CtrlDoubleTapped;
+    public event EventHandler? HotkeyDoubleTapped;
 
     public KeyboardTriggerService()
     {
@@ -34,19 +34,19 @@ public class KeyboardTriggerService : IDisposable
 
     private void OnKeyDown(object? sender, Key key)
     {
-        if (key == Key.LeftCtrl || key == Key.RightCtrl)
+        if (key == Key.LeftAlt || key == Key.RightAlt)
         {
-            if (_ctrlHeld)
+            if (_keyHeld)
                 return; // キーリピートを無視
 
-            _ctrlHeld = true;
+            _keyHeld = true;
 
             if (_firstTapCompleted)
             {
                 if (_stopwatch.ElapsedMilliseconds < DoubleClickTime)
                 {
                     // 2回目のKeyDown → ダブルタップ成立
-                    CtrlDoubleTapped?.Invoke(this, EventArgs.Empty);
+                    HotkeyDoubleTapped?.Invoke(this, EventArgs.Empty);
                     _ignoreNextKeyUp = true;
                 }
                 // 成立・不成立に関わらず、タップサイクルをリセット
@@ -62,9 +62,9 @@ public class KeyboardTriggerService : IDisposable
 
     private void OnKeyUp(object? sender, Key key)
     {
-        if (key == Key.LeftCtrl || key == Key.RightCtrl)
+        if (key == Key.LeftAlt || key == Key.RightAlt)
         {
-            _ctrlHeld = false;
+            _keyHeld = false;
 
             if (_ignoreNextKeyUp)
             {
@@ -84,7 +84,7 @@ public class KeyboardTriggerService : IDisposable
     private void Reset()
     {
         _firstTapCompleted = false;
-        _ctrlHeld = false;
+        _keyHeld = false;
         _ignoreNextKeyUp = false;
         _stopwatch.Stop();
     }

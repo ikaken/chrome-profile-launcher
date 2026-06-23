@@ -60,7 +60,7 @@ public partial class App : Application
 
         // キーボードトリガーサービスの開始
         _triggerService = new KeyboardTriggerService();
-        _triggerService.CtrlDoubleTapped += (s, ev) =>
+        _triggerService.HotkeyDoubleTapped += (s, ev) =>
         {
             Dispatcher.Invoke(() =>
             {
