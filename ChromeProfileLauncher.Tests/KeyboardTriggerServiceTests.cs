@@ -12,70 +12,70 @@ namespace ChromeProfileLauncher.Tests
         private KeyboardTriggerService CreateService() => new KeyboardTriggerService(noHook: true);
 
         [Fact]
-        public void CtrlDoubleTap_ShouldTrigger()
+        public void AltDoubleTap_ShouldTrigger()
         {
             using var service = CreateService();
             bool triggered = false;
-            service.CtrlDoubleTapped += (s, e) => triggered = true;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
 
             // 1回目: KeyDown → KeyUp
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
 
             // 2回目: KeyDown → ダブルタップ成立
-            service.SimulateKeyDown(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
 
             triggered.Should().BeTrue();
         }
 
         [Fact]
-        public void CtrlLongPress_ShouldNotTrigger()
+        public void AltLongPress_ShouldNotTrigger()
         {
             using var service = CreateService();
             bool triggered = false;
-            service.CtrlDoubleTapped += (s, e) => triggered = true;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
 
             // 長押し: KeyDown が連続で来る（キーリピート）
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyDown(Key.LeftCtrl); // キーリピート
-            service.SimulateKeyDown(Key.LeftCtrl); // キーリピート
-            service.SimulateKeyDown(Key.LeftCtrl); // キーリピート
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt); // キーリピート
+            service.SimulateKeyDown(Key.LeftAlt); // キーリピート
+            service.SimulateKeyDown(Key.LeftAlt); // キーリピート
 
             triggered.Should().BeFalse();
         }
 
         [Fact]
-        public void CtrlLongPressAndRelease_ShouldNotTrigger()
+        public void AltLongPressAndRelease_ShouldNotTrigger()
         {
             using var service = CreateService();
             bool triggered = false;
-            service.CtrlDoubleTapped += (s, e) => triggered = true;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
 
             // 長押し→離す: 1回のタップだけ
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyDown(Key.LeftCtrl); // キーリピート
-            service.SimulateKeyDown(Key.LeftCtrl); // キーリピート
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt); // キーリピート
+            service.SimulateKeyDown(Key.LeftAlt); // キーリピート
+            service.SimulateKeyUp(Key.LeftAlt);
 
             triggered.Should().BeFalse();
         }
 
         [Fact]
-        public void CtrlDoubleTap_Timeout_ShouldNotTrigger()
+        public void AltDoubleTap_Timeout_ShouldNotTrigger()
         {
             using var service = CreateService();
             bool triggered = false;
-            service.CtrlDoubleTapped += (s, e) => triggered = true;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
 
             // 1回目: KeyDown → KeyUp
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
 
             // 300ms超の待機
             Thread.Sleep(350);
 
             // 2回目: KeyDown → タイムアウトのため不成立
-            service.SimulateKeyDown(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
 
             triggered.Should().BeFalse();
         }
@@ -85,31 +85,31 @@ namespace ChromeProfileLauncher.Tests
         {
             using var service = CreateService();
             bool triggered = false;
-            service.CtrlDoubleTapped += (s, e) => triggered = true;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
 
             // 1回目: KeyDown → KeyUp
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
 
             // 別キーが割り込む
             service.SimulateKeyDown(Key.A);
 
             // 2回目: KeyDown → リセットされているため不成立
-            service.SimulateKeyDown(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
 
             triggered.Should().BeFalse();
         }
 
         [Fact]
-        public void RightCtrl_ShouldAlsoWork()
+        public void RightAlt_ShouldAlsoWork()
         {
             using var service = CreateService();
             bool triggered = false;
-            service.CtrlDoubleTapped += (s, e) => triggered = true;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
 
-            service.SimulateKeyDown(Key.RightCtrl);
-            service.SimulateKeyUp(Key.RightCtrl);
-            service.SimulateKeyDown(Key.RightCtrl);
+            service.SimulateKeyDown(Key.RightAlt);
+            service.SimulateKeyUp(Key.RightAlt);
+            service.SimulateKeyDown(Key.RightAlt);
 
             triggered.Should().BeTrue();
         }
@@ -119,25 +119,25 @@ namespace ChromeProfileLauncher.Tests
         {
             using var service = CreateService();
             int count = 0;
-            service.CtrlDoubleTapped += (s, e) => count++;
+            service.HotkeyDoubleTapped += (s, e) => count++;
 
             // 1回目のダブルタップ
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
 
             // 2回目のダブルタップ
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
 
             // 3回目のダブルタップ
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
 
             count.Should().Be(3);
         }
@@ -147,18 +147,18 @@ namespace ChromeProfileLauncher.Tests
         {
             using var service = CreateService();
             bool triggered = false;
-            service.CtrlDoubleTapped += (s, e) => triggered = true;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
 
             // 長押し: KeyDown → キーリピート → KeyUp
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyDown(Key.LeftCtrl); // キーリピート
-            service.SimulateKeyDown(Key.LeftCtrl); // キーリピート
-            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt); // キーリピート
+            service.SimulateKeyDown(Key.LeftAlt); // キーリピート
+            service.SimulateKeyUp(Key.LeftAlt);
 
             // 長押し後のダブルタップ
-            service.SimulateKeyDown(Key.LeftCtrl);
-            service.SimulateKeyUp(Key.LeftCtrl);
-            service.SimulateKeyDown(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt);
 
             triggered.Should().BeTrue();
         }
