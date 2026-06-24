@@ -14,6 +14,7 @@
 ## 影響範囲
 - `Services/SettingsService.cs`: `AppSettings` 変更。
 - `ViewModels/MainViewModel.cs`: 自動アップデートチェックの分岐追加。
+- `Helpers/LocalizationProxy.cs`: ローカライズ用プロパティ追加。
 - `ViewModels/SettingsViewModel.cs`: プロパティ追加と保存反映。
 - `Views/SettingsWindow.xaml`: UI 追加。
 - `Properties/Resources.resx`, `Properties/Resources.en.resx`: リソース追加。
