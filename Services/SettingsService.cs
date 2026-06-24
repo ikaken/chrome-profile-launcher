@@ -18,6 +18,7 @@ namespace ChromeProfileLauncher.Services
         public bool EnableTaskTray { get; set; } = false;
         public bool EnableAutoUpdate { get; set; } = true;
         public string Language { get; set; } = "ja-JP";
+        public string HotkeyKey { get; set; } = "Alt";
 
         public double? SettingsWindowTop { get; set; }
         public double? SettingsWindowLeft { get; set; }

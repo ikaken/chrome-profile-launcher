@@ -435,6 +435,34 @@
                             </Grid>
                         </Border>
 
+                        <!-- Hotkey Setting -->
+                        <Border Background="{StaticResource ItemBackgroundBrush}" 
+                                CornerRadius="20" 
+                                Padding="20,15"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                Margin="0,0,0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=HotkeySettings}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=HotkeySettingsDescription}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                                </StackPanel>
+                                <ComboBox Grid.Column="1" Width="180" VerticalAlignment="Center"
+                                          SelectedValuePath="Tag"
+                                          SelectedValue="{Binding HotkeyKey}"
+                                          Style="{StaticResource ModernComboBoxStyle}">
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyNone}" Tag="None" />
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyAlt}" Tag="Alt" />
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyCtrl}" Tag="Ctrl" />
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyShift}" Tag="Shift" />
+                                </ComboBox>
+                            </Grid>
+                        </Border>
+
                         <!-- Startup Setting -->
                         <Border Background="{StaticResource ItemBackgroundBrush}" 
                                 CornerRadius="20" 

@@ -12,29 +12,46 @@ public class KeyboardTriggerService : IDisposable
     private bool _firstTapCompleted;
     private bool _keyHeld;
     private bool _ignoreNextKeyUp;
+    private string _hotkeyKey;
     private const int DoubleClickTime = 300; // ms
 
     public event EventHandler? HotkeyDoubleTapped;
 
-    public KeyboardTriggerService()
+    public KeyboardTriggerService(string hotkeyKey = "Alt")
     {
+        _hotkeyKey = hotkeyKey;
         _hook = new KeyboardHookHelper();
         _hook.KeyDown += OnKeyDown;
         _hook.KeyUp += OnKeyUp;
     }
 
-    // テスト用コンストラクタ（フックなし）
-    internal KeyboardTriggerService(bool noHook)
+    public void UpdateHotkeyKey(string hotkeyKey)
     {
+        _hotkeyKey = hotkeyKey;
+        Reset();
+    }
+
+    // テスト用コンストラクタ（フックなし）
+    internal KeyboardTriggerService(bool noHook, string hotkeyKey = "Alt")
+    {
+        _hotkeyKey = hotkeyKey;
         _hook = null!;
     }
 
     internal void SimulateKeyDown(Key key) => OnKeyDown(null, key);
     internal void SimulateKeyUp(Key key) => OnKeyUp(null, key);
 
+    private bool IsTargetKey(Key key) => _hotkeyKey switch
+    {
+        "None"  => false,
+        "Ctrl"  => key == Key.LeftCtrl  || key == Key.RightCtrl,
+        "Shift" => key == Key.LeftShift || key == Key.RightShift,
+        _       => key == Key.LeftAlt   || key == Key.RightAlt,
+    };
+
     private void OnKeyDown(object? sender, Key key)
     {
-        if (key == Key.LeftAlt || key == Key.RightAlt)
+        if (IsTargetKey(key))
         {
             if (_keyHeld)
                 return; // キーリピートを無視
@@ -62,7 +79,7 @@ public class KeyboardTriggerService : IDisposable
 
     private void OnKeyUp(object? sender, Key key)
     {
-        if (key == Key.LeftAlt || key == Key.RightAlt)
+        if (IsTargetKey(key))
         {
             _keyHeld = false;
 

@@ -183,6 +183,52 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
+        public void Constructor_ShouldRestoreHotkeyKey()
+        {
+            // Arrange
+            var settings = new AppSettings { HotkeyKey = "Ctrl" };
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
+
+            // Act
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+
+            // Assert
+            vm.HotkeyKey.Should().Be("Ctrl");
+        }
+
+        [Fact]
+        public void Constructor_ShouldDefaultHotkeyKeyToAlt()
+        {
+            // Arrange
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
+
+            // Act
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+
+            // Assert
+            vm.HotkeyKey.Should().Be("Alt");
+        }
+
+        [Fact]
+        public void SaveCommand_ShouldPersistHotkeyKey()
+        {
+            // Arrange
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            vm.HotkeyKey = "Shift";
+
+            AppSettings savedSettings = null;
+            _settingsServiceMock.Setup(s => s.SaveSettings(It.IsAny<AppSettings>()))
+                .Callback<AppSettings>(s => savedSettings = s);
+
+            // Act
+            vm.SaveCommand.Execute(null);
+
+            // Assert
+            savedSettings.Should().NotBeNull();
+            savedSettings.HotkeyKey.Should().Be("Shift");
+        }
+
+        [Fact]
         public void ReloadProfilesCommand_ShouldMergeDetectedProfiles()
         {
             // Arrange

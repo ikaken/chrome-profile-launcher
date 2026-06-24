@@ -142,4 +142,22 @@
   <data name="ErrorDuringSave" xml:space="preserve">
     <value>Error during save: {0}</value>
   </data>
+  <data name="HotkeySettings" xml:space="preserve">
+    <value>Hotkey Settings</value>
+  </data>
+  <data name="HotkeySettingsDescription" xml:space="preserve">
+    <value>Press the selected key twice to show the launcher.</value>
+  </data>
+  <data name="HotkeyNone" xml:space="preserve">
+    <value>No Hotkey</value>
+  </data>
+  <data name="HotkeyAlt" xml:space="preserve">
+    <value>Alt Key (Default)</value>
+  </data>
+  <data name="HotkeyCtrl" xml:space="preserve">
+    <value>Ctrl Key</value>
+  </data>
+  <data name="HotkeyShift" xml:space="preserve">
+    <value>Shift Key</value>
+  </data>
 </root>
