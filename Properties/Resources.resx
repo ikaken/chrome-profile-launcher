@@ -91,6 +91,12 @@
   <data name="AppUpdate" xml:space="preserve">
     <value>アプリケーションアップデート</value>
   </data>
+  <data name="EnableAutoUpdate" xml:space="preserve">
+    <value>自動アップデートを有効にする</value>
+  </data>
+  <data name="EnableAutoUpdateDescription" xml:space="preserve">
+    <value>起動時に新しいバージョンの存在を自動的に確認します。無効にしても、手動でアップデートを確認できます。</value>
+  </data>
   <data name="CurrentVersion" xml:space="preserve">
     <value>現在のバージョン: </value>
   </data>

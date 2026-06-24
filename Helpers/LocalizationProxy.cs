@@ -20,6 +20,8 @@ namespace ChromeProfileLauncher.Helpers
         public string EnableTaskTray => LocalizationManager.GetString("EnableTaskTray");
         public string EnableTaskTrayDescription => LocalizationManager.GetString("EnableTaskTrayDescription");
         public string AppUpdate => LocalizationManager.GetString("AppUpdate");
+        public string EnableAutoUpdate => LocalizationManager.GetString("EnableAutoUpdate");
+        public string EnableAutoUpdateDescription => LocalizationManager.GetString("EnableAutoUpdateDescription");
         public string CurrentVersion => LocalizationManager.GetString("CurrentVersion");
         public string CheckForUpdates => LocalizationManager.GetString("CheckForUpdates");
         public string Cancel => LocalizationManager.GetString("Cancel");

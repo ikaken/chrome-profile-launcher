@@ -19,6 +19,7 @@ namespace ChromeProfileLauncher.Tests
         public SettingsViewModelTests()
         {
             _settingsServiceMock = new Mock<ISettingsService>();
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
             _updateServiceMock = new Mock<IUpdateService>();
             _updateServiceMock.Setup(u => u.GetCurrentVersion()).Returns("1.0.0");
             _discoveryServiceMock = new Mock<IProfileDiscoveryService>();
@@ -146,6 +147,39 @@ namespace ChromeProfileLauncher.Tests
 
             // Assert
             vm.Language.Should().Be("ja-JP");
+        }
+
+        [Fact]
+        public void Constructor_ShouldRestoreEnableAutoUpdate()
+        {
+            // Arrange
+            var settings = new AppSettings { EnableAutoUpdate = false };
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
+
+            // Act
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+
+            // Assert
+            vm.EnableAutoUpdate.Should().BeFalse();
+        }
+
+        [Fact]
+        public void SaveCommand_ShouldPersistEnableAutoUpdate()
+        {
+            // Arrange
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            vm.EnableAutoUpdate = false;
+
+            AppSettings savedSettings = null;
+            _settingsServiceMock.Setup(s => s.SaveSettings(It.IsAny<AppSettings>()))
+                .Callback<AppSettings>(s => savedSettings = s);
+
+            // Act
+            vm.SaveCommand.Execute(null);
+
+            // Assert
+            savedSettings.Should().NotBeNull();
+            savedSettings.EnableAutoUpdate.Should().BeFalse();
         }
 
         [Fact]

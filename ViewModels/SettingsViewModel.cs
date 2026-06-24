@@ -34,6 +34,13 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_enableTaskTray != value) { _enableTaskTray = value; OnPropertyChanged(); } }
         }
 
+        private bool _enableAutoUpdate = true;
+        public bool EnableAutoUpdate
+        {
+            get => _enableAutoUpdate;
+            set { if (_enableAutoUpdate != value) { _enableAutoUpdate = value; OnPropertyChanged(); } }
+        }
+
         private string _language = "ja-JP";
         public string Language
         {
@@ -196,9 +203,10 @@ namespace ChromeProfileLauncher.ViewModels
             try
             {
                 SaveWindowSettings();
-                var settings = _settingsService.LoadSettings();
+                var settings = _settingsService.LoadSettings() ?? new AppSettings();
                 settings.Profiles = Profiles.ToList();
                 settings.EnableTaskTray = EnableTaskTray;
+                settings.EnableAutoUpdate = EnableAutoUpdate;
                 settings.Language = Language; // 言語設定を保存
                 _settingsService.SaveSettings(settings);
                 
@@ -305,6 +313,7 @@ namespace ChromeProfileLauncher.ViewModels
             WindowWidth = settings?.SettingsWindowWidth ?? 500;
             WindowHeight = settings?.SettingsWindowHeight ?? 550;
             EnableTaskTray = settings?.EnableTaskTray ?? false;
+            EnableAutoUpdate = settings?.EnableAutoUpdate ?? true;
             Language = settings?.Language ?? "ja-JP";
             
             if (initialProfiles != null)
