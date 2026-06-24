@@ -486,26 +486,44 @@
                                 BorderBrush="{StaticResource BorderBrush}"
                                 BorderThickness="1"
                                 Margin="0,0,0,12">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
-                                    <TextBlock Text="{Binding Source={StaticResource Resources}, Path=AppUpdate}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
-                                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
-                                        <TextBlock Text="{Binding Source={StaticResource Resources}, Path=CurrentVersion}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
-                                        <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" />
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                        <TextBlock Text="{Binding Source={StaticResource Resources}, Path=AppUpdate}" FontSize="16" FontWeight="SemiBold" Foreground="White" />
+                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                            <TextBlock Text="{Binding Source={StaticResource Resources}, Path=CurrentVersion}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" />
+                                            <TextBlock Text="{Binding CurrentVersion, StringFormat='v{0}'}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource AccentBlueBrush}" />
+                                        </StackPanel>
                                     </StackPanel>
-                                </StackPanel>
-                                <Button Grid.Column="1" Content="{Binding Source={StaticResource Resources}, Path=CheckForUpdates}" 
-                                        Style="{StaticResource OutlineButtonStyle}" 
-                                        Padding="15,8" 
-                                        FontSize="13"
-                                        Command="{Binding CheckForUpdatesCommand}"
-                                        IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}"
-                                        VerticalAlignment="Center" />
-                            </Grid>
+                                    <Button Grid.Column="1" Content="{Binding Source={StaticResource Resources}, Path=CheckForUpdates}" 
+                                            Style="{StaticResource OutlineButtonStyle}" 
+                                            Padding="15,8" 
+                                            FontSize="13"
+                                            Command="{Binding CheckForUpdatesCommand}"
+                                            IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}"
+                                            VerticalAlignment="Center" />
+                                </Grid>
+
+                                <Border Background="#151515" CornerRadius="15" Padding="15,12" Margin="0,15,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel VerticalAlignment="Center" Margin="0,0,10,0">
+                                            <TextBlock Text="{Binding Source={StaticResource Resources}, Path=EnableAutoUpdate}" FontSize="15" FontWeight="SemiBold" Foreground="White" />
+                                            <TextBlock Text="{Binding Source={StaticResource Resources}, Path=EnableAutoUpdateDescription}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
+                                        </StackPanel>
+                                        <CheckBox Grid.Column="1" IsChecked="{Binding EnableAutoUpdate}" 
+                                                  Style="{StaticResource ToggleSwitchStyle}" 
+                                                  VerticalAlignment="Center" />
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
                         </Border>
 
                         <!-- Donation Card -->

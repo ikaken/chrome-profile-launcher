@@ -54,6 +54,8 @@ namespace ChromeProfileLauncher.ViewModels
             }
         }
 
+        private readonly System.TimeSpan _autoUpdateDelay;
+
         private bool _enableTaskTray;
         public bool EnableTaskTray
         {
@@ -166,7 +168,7 @@ namespace ChromeProfileLauncher.ViewModels
             }
         });
 
-        public MainViewModel() : this(new FileSystem(), null, null, null, null)
+        public MainViewModel() : this(new FileSystem(), null, null, null, null, null, true)
         {
         }
 
@@ -175,24 +177,37 @@ namespace ChromeProfileLauncher.ViewModels
             IProfileDiscoveryService? discoveryService = null, 
             ILauncherService? launcherService = null, 
             ISettingsService? settingsService = null,
-            IUpdateService? updateService = null)
+            IUpdateService? updateService = null,
+            System.TimeSpan? autoUpdateDelay = null,
+            bool startAutoUpdateCheck = true)
         {
             Logger.Info("Initializing MainViewModel.");
             
+            _autoUpdateDelay = autoUpdateDelay ?? System.TimeSpan.FromSeconds(3);
             _discoveryService = discoveryService ?? new ProfileDiscoveryService(new IconService(fileSystem), fileSystem);
             _launcherService = launcherService ?? new LauncherService(fileSystem);
             _settingsService = settingsService ?? new SettingsService(fileSystem);
             _updateService = updateService ?? new UpdateService();
 
             InitializationTask = LoadProfilesAsync();
-            _ = CheckForUpdatesAsync();
+            if (startAutoUpdateCheck)
+            {
+                _ = CheckForUpdatesAsync();
+            }
         }
 
-        private async System.Threading.Tasks.Task CheckForUpdatesAsync()
+        internal async System.Threading.Tasks.Task CheckForUpdatesAsync()
         {
             try
             {
-                await System.Threading.Tasks.Task.Delay(3000);
+                await System.Threading.Tasks.Task.Delay(_autoUpdateDelay);
+
+                var settings = _settingsService.LoadSettings();
+                if (!settings.EnableAutoUpdate)
+                {
+                    Logger.Info("Auto update is disabled. Skipping update check.");
+                    return;
+                }
                 
                 var updateInfo = await _updateService.CheckForUpdatesAsync();
                 if (updateInfo != null)

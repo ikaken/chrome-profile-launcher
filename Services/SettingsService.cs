@@ -16,6 +16,7 @@ namespace ChromeProfileLauncher.Services
         public bool IsMaximized { get; set; }
         public bool LaunchAtStartup { get; set; }
         public bool EnableTaskTray { get; set; } = false;
+        public bool EnableAutoUpdate { get; set; } = true;
         public string Language { get; set; } = "ja-JP";
 
         public double? SettingsWindowTop { get; set; }

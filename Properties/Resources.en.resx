@@ -88,6 +88,12 @@
   <data name="AppUpdate" xml:space="preserve">
     <value>Application Update</value>
   </data>
+  <data name="EnableAutoUpdate" xml:space="preserve">
+    <value>Enable Automatic Updates</value>
+  </data>
+  <data name="EnableAutoUpdateDescription" xml:space="preserve">
+    <value>Automatically check for new versions on startup. You can still check for updates manually when disabled.</value>
+  </data>
   <data name="CurrentVersion" xml:space="preserve">
     <value>Current version: </value>
   </data>
