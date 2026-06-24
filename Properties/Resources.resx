@@ -145,4 +145,19 @@
   <data name="ErrorDuringSave" xml:space="preserve">
     <value>保存中にエラーが発生しました: {0}</value>
   </data>
+  <data name="HotkeySettings" xml:space="preserve">
+    <value>ホットキー設定</value>
+  </data>
+  <data name="HotkeySettingsDescription" xml:space="preserve">
+    <value>ランチャーを起動するキーを2回押しで呼び出します。左右どちらのキーでも動作します。</value>
+  </data>
+  <data name="HotkeyAlt" xml:space="preserve">
+    <value>Alt キー（デフォルト）</value>
+  </data>
+  <data name="HotkeyCtrl" xml:space="preserve">
+    <value>Ctrl キー</value>
+  </data>
+  <data name="HotkeyShift" xml:space="preserve">
+    <value>Shift キー</value>
+  </data>
 </root>

@@ -143,6 +143,94 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
+        public void CtrlDoubleTap_ShouldTrigger()
+        {
+            using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "Ctrl");
+            bool triggered = false;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
+
+            service.SimulateKeyDown(Key.LeftCtrl);
+            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftCtrl);
+
+            triggered.Should().BeTrue();
+        }
+
+        [Fact]
+        public void RightCtrl_ShouldAlsoWork()
+        {
+            using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "Ctrl");
+            bool triggered = false;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
+
+            service.SimulateKeyDown(Key.RightCtrl);
+            service.SimulateKeyUp(Key.RightCtrl);
+            service.SimulateKeyDown(Key.RightCtrl);
+
+            triggered.Should().BeTrue();
+        }
+
+        [Fact]
+        public void ShiftDoubleTap_ShouldTrigger()
+        {
+            using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "Shift");
+            bool triggered = false;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
+
+            service.SimulateKeyDown(Key.LeftShift);
+            service.SimulateKeyUp(Key.LeftShift);
+            service.SimulateKeyDown(Key.LeftShift);
+
+            triggered.Should().BeTrue();
+        }
+
+        [Fact]
+        public void RightShift_ShouldAlsoWork()
+        {
+            using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "Shift");
+            bool triggered = false;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
+
+            service.SimulateKeyDown(Key.RightShift);
+            service.SimulateKeyUp(Key.RightShift);
+            service.SimulateKeyDown(Key.RightShift);
+
+            triggered.Should().BeTrue();
+        }
+
+        [Fact]
+        public void UpdateHotkeyKey_ShouldChangeTriggerKey()
+        {
+            using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "Alt");
+            bool triggered = false;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
+
+            service.UpdateHotkeyKey("Ctrl");
+
+            service.SimulateKeyDown(Key.LeftCtrl);
+            service.SimulateKeyUp(Key.LeftCtrl);
+            service.SimulateKeyDown(Key.LeftCtrl);
+
+            triggered.Should().BeTrue();
+        }
+
+        [Fact]
+        public void UpdateHotkeyKey_OldKey_ShouldNotTrigger()
+        {
+            using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "Alt");
+            bool triggered = false;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
+
+            service.UpdateHotkeyKey("Ctrl");
+
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt);
+
+            triggered.Should().BeFalse();
+        }
+
+        [Fact]
         public void DoubleTapAfterLongPress_ShouldTrigger()
         {
             using var service = CreateService();

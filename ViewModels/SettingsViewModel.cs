@@ -48,6 +48,13 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_language != value) { _language = value; OnPropertyChanged(); } }
         }
 
+        private string _hotkeyKey = "Alt";
+        public string HotkeyKey
+        {
+            get => _hotkeyKey;
+            set { if (_hotkeyKey != value) { _hotkeyKey = value; OnPropertyChanged(); } }
+        }
+
         public string CurrentVersion => _updateService.GetCurrentVersion();
 
         private bool _isCheckingForUpdates;
@@ -208,6 +215,7 @@ namespace ChromeProfileLauncher.ViewModels
                 settings.EnableTaskTray = EnableTaskTray;
                 settings.EnableAutoUpdate = EnableAutoUpdate;
                 settings.Language = Language; // 言語設定を保存
+                settings.HotkeyKey = HotkeyKey;
                 _settingsService.SaveSettings(settings);
                 
                 // 言語設定を即時反映
@@ -315,6 +323,7 @@ namespace ChromeProfileLauncher.ViewModels
             EnableTaskTray = settings?.EnableTaskTray ?? false;
             EnableAutoUpdate = settings?.EnableAutoUpdate ?? true;
             Language = settings?.Language ?? "ja-JP";
+            HotkeyKey = settings?.HotkeyKey ?? "Alt";
             
             if (initialProfiles != null)
             {
