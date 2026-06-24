@@ -5,6 +5,7 @@ using ChromeProfileLauncher.Models;
 using ChromeProfileLauncher.Services;
 using ChromeProfileLauncher.ViewModels;
 using Moq;
+using Velopack;
 using Xunit;
 using FluentAssertions;
 
@@ -117,6 +118,40 @@ namespace ChromeProfileLauncher.Tests
             vm.WindowWidth.Should().Be(500);
             vm.WindowHeight.Should().Be(600);
             vm.WindowState.Should().Be(System.Windows.WindowState.Maximized);
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task CheckForUpdatesAsync_WhenAutoUpdateDisabled_ShouldSkipUpdateCheck()
+        {
+            // Arrange
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings { EnableAutoUpdate = false });
+            _updateServiceMock.Setup(u => u.CheckForUpdatesAsync()).ReturnsAsync((UpdateInfo?)null);
+
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object, System.TimeSpan.Zero, false);
+            await vm.InitializationTask;
+
+            // Act
+            await vm.CheckForUpdatesAsync();
+
+            // Assert
+            _updateServiceMock.Verify(u => u.CheckForUpdatesAsync(), Times.Never);
+        }
+
+        [Fact]
+        public async System.Threading.Tasks.Task CheckForUpdatesAsync_WhenAutoUpdateEnabled_ShouldCallUpdateService()
+        {
+            // Arrange
+            _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings { EnableAutoUpdate = true });
+            _updateServiceMock.Setup(u => u.CheckForUpdatesAsync()).ReturnsAsync((UpdateInfo?)null);
+
+            var vm = new MainViewModel(_fileSystemMock.Object, _discoveryServiceMock.Object, _launcherServiceMock.Object, _settingsServiceMock.Object, _updateServiceMock.Object, System.TimeSpan.Zero, false);
+            await vm.InitializationTask;
+
+            // Act
+            await vm.CheckForUpdatesAsync();
+
+            // Assert
+            _updateServiceMock.Verify(u => u.CheckForUpdatesAsync(), Times.Once);
         }
 
         [Fact]
