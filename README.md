@@ -22,6 +22,7 @@ Launch your target profile with a single click, or instantly focus an already op
     - **Visibility Settings**: Hide profiles you don't use frequently.
     - **System Tray Support**: Option to minimize to the system tray when closing the window (default is OFF).
     - **Open Profile Folder**: Directly open the profile folder in File Explorer from the settings screen.
+- **Configurable Hotkey**: Double-tap Alt, Ctrl, or Shift (left or right) to show the launcher instantly. The hotkey can be changed or disabled in settings.
 - **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection).
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
 
@@ -42,9 +43,9 @@ If this app helps streamline your daily work or browsing, your support is greatl
 
 You can download the latest installer from the link below.
 
-**[Download Latest Version (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v0.2.0-beta/ChromeProfileLauncher-win-Setup.exe)**
+**[Download Latest Version (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.0.0/ChromeProfileLauncher-win-Setup.exe)**
 
-*Note: Automatically points to the latest release (v0.2.0-beta).*
+*Note: Automatically points to the latest release (v1.0.0).*
 
 #### Installation
 1. Download and run `ChromeProfileLauncher-win-Setup.exe`.
@@ -124,6 +125,7 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
     - **表示/非表示設定**: 頻繁に使わないプロファイルをリストから隠せます。
     - **トレイアイコンの常駐設定**: ウィンドウを閉じた際にタスクトレイへ常駐させるか選択可能です（デフォルトは常駐OFF）。
     - **プロファイルフォルダを開く**: 設定画面から直接エクスプローラーでプロファイルフォルダを開けます。
+- **ホットキー設定**: Alt・Ctrl・Shift（左右どちらでも可）のダブルタップでランチャーを即座に表示。設定画面からキーの変更や無効化が可能です。
 - **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
 
@@ -144,9 +146,9 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 
 最新バージョンのインストール用セットアップファイルは、以下のリンクから直接ダウンロードできます。
 
-**[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v0.2.0-beta/ChromeProfileLauncher-win-Setup.exe)**
+**[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.0.0/ChromeProfileLauncher-win-Setup.exe)**
 
-*※v0.2.0-betaへのリリース対応済み。ダウンロードリンクは自動的に最新のリリースを指します。*
+*※v1.0.0へのリリース対応済み。ダウンロードリンクは自動的に最新のリリースを指します。*
 
 #### インストール方法
 1. 上記のリンクをクリックして `ChromeProfileLauncher-win-Setup.exe` をダウンロードし、実行してください。
