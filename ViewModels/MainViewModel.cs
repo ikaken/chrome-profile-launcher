@@ -155,6 +155,11 @@ namespace ChromeProfileLauncher.ViewModels
                     if (settingsWin.ShowDialog() == true)
                     {
                         LoadProfiles();
+                        var newSettings = _settingsService.LoadSettings();
+                        if (System.Windows.Application.Current is App app)
+                        {
+                            app.UpdateHotkeyKey(newSettings.HotkeyKey ?? "Alt");
+                        }
                     }
                 }
                 finally

@@ -455,6 +455,7 @@
                                           SelectedValuePath="Tag"
                                           SelectedValue="{Binding HotkeyKey}"
                                           Style="{StaticResource ModernComboBoxStyle}">
+                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyNone}" Tag="None" />
                                     <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyAlt}" Tag="Alt" />
                                     <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyCtrl}" Tag="Ctrl" />
                                     <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=HotkeyShift}" Tag="Shift" />

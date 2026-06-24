@@ -149,7 +149,10 @@
     <value>ホットキー設定</value>
   </data>
   <data name="HotkeySettingsDescription" xml:space="preserve">
-    <value>ランチャーを起動するキーを2回押しで呼び出します。左右どちらのキーでも動作します。</value>
+    <value>選択したキーを2回押すことでランチャーを表示します。</value>
+  </data>
+  <data name="HotkeyNone" xml:space="preserve">
+    <value>ホットキーなし</value>
   </data>
   <data name="HotkeyAlt" xml:space="preserve">
     <value>Alt キー（デフォルト）</value>

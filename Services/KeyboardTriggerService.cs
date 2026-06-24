@@ -43,6 +43,7 @@ public class KeyboardTriggerService : IDisposable
 
     private bool IsTargetKey(Key key) => _hotkeyKey switch
     {
+        "None"  => false,
         "Ctrl"  => key == Key.LeftCtrl  || key == Key.RightCtrl,
         "Shift" => key == Key.LeftShift || key == Key.RightShift,
         _       => key == Key.LeftAlt   || key == Key.RightAlt,

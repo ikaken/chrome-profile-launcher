@@ -143,6 +143,20 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
+        public void None_ShouldNeverTrigger()
+        {
+            using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "None");
+            bool triggered = false;
+            service.HotkeyDoubleTapped += (s, e) => triggered = true;
+
+            service.SimulateKeyDown(Key.LeftAlt);
+            service.SimulateKeyUp(Key.LeftAlt);
+            service.SimulateKeyDown(Key.LeftAlt);
+
+            triggered.Should().BeFalse();
+        }
+
+        [Fact]
         public void CtrlDoubleTap_ShouldTrigger()
         {
             using var service = new KeyboardTriggerService(noHook: true, hotkeyKey: "Ctrl");

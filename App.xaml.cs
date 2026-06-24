@@ -59,7 +59,7 @@ public partial class App : Application
         StartPipeServer();
 
         // キーボードトリガーサービスの開始
-        _triggerService = new KeyboardTriggerService();
+        _triggerService = new KeyboardTriggerService(settings.HotkeyKey ?? "Alt");
         _triggerService.HotkeyDoubleTapped += (s, ev) =>
         {
             Dispatcher.Invoke(() =>
@@ -144,6 +144,11 @@ public partial class App : Application
         {
             Helpers.Logger.Error("ActivateWindow: MainWindow is null or not of type MainWindow.");
         }
+    }
+
+    public void UpdateHotkeyKey(string hotkeyKey)
+    {
+        _triggerService?.UpdateHotkeyKey(hotkeyKey);
     }
 
     protected override void OnExit(ExitEventArgs e)

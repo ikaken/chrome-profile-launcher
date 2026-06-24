@@ -37,6 +37,12 @@ namespace ChromeProfileLauncher.Helpers
         public string DonationGitHub => LocalizationManager.GetString("DonationGitHub");
         public string DonationKofi => LocalizationManager.GetString("DonationKofi");
         public string ErrorDuringSave => LocalizationManager.GetString("ErrorDuringSave");
+        public string HotkeyNone => LocalizationManager.GetString("HotkeyNone");
+        public string HotkeySettings => LocalizationManager.GetString("HotkeySettings");
+        public string HotkeySettingsDescription => LocalizationManager.GetString("HotkeySettingsDescription");
+        public string HotkeyAlt => LocalizationManager.GetString("HotkeyAlt");
+        public string HotkeyCtrl => LocalizationManager.GetString("HotkeyCtrl");
+        public string HotkeyShift => LocalizationManager.GetString("HotkeyShift");
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

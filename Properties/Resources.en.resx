@@ -146,7 +146,10 @@
     <value>Hotkey Settings</value>
   </data>
   <data name="HotkeySettingsDescription" xml:space="preserve">
-    <value>Double-press this key to open the launcher. Both left and right keys are supported.</value>
+    <value>Press the selected key twice to show the launcher.</value>
+  </data>
+  <data name="HotkeyNone" xml:space="preserve">
+    <value>No Hotkey</value>
   </data>
   <data name="HotkeyAlt" xml:space="preserve">
     <value>Alt Key (Default)</value>
