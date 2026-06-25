@@ -27,7 +27,7 @@ description: GitHub Issue対応ワークフロー。設計レビューと実装�
 2. **Step 1 Issue分析**: コードを精査し根本原因を特定。不明点は実装前に質問する。
 
 ### Phase 2: 準備
-3. **Step 2 ブランチ作成**: `feature/{Issue番号}-{内容}`（例: `feature/012-profile-sorting`）。
+3. **Step 2 ブランチ作成**: `develop` ベースで `feature/{Issue番号}-{内容}` を作成（例: `git checkout develop && git checkout -b feature/012-profile-sorting`）。
 4. **Step 3 changes ファイル作成**: `docs/changes/{Issue番号}-{内容}.md`（テンプレートは [CONVENTIONS.md](./CONVENTIONS.md)）。
 
 ### Phase 3: 設計
@@ -50,8 +50,9 @@ description: GitHub Issue対応ワークフロー。設計レビューと実装�
     - 「PRを作成しますか？」と明示的にユーザーに問いかけ、返答を待つ。
     - ユーザーが「作成してください」「PRお願いします」「はい」等、**明示的にPR作成を指示する言葉**を発している。
     - 質問や追加コメントへの返答はPR作成の承認とみなさない。
-11. **Step 11 PR作成**: 承認後、Push して `gh pr create` を実行。`Fixes #{Issue番号}`、changes ファイルリンク、動作確認エビデンスを必ず含める。
-12. **Step 12 マージ後整理**: `gh pr view` で確認、`git checkout main && git pull origin main`、作業ブランチ削除（任意）、`gh issue close <number>`。
+11. **Step 11 PR作成**: 承認後、Push して `gh pr create --base develop` を実行。`Fixes #{Issue番号}`、changes ファイルリンク、動作確認エビデンスを必ず含める。マージ先は **`develop`** であり `main` ではない。
+12. **Step 12 マージ後整理**: `gh pr view` で確認、`git checkout develop && git pull origin develop`、作業ブランチ削除（任意）。
+    - Issue のクローズは `develop` → `main` マージ後に行う（Pre-release テスト中はクローズしない）。
 
 ## ツール実行時の注意
 - コマンドは簡潔に、1 つの目的ごとに個別に実行する。長いコマンド文字列や過度な `&&` / `;` 連鎖は避ける。
