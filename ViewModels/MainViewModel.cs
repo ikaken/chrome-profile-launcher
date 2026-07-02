@@ -17,6 +17,13 @@ namespace ChromeProfileLauncher.ViewModels
 
         private System.Collections.Generic.List<ProfileInfo> _allProfiles = new();
         public ObservableCollection<ProfileInfo> Profiles { get; } = new();
+
+        private ProfileInfo? _selectedProfile;
+        public ProfileInfo? SelectedProfile
+        {
+            get => _selectedProfile;
+            set { if (_selectedProfile != value) { _selectedProfile = value; OnPropertyChanged(); } }
+        }
         public System.Threading.Tasks.Task InitializationTask { get; private set; } = System.Threading.Tasks.Task.CompletedTask;
         private bool _isDimmed;
         public bool IsDimmed
@@ -374,6 +381,7 @@ namespace ChromeProfileLauncher.ViewModels
                 {
                     Profiles.Add(p);
                 }
+                SelectedProfile = Profiles.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -427,6 +435,7 @@ namespace ChromeProfileLauncher.ViewModels
             {
                 Profiles.Add(p);
             }
+            SelectedProfile = Profiles.FirstOrDefault();
         }
     }
 }
