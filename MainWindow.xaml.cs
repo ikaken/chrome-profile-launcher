@@ -42,7 +42,7 @@ public partial class MainWindow : Window
         ProfileListBox.Focus();
     }
 
-    private void ProfileListBox_KeyDown(object sender, KeyEventArgs e)
+    private void ProfileListBox_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (DataContext is not ViewModels.MainViewModel vm) return;
 
@@ -50,10 +50,12 @@ public partial class MainWindow : Window
         {
             case Key.Up:
                 MoveSelection(vm, -1);
+                ScrollToSelected();
                 e.Handled = true;
                 break;
             case Key.Down:
                 MoveSelection(vm, +1);
+                ScrollToSelected();
                 e.Handled = true;
                 break;
             case Key.Enter:
@@ -70,6 +72,8 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ProfileListBox_KeyDown(object sender, KeyEventArgs e) { }
+
     private static void MoveSelection(ViewModels.MainViewModel vm, int delta)
     {
         if (vm.Profiles.Count == 0) return;
@@ -77,6 +81,36 @@ public partial class MainWindow : Window
         int index = current != null ? vm.Profiles.IndexOf(current) : -1;
         int next = Math.Clamp(index + delta, 0, vm.Profiles.Count - 1);
         vm.SelectedProfile = vm.Profiles[next];
+    }
+
+    private void ScrollToSelected()
+    {
+        if (DataContext is not ViewModels.MainViewModel vm || vm.SelectedProfile == null) return;
+
+        var container = ProfileListBox.ItemContainerGenerator
+            .ContainerFromItem(vm.SelectedProfile) as FrameworkElement;
+        if (container == null) return;
+
+        var sv = FindParent<ScrollViewer>(container);
+        if (sv == null) return;
+
+        var itemTop = container.TranslatePoint(new Point(0, 0), sv).Y + sv.VerticalOffset;
+        var itemBottom = itemTop + container.ActualHeight;
+        var viewTop = sv.VerticalOffset;
+        var viewBottom = viewTop + sv.ViewportHeight;
+
+        if (itemTop < viewTop)
+            sv.ScrollToVerticalOffset(itemTop);
+        else if (itemBottom > viewBottom)
+            sv.ScrollToVerticalOffset(itemBottom - sv.ViewportHeight);
+    }
+
+    private static T? FindParent<T>(DependencyObject child) where T : DependencyObject
+    {
+        var parent = System.Windows.Media.VisualTreeHelper.GetParent(child);
+        if (parent == null) return null;
+        if (parent is T found) return found;
+        return FindParent<T>(parent);
     }
 
     public void InitializeTaskbarIcon()

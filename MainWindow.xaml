@@ -102,10 +102,18 @@
                      Background="Transparent" BorderThickness="0"
                      HorizontalContentAlignment="Stretch"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.CanContentScroll="False"
+                     ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     VirtualizingStackPanel.IsVirtualizing="True"
+                     VirtualizingStackPanel.ScrollUnit="Pixel"
                      Focusable="True"
                      KeyboardNavigation.TabNavigation="Continue"
-                     KeyDown="ProfileListBox_KeyDown">
+                     PreviewKeyDown="ProfileListBox_PreviewKeyDown">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Button Style="{StaticResource CardButtonStyle}"
