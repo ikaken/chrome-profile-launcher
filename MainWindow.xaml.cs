@@ -2,8 +2,10 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using ChromeProfileLauncher.Services;
 using ChromeProfileLauncher.Helpers;
+using ChromeProfileLauncher.Models;
 
 namespace ChromeProfileLauncher;
 
@@ -33,6 +35,82 @@ public partial class MainWindow : Window
         {
             Logger.Info("MainWindow_Loaded: Skipping TaskTray initialization.");
         }
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        ProfileListBox.Focus();
+    }
+
+    private void ProfileListBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (DataContext is not ViewModels.MainViewModel vm) return;
+
+        switch (e.Key)
+        {
+            case Key.Up:
+                MoveSelection(vm, -1);
+                ScrollToSelected();
+                e.Handled = true;
+                break;
+            case Key.Down:
+                MoveSelection(vm, +1);
+                ScrollToSelected();
+                e.Handled = true;
+                break;
+            case Key.Enter:
+                if (vm.SelectedProfile != null)
+                {
+                    vm.LaunchCommand.Execute(vm.SelectedProfile);
+                    e.Handled = true;
+                }
+                break;
+            case Key.Escape:
+                this.Close();
+                e.Handled = true;
+                break;
+        }
+    }
+
+    private void ProfileListBox_KeyDown(object sender, KeyEventArgs e) { }
+
+    private static void MoveSelection(ViewModels.MainViewModel vm, int delta)
+    {
+        if (vm.Profiles.Count == 0) return;
+        var current = vm.SelectedProfile;
+        int index = current != null ? vm.Profiles.IndexOf(current) : -1;
+        int next = Math.Clamp(index + delta, 0, vm.Profiles.Count - 1);
+        vm.SelectedProfile = vm.Profiles[next];
+    }
+
+    private void ScrollToSelected()
+    {
+        if (DataContext is not ViewModels.MainViewModel vm || vm.SelectedProfile == null) return;
+
+        var container = ProfileListBox.ItemContainerGenerator
+            .ContainerFromItem(vm.SelectedProfile) as FrameworkElement;
+        if (container == null) return;
+
+        var sv = FindParent<ScrollViewer>(container);
+        if (sv == null) return;
+
+        var itemTop = container.TranslatePoint(new Point(0, 0), sv).Y + sv.VerticalOffset;
+        var itemBottom = itemTop + container.ActualHeight;
+        var viewTop = sv.VerticalOffset;
+        var viewBottom = viewTop + sv.ViewportHeight;
+
+        if (itemTop < viewTop)
+            sv.ScrollToVerticalOffset(itemTop);
+        else if (itemBottom > viewBottom)
+            sv.ScrollToVerticalOffset(itemBottom - sv.ViewportHeight);
+    }
+
+    private static T? FindParent<T>(DependencyObject child) where T : DependencyObject
+    {
+        var parent = System.Windows.Media.VisualTreeHelper.GetParent(child);
+        if (parent == null) return null;
+        if (parent is T found) return found;
+        return FindParent<T>(parent);
     }
 
     public void InitializeTaskbarIcon()
@@ -201,6 +279,7 @@ public partial class MainWindow : Window
         // 4. フォーカス処理
         this.Activate();
         this.Focus();
+        ProfileListBox?.Focus();
 
         Logger.Info("ShowAndActivate: Finished.");
     }
