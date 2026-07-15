@@ -10,6 +10,8 @@
 A Windows desktop application for efficiently managing, launching, and switching between multiple Google Chrome profiles.
 Launch your target profile with a single click, or instantly focus an already open window.
 
+![Demo Video](Assets/demo.gif)
+
 ### 🚀 Key Features
 
 - **Automatic Profile Detection**: Automatically analyzes Chrome's `User Data` and lists all created profiles.
@@ -112,6 +114,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 Google Chromeの複数プロファイルを効率的に管理・起動・切替するためのWindowsデスクトップアプリケーションです。
 ワンクリックで対象のプロファイルを起動、または既に開いているウィンドウへ瞬時にフォーカスできます。
+
+![デモ動画](Assets/demo.gif)
 
 ### 🚀 主な機能
 
