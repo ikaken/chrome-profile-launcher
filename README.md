@@ -17,7 +17,7 @@ Launch your target profile with a single click, or instantly focus an already op
 - **Automatic Profile Detection**: Automatically analyzes Chrome's `User Data` and lists all created profiles.
 - **Launch & Focus Control**:
     - **If the profile is not running**: Launches Chrome with the specified profile.
-    - **If the profile is already running**: Identifies the window and brings it to the foreground (focus/activate).
+    - **If the profile is already running**: Identifies the window and brings it to the foreground (focus/activate). (Only for windows launched by the launcher)
 - **Profile Customization**:
     - **Rename**: Set custom display names for each profile.
     - **Intuitive Reordering**: Change the list order easily using drag handles (☰).
@@ -27,6 +27,10 @@ Launch your target profile with a single click, or instantly focus an already op
 - **Configurable Hotkey**: Double-tap Alt, Ctrl, or Shift (left or right) to show the launcher instantly. The hotkey can be changed or disabled in settings.
 - **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection).
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
+
+### 💻 System Requirements
+- OS: Windows 10 / 11 (64-bit)
+- Browser: Google Chrome
 
 ### ❤️ Support / Sponsor this Project
 
@@ -122,7 +126,7 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 - **プロファイル自動検出**: Chromeの `User Data` を自動解析し、作成済みのプロファイルを一覧表示します。
 - **起動・フォーカス制御**:
     - **対象プロファイルが未起動の場合**: 指定したプロファイルでChromeを新規起動します。
-    - **対象プロファイルが起動済みの場合**: そのウィンドウを特定し、最前面にフォーカス（アクティブ化）します。
+    - **対象プロファイルが起動済みの場合**: そのウィンドウを特定し、最前面にフォーカス（アクティブ化）します。（※ランチャで起動したウィンドウに限る）
 - **プロファイルカスタマイズ**:
     - **表示名の変更**: 自由に名称を設定可能。
     - **直感的な並べ替え**: ドラッグハンドル（☰）を使用してリストの順序を自在に変更。
@@ -132,6 +136,10 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 - **ホットキー設定**: Alt・Ctrl・Shift（左右どちらでも可）のダブルタップでランチャーを即座に表示。設定画面からキーの変更や無効化が可能です。
 - **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
+
+### 💻 対応環境
+- OS: Windows 10 / 11 (64bit)
+- ブラウザ: Google Chrome
 
 ### ❤️ このアプリを応援する
 
