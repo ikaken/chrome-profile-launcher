@@ -1,5 +1,11 @@
 # Chrome Profile Launcher (WPF Native)
 
+[![GitHub release](https://img.shields.io/github/v/release/ikaken/chrome-profile-launcher)](https://github.com/ikaken/chrome-profile-launcher/releases)
+![Platform](https://img.shields.io/badge/platform-Windows-0078d7.svg?logo=windows&logoColor=white)
+![C#](https://img.shields.io/badge/Language-C%23-178600?logo=c-sharp&logoColor=white)
+![.NET 10](https://img.shields.io/badge/.NET-10.0-512bd4?logo=.net&logoColor=white)
+[![License: MIT](https://img.shields.io/github/license/ikaken/chrome-profile-launcher)](LICENSE)
+
 [English](#english) | [日本語](#japanese)
 
 ---
@@ -7,8 +13,8 @@
 <a name="english"></a>
 ## English
 
-A Windows desktop application for efficiently managing, launching, and switching between multiple Google Chrome profiles.
-Launch your target profile with a single click, or instantly focus an already open window.
+A Windows desktop application for efficiently managing, launching, and switching between multiple Google Chrome profiles — ideal for anyone who uses separate profiles for work, personal use, or development.
+Launch your target profile with a single click, or instantly focus an already open window, eliminating the hassle of manually switching between profiles.
 
 ![Demo Video](Assets/demo.gif)
 
@@ -19,7 +25,6 @@ Launch your target profile with a single click, or instantly focus an already op
     - **If the profile is not running**: Launches Chrome with the specified profile.
     - **If the profile is already running**: Identifies the window and brings it to the foreground (focus/activate). (Only for windows launched by the launcher)
 - **Profile Customization**:
-    - **Rename**: Set custom display names for each profile.
     - **Intuitive Reordering**: Change the list order easily using drag handles (☰).
     - **Visibility Settings**: Hide profiles you don't use frequently.
     - **System Tray Support**: Option to minimize to the system tray when closing the window (default is OFF).
@@ -27,6 +32,12 @@ Launch your target profile with a single click, or instantly focus an already op
 - **Configurable Hotkey**: Double-tap Alt, Ctrl, or Shift (left or right) to show the launcher instantly. The hotkey can be changed or disabled in settings.
 - **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection).
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
+
+### 🖼️ Screenshots
+
+| Main Window | Settings (Profile Management) | Settings (App Settings) | Tray Menu |
+|:-----------:|:----------------------------:|:-----------------------:|:---------:|
+| <img src="Assets/mainwindow.png" width="160"> | <img src="Assets/settings1.png" height="225"> | <img src="Assets/settings2.png" height="225"> | <img src="Assets/traymenu.png" width="160"> |
 
 ### 💻 System Requirements
 - OS: Windows 10 / 11 (64-bit)
@@ -36,12 +47,13 @@ Launch your target profile with a single click, or instantly focus an already op
 
 If this app helps streamline your daily work or browsing, your support is greatly appreciated!
 
+- **Give a Star ⭐** — If you like this project, please consider giving it a star on GitHub! It helps increase visibility.
 - **GitHub Sponsors** — Monthly support and one-time support are both available.
 - **Ko-fi** — Support with a one-time contribution from a cup of coffee.
 
+[![GitHub stars](https://img.shields.io/github/stars/ikaken/chrome-profile-launcher?style=social)](https://github.com/ikaken/chrome-profile-launcher/stargazers)
 [![Sponsor this project](https://img.shields.io/badge/Sponsor%20this%20project-%231EAEDB?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/ikaken)
-
-[Ko-fi で支援する ☕](https://ko-fi.com/ikaken)
+[Support on Ko-fi ☕](https://ko-fi.com/ikaken)
 
 ---
 
@@ -51,7 +63,7 @@ You can download the latest installer from the link below.
 
 **[Download Latest Version (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.0.0/ChromeProfileLauncher-win-Setup.exe)**
 
-*Note: Automatically points to the latest release (v1.0.0).*
+Looking for a different version? [View all releases](https://github.com/ikaken/chrome-profile-launcher/releases)
 
 #### Installation
 1. Download and run `ChromeProfileLauncher-win-Setup.exe`.
@@ -77,6 +89,13 @@ Or:
 - OS: Windows 10 / 11 (64-bit)
 - Dev: .NET 10.0 SDK, Visual Studio 2022 or later
 
+#### 🏗️ Architecture & Tech Stack
+- **Framework**: .NET 10 / WPF
+- **Language**: C#
+- **Architecture**: MVVM (Model-View-ViewModel) Pattern
+- **Installer & Auto-update**: Velopack
+- **Dependencies**: H.NotifyIcon.Wpf (System Tray support)
+
 #### Build and Packaging
 This app supports Velopack for distribution and auto-updates.
 
@@ -97,15 +116,15 @@ vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Rele
 
 ### 📂 Project Structure
 
-- `Models/`: Data definitions
-- `ViewModels/`: Application logic (MVVM)
-- `Views/`: UI definitions (WPF)
-- `Services/`: Core services (Profile discovery, launch control)
-- `Helpers/`: Utilities (Win32 API, etc.)
+- [Models/](Models/): Data definitions
+- [ViewModels/](ViewModels/): Application logic (MVVM)
+- [Views/](Views/): UI definitions (WPF)
+- [Services/](Services/): Core services (Profile discovery, launch control)
+- [Helpers/](Helpers/): Utilities (Win32 API, etc.)
 
 ### 📄 Documentation
 
-See the `docs/` folder for detailed specifications.
+See the [docs/](docs/) folder for detailed specifications.
 
 ### 📝 License
 
@@ -116,8 +135,8 @@ This project is licensed under the [MIT License](LICENSE).
 <a name="japanese"></a>
 ## 日本語
 
-Google Chromeの複数プロファイルを効率的に管理・起動・切替するためのWindowsデスクトップアプリケーションです。
-ワンクリックで対象のプロファイルを起動、または既に開いているウィンドウへ瞬時にフォーカスできます。
+Google Chromeで仕事用・個人用・開発用など複数のプロファイルを日常的に使い分けている方向けの、Windowsデスクトップアプリです。
+ワンクリックで対象のプロファイルを起動、または既に開いているウィンドウへ瞬時にフォーカスでき、プロファイルの切り替えにかかる無駄な手間を減らします。
 
 ![デモ動画](Assets/demo.gif)
 
@@ -128,7 +147,6 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
     - **対象プロファイルが未起動の場合**: 指定したプロファイルでChromeを新規起動します。
     - **対象プロファイルが起動済みの場合**: そのウィンドウを特定し、最前面にフォーカス（アクティブ化）します。（※ランチャで起動したウィンドウに限る）
 - **プロファイルカスタマイズ**:
-    - **表示名の変更**: 自由に名称を設定可能。
     - **直感的な並べ替え**: ドラッグハンドル（☰）を使用してリストの順序を自在に変更。
     - **表示/非表示設定**: 頻繁に使わないプロファイルをリストから隠せます。
     - **トレイアイコンの常駐設定**: ウィンドウを閉じた際にタスクトレイへ常駐させるか選択可能です（デフォルトは常駐OFF）。
@@ -136,6 +154,12 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 - **ホットキー設定**: Alt・Ctrl・Shift（左右どちらでも可）のダブルタップでランチャーを即座に表示。設定画面からキーの変更や無効化が可能です。
 - **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
+
+### 🖥️ スクリーンショット
+
+| メイン画面 | 設定（プロファイル管理） | 設定（アプリ設定） | トレイメニュー |
+|:----------:|:------------------:|:----------:|:----------:|
+| <img src="Assets/mainwindow.png" width="160"> | <img src="Assets/settings1.png" height="225"> | <img src="Assets/settings2.png" height="225"> | <img src="Assets/traymenu.png" width="160"> |
 
 ### 💻 対応環境
 - OS: Windows 10 / 11 (64bit)
@@ -145,11 +169,12 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 
 このアプリが便利だと思ったら、開発の継続にご協力いただけるととても嬉しいです！
 
+- **スター（⭐ Star）を付ける** — このプロジェクトを気に入っていただけたら、GitHubでスターを付けていただけると励みになります！（無料の応援方法です）
 - **GitHub Sponsors** — 月額支援も一回払いも可能です
 - **Ko-fi** — コーヒー1杯分から気軽に応援できます
 
+[![GitHub stars](https://img.shields.io/github/stars/ikaken/chrome-profile-launcher?style=social)](https://github.com/ikaken/chrome-profile-launcher/stargazers)
 [![Sponsor this project](https://img.shields.io/badge/Sponsor%20this%20project-%231EAEDB?logo=github&logoColor=white&style=for-the-badge)](https://github.com/sponsors/ikaken)
-
 [Ko-fi で支援する ☕](https://ko-fi.com/ikaken)
 
 ---
@@ -160,7 +185,7 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 
 **[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.0.0/ChromeProfileLauncher-win-Setup.exe)**
 
-*※v1.0.0へのリリース対応済み。ダウンロードリンクは自動的に最新のリリースを指します。*
+他のバージョンをお探しの方はこちら → [リリース一覧](https://github.com/ikaken/chrome-profile-launcher/releases)
 
 #### インストール方法
 1. 上記のリンクをクリックして `ChromeProfileLauncher-win-Setup.exe` をダウンロードし、実行してください。
@@ -186,6 +211,13 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 - OS: Windows 10 / 11 (64bit)
 - 開発環境: .NET 10.0 SDK, Visual Studio 2022 以降
 
+#### 🏗️ アーキテクチャ / 技術スタック
+- **フレームワーク**: .NET 10 / WPF
+- **開発言語**: C#
+- **アーキテクチャ**: MVVM (Model-View-ViewModel) パターン
+- **インストーラー・自動更新**: Velopack
+- **依存ライブラリ**: H.NotifyIcon.Wpf (タスクトレイ常駐機能用)
+
 #### ビルドとパッケージング手順
 本アプリはインストーラーによる配布と自動アップデート機能（Velopack）に対応しています。
 
@@ -206,15 +238,15 @@ vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Rele
 
 ### 📂 プロジェクト構造
 
-- `Models/`: データ定義
-- `ViewModels/`: アプリケーションロジック (MVVM)
-- `Views/`: UI定義 (WPF)
-- `Services/`: コアサービス (プロファイル探索、起動制御)
-- `Helpers/`: ユーティリティ (Win32 API等)
+- [Models/](Models/): データ定義
+- [ViewModels/](ViewModels/): アプリケーションロジック (MVVM)
+- [Views/](Views/): UI定義 (WPF)
+- [Services/](Services/): コアサービス (プロファイル探索、起動制御)
+- [Helpers/](Helpers/): ユーティリティ (Win32 API等)
 
 ### 📄 ドキュメント
 
-詳細な仕様については `docs/` フォルダを参照してください。
+詳細な仕様については [docs/](docs/) フォルダを参照してください。
 
 ### 📝 ライセンス
 
