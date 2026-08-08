@@ -50,6 +50,17 @@ Google Chromeの複数プロファイルを効率的に管理・切替・起動�
     - **ドラッグフィードバック**: 設定画面での並び替え中、ドロップ対象となるアイテムを半透明化することで、移動先を分かりやすく表示。
     - **UI の整理**: 設定画面から不要な補助テキスト（「NAVIGATION MODULES」）を削除。
 
+### Phase 4: キーボードナビゲーション & スクロール修正 (完了)
+- [x] **カーソルキー選択**: ↑/↓キーでプロファイルを選択移動。
+- [x] **Enterキー起動**: 選択中のプロファイルをEnterキーで起動。
+- [x] **Escapeキー閉鎖**: Escapeキーでランチャを閉じる。
+- [x] **選択ハイライト**: 選択中の `ListBoxItem` に青枠（`AccentBlueBrush`）を表示。
+- [x] **フォーカス自動設定**: ウィンドウ表示時に `ProfileListBox` に自動フォーカス。
+- [x] **条件付きスクロール**: 選択項目がビューポート外に出る場合のみスクロール。見えている項目への移動ではスクロールしない。
+  - **原因**: `ListBox.OnKeyDown` が `PreviewKeyDown` より後に実行され、`NavigateByLine` 経由で `UpdateLayout` が走り `ScrollViewer` をリセットしていた。
+  - **解決**: キー処理を `KeyDown` から `PreviewKeyDown` に移動し `e.Handled = true` で `ListBox.OnKeyDown` をブロック。
+  - **スクロール実装**: `FindParent<ScrollViewer>` でアイテムコンテナから正しい `ScrollViewer` を取得し、`TranslatePoint` によるピクセル座標計算で `ScrollToVerticalOffset` を呼び出す。
+
 ## 3. 技術スタック
 - **Framework**: .NET 10.0 (WPF)
 - **Language**: C# 13.0

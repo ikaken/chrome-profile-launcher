@@ -12,6 +12,7 @@
         Icon="pack://application:,,,/ChromeProfileLauncher;component/Assets/app.ico"
         Closing="Window_Closing"
         StateChanged="Window_StateChanged"
+        Loaded="Window_Loaded"
         Visibility="{Binding Visibility, Mode=TwoWay}"
         WindowState="{Binding WindowState, Mode=TwoWay}"
         Background="#0F0F0F" Foreground="White"
@@ -95,16 +96,30 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             
-            <ListBox Grid.Row="0" ItemsSource="{Binding Profiles}" 
+            <ListBox x:Name="ProfileListBox"
+                     Grid.Row="0" ItemsSource="{Binding Profiles}"
+                     SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
                      Background="Transparent" BorderThickness="0"
                      HorizontalContentAlignment="Stretch"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.CanContentScroll="False">
+                     ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     VirtualizingStackPanel.IsVirtualizing="True"
+                     VirtualizingStackPanel.ScrollUnit="Pixel"
+                     Focusable="True"
+                     KeyboardNavigation.TabNavigation="Continue"
+                     PreviewKeyDown="ProfileListBox_PreviewKeyDown">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Button Style="{StaticResource CardButtonStyle}"
                                 Command="{Binding DataContext.LaunchCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}">
+                                CommandParameter="{Binding}"
+                                Margin="0">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                 <Image Source="{Binding IconPath, Converter={StaticResource IconPathToImageConverter}}" Width="32" Height="32" Margin="0,0,12,0" />
                                 <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold" Foreground="White" />
@@ -115,10 +130,22 @@
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Focusable" Value="False" />
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <ContentPresenter />
+                                    <Border x:Name="SelectionBorder"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="2"
+                                            CornerRadius="12"
+                                            Margin="0,0,0,6">
+                                        <ContentPresenter />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="SelectionBorder" Property="BorderBrush" Value="{StaticResource AccentBlueBrush}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
