@@ -61,7 +61,7 @@ If this app helps streamline your daily work or browsing, your support is greatl
 
 You can download the latest installer from the link below.
 
-**[Download Latest Version (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.0.0/ChromeProfileLauncher-win-Setup.exe)**
+**[Download Latest Version (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.1.0/ChromeProfileLauncher-win-Setup.exe)**
 
 Looking for a different version? [View all releases](https://github.com/ikaken/chrome-profile-launcher/releases)
 
@@ -111,7 +111,7 @@ dotnet tool install -g vpk
 
 3. **Create Installer**
 ```bash
-vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Release/net10.0-windows/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
+vpk pack --packId ChromeProfileLauncher --packVersion 1.1.0 --packDir ./bin/Release/net10.0-windows/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
 ```
 
 ### 📂 Project Structure
@@ -183,7 +183,7 @@ Google Chromeで仕事用・個人用・開発用など複数のプロファイ�
 
 最新バージョンのインストール用セットアップファイルは、以下のリンクから直接ダウンロードできます。
 
-**[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.0.0/ChromeProfileLauncher-win-Setup.exe)**
+**[最新版のダウンロードはこちら (ChromeProfileLauncher-win-Setup.exe)](https://github.com/ikaken/chrome-profile-launcher/releases/download/v1.1.0/ChromeProfileLauncher-win-Setup.exe)**
 
 他のバージョンをお探しの方はこちら → [リリース一覧](https://github.com/ikaken/chrome-profile-launcher/releases)
 
@@ -233,7 +233,7 @@ dotnet tool install -g vpk
 
 3. **インストーラーの作成**
 ```bash
-vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Release/net10.0-windows/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
+vpk pack --packId ChromeProfileLauncher --packVersion 1.1.0 --packDir ./bin/Release/net10.0-windows/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
 ```
 
 ### 📂 プロジェクト構造
