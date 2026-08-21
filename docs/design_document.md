@@ -251,7 +251,7 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
   - アンインストールの容易さ
 - **ターゲットアーキテクチャ**: `win-x64` (Windows 10/11 64bit)
 - **リリースビルド設定**:
-    - `SelfContained`: `false` (フレームワーク依存)
+    - `SelfContained`: `true` (.NETランタイム同梱)
     - `PublishReadyToRun`: `true` (起動速度の最適化)
     - Velopackによるパッケージング
 
