@@ -23,7 +23,7 @@ Launch your target profile with a single click, or instantly focus an already op
     - **System Tray Support**: Option to minimize to the system tray when closing the window (default is OFF).
     - **Open Profile Folder**: Directly open the profile folder in File Explorer from the settings screen.
 - **Configurable Hotkey**: Double-tap Alt, Ctrl, or Shift (left or right) to show the launcher instantly. The hotkey can be changed or disabled in settings.
-- **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection).
+- **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection), including the system tray menu.
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
 
 ### ❤️ Support / Sponsor this Project
@@ -126,7 +126,7 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
     - **トレイアイコンの常駐設定**: ウィンドウを閉じた際にタスクトレイへ常駐させるか選択可能です（デフォルトは常駐OFF）。
     - **プロファイルフォルダを開く**: 設定画面から直接エクスプローラーでプロファイルフォルダを開けます。
 - **ホットキー設定**: Alt・Ctrl・Shift（左右どちらでも可）のダブルタップでランチャーを即座に表示。設定画面からキーの変更や無効化が可能です。
-- **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です。
+- **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です（タスクトレイメニューも対応）。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
 
 ### ❤️ このアプリを応援する
