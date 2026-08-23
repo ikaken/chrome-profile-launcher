@@ -23,7 +23,10 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        var isFirstRun = false;
+        var isFirstRun = string.Equals(
+            Environment.GetEnvironmentVariable("VELOPACK_FIRSTRUN"),
+            "true",
+            StringComparison.OrdinalIgnoreCase);
 
         // Velopack のセットアップ。アップデート後の再起動などをハンドルする。
         Velopack.VelopackApp.Build()
