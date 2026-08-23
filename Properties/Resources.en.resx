@@ -160,6 +160,15 @@
   <data name="HotkeyShift" xml:space="preserve">
     <value>Shift Key</value>
   </data>
+  <data name="TrayMenuOpenLauncher" xml:space="preserve">
+    <value>Open Launcher</value>
+  </data>
+  <data name="TrayMenuSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="TrayMenuExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
   <data name="FirstRunTitle" xml:space="preserve">
     <value>Initial Setup</value>
   </data>

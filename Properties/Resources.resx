@@ -163,6 +163,15 @@
   <data name="HotkeyShift" xml:space="preserve">
     <value>Shift キー</value>
   </data>
+  <data name="TrayMenuOpenLauncher" xml:space="preserve">
+    <value>ランチャを開く</value>
+  </data>
+  <data name="TrayMenuSettings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="TrayMenuExit" xml:space="preserve">
+    <value>終了</value>
+  </data>
   <data name="FirstRunTitle" xml:space="preserve">
     <value>初期設定</value>
   </data>
