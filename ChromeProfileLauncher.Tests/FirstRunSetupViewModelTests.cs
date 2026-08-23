@@ -17,12 +17,12 @@ namespace ChromeProfileLauncher.Tests
         }
 
         [Fact]
-        public void Constructor_ShouldDefaultOptionsToOff()
+        public void Constructor_ShouldDefaultOptionsToOn()
         {
             var vm = new FirstRunSetupViewModel(_settingsServiceMock.Object, _startupServiceMock.Object, "en-US");
 
-            vm.LaunchAtStartup.Should().BeFalse();
-            vm.EnableTaskTray.Should().BeFalse();
+            vm.LaunchAtStartup.Should().BeTrue();
+            vm.EnableTaskTray.Should().BeTrue();
         }
 
         [Fact]
@@ -52,7 +52,11 @@ namespace ChromeProfileLauncher.Tests
         [Fact]
         public void SaveCommand_ShouldUnregisterStartupWhenOptionIsOff()
         {
-            var vm = new FirstRunSetupViewModel(_settingsServiceMock.Object, _startupServiceMock.Object, "ja-JP");
+            var vm = new FirstRunSetupViewModel(_settingsServiceMock.Object, _startupServiceMock.Object, "ja-JP")
+            {
+                LaunchAtStartup = false,
+                EnableTaskTray = false
+            };
 
             vm.SaveCommand.Execute(null);
 

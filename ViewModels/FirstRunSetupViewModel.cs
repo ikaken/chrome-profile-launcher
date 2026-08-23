@@ -10,8 +10,8 @@ namespace ChromeProfileLauncher.ViewModels
         private readonly ISettingsService _settingsService;
         private readonly IStartupService _startupService;
         private readonly string _language;
-        private bool _launchAtStartup;
-        private bool _enableTaskTray;
+        private bool _launchAtStartup = true;
+        private bool _enableTaskTray = true;
         private ICommand? _saveCommand;
 
         public FirstRunSetupViewModel(ISettingsService settingsService, IStartupService startupService, string language)
