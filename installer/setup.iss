@@ -1,4 +1,4 @@
-; Chrome Profile Launcher - Inno Setup Script
+; Chrome Profile Launcher - Legacy manual installer (production releases use Velopack)
 
 #define MyAppName "Chrome Profile Launcher"
 #define MyAppVersion "1.0.0"
@@ -38,7 +38,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "startuppath"; Description: "スタートアップに登録する"; GroupDescription: "{cm:AdditionalIcons}"; Flags: checkedonce
 
 [Files]
-Source: "{#MyBuildOutputDir}\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#MyBuildOutputDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; Assets include
 Source: "{#MyAssetsDir}\app.ico"; DestDir: "{app}\Assets"; Flags: ignoreversion
 Source: "{#MyAssetsDir}\chrome-profile-launcher.png"; DestDir: "{app}\Assets"; Flags: ignoreversion

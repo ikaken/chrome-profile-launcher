@@ -172,4 +172,16 @@
   <data name="TrayMenuExit" xml:space="preserve">
     <value>終了</value>
   </data>
+  <data name="FirstRunTitle" xml:space="preserve">
+    <value>初期設定</value>
+  </data>
+  <data name="FirstRunHeading" xml:space="preserve">
+    <value>Chrome Profile Launcher へようこそ</value>
+  </data>
+  <data name="FirstRunDescription" xml:space="preserve">
+    <value>利用する機能を選択してください。これらの設定は後から変更できます。</value>
+  </data>
+  <data name="FirstRunContinue" xml:space="preserve">
+    <value>開始する</value>
+  </data>
 </root>

@@ -52,6 +52,8 @@ You can download the latest installer from the link below.
 2. Following the installer will enable the auto-update feature.
 3. If already installed, updates are automatically detected on app startup.
 
+The installer includes the required .NET runtime, so no separate .NET installation is needed.
+
 ### If Windows shows a warning
 
 Since this app is currently not code-signed, Windows SmartScreen may show a warning.
@@ -76,12 +78,12 @@ This app supports Velopack for distribution and auto-updates.
 
 1. **Build Project**
 ```bash
-dotnet publish -c Release -r win-x64 --self-contained false /p:PublishReadyToRun=true
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true
 ```
 
 2. **Install Velopack Tool** (First time only)
 ```bash
-dotnet tool install -g vpk
+dotnet tool install -g vpk --version 0.0.1251
 ```
 
 3. **Create Installer**
@@ -155,6 +157,8 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 2. インストーラーに従ってインストールすると、自動アップデート機能が有効になります。
 3. すでにインストール済みの場合は、アプリ起動時に自動的にアップデートが検知されます。
 
+必要な.NETランタイムはインストーラーに同梱されるため、別途インストールする必要はありません。
+
 ### Windowsで警告が表示される場合
 
 このアプリは現在コード署名されていないため、WindowsのSmartScreenにより警告が表示されることがあります。
@@ -179,12 +183,12 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 
 1. **プロジェクトのビルド**
 ```bash
-dotnet publish -c Release -r win-x64 --self-contained false /p:PublishReadyToRun=true
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true
 ```
 
 2. **Velopack ツールのインストール** (初回のみ)
 ```bash
-dotnet tool install -g vpk
+dotnet tool install -g vpk --version 0.0.1251
 ```
 
 3. **インストーラーの作成**
