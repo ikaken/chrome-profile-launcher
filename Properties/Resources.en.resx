@@ -160,4 +160,16 @@
   <data name="HotkeyShift" xml:space="preserve">
     <value>Shift Key</value>
   </data>
+  <data name="FirstRunTitle" xml:space="preserve">
+    <value>Initial Setup</value>
+  </data>
+  <data name="FirstRunHeading" xml:space="preserve">
+    <value>Welcome to Chrome Profile Launcher</value>
+  </data>
+  <data name="FirstRunDescription" xml:space="preserve">
+    <value>Choose the features you want to use. You can change these settings later.</value>
+  </data>
+  <data name="FirstRunContinue" xml:space="preserve">
+    <value>Get Started</value>
+  </data>
 </root>
