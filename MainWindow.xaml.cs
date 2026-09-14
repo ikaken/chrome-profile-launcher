@@ -131,17 +131,20 @@ public partial class MainWindow : Window
         icon.ToolTipText = "Chrome Profile Launcher";
         
         var contextMenu = new System.Windows.Controls.ContextMenu();
-        var menuOpen = new System.Windows.Controls.MenuItem { Header = "ランチャを開く", FontWeight = FontWeights.Bold };
+        var menuOpen = new System.Windows.Controls.MenuItem { FontWeight = FontWeights.Bold };
+        BindMenuHeader(menuOpen, "TrayMenuOpenLauncher");
         menuOpen.Click += (s, ev) => Dispatcher.Invoke(ShowAndActivate);
         contextMenu.Items.Add(menuOpen);
         
-        var menuSettings = new System.Windows.Controls.MenuItem { Header = "設定" };
+        var menuSettings = new System.Windows.Controls.MenuItem();
+        BindMenuHeader(menuSettings, "TrayMenuSettings");
         menuSettings.Click += (s, ev) => (DataContext as ViewModels.MainViewModel)?.SettingsCommand.Execute(null);
         contextMenu.Items.Add(menuSettings);
         
         contextMenu.Items.Add(new System.Windows.Controls.Separator());
         
-        var menuExit = new System.Windows.Controls.MenuItem { Header = "終了" };
+        var menuExit = new System.Windows.Controls.MenuItem();
+        BindMenuHeader(menuExit, "TrayMenuExit");
         menuExit.Click += (s, ev) => (DataContext as ViewModels.MainViewModel)?.ExitApplicationCommand.Execute(null);
         contextMenu.Items.Add(menuExit);
         
@@ -154,6 +157,21 @@ public partial class MainWindow : Window
             g.Children.Add(icon);
             Logger.Info("InitializeTaskbarIcon: Added icon to Grid.");
         }
+    }
+
+    private static void BindMenuHeader(System.Windows.Controls.MenuItem menuItem, string resourceKey)
+    {
+        // App.xaml の LocalizationProxy を Source にすることで、言語切替時に表記が自動更新される
+        var proxy = System.Windows.Application.Current?.Resources["Resources"] as LocalizationProxy;
+        if (proxy == null)
+        {
+            menuItem.Header = LocalizationManager.GetString(resourceKey);
+            return;
+        }
+
+        menuItem.SetBinding(
+            System.Windows.Controls.MenuItem.HeaderProperty,
+            new System.Windows.Data.Binding(resourceKey) { Source = proxy });
     }
 
     public void RemoveTaskbarIcon()

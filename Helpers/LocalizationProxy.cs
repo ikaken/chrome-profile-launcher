@@ -43,6 +43,13 @@ namespace ChromeProfileLauncher.Helpers
         public string HotkeyAlt => LocalizationManager.GetString("HotkeyAlt");
         public string HotkeyCtrl => LocalizationManager.GetString("HotkeyCtrl");
         public string HotkeyShift => LocalizationManager.GetString("HotkeyShift");
+        public string TrayMenuOpenLauncher => LocalizationManager.GetString("TrayMenuOpenLauncher");
+        public string TrayMenuSettings => LocalizationManager.GetString("TrayMenuSettings");
+        public string TrayMenuExit => LocalizationManager.GetString("TrayMenuExit");
+        public string FirstRunTitle => LocalizationManager.GetString("FirstRunTitle");
+        public string FirstRunHeading => LocalizationManager.GetString("FirstRunHeading");
+        public string FirstRunDescription => LocalizationManager.GetString("FirstRunDescription");
+        public string FirstRunContinue => LocalizationManager.GetString("FirstRunContinue");
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

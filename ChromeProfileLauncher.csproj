@@ -8,7 +8,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
     <!-- Installer Settings -->
-    <SelfContained>false</SelfContained>
+    <SelfContained>true</SelfContained>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRun>true</PublishReadyToRun>
     <DefaultItemExcludes>$(DefaultItemExcludes);ChromeProfileLauncher.Tests\**;scratch\**</DefaultItemExcludes>
@@ -29,7 +29,7 @@
   <ItemGroup>
     <PackageReference Include="H.NotifyIcon.Wpf" Version="2.2.0" />
     <PackageReference Include="System.Management" Version="10.0.5" />
-    <PackageReference Include="Velopack" Version="0.0.1054" />
+    <PackageReference Include="Velopack" Version="0.0.1251" />
   </ItemGroup>
 
   <ItemGroup>

@@ -30,7 +30,7 @@ Launch your target profile with a single click, or instantly focus an already op
     - **System Tray Support**: Option to minimize to the system tray when closing the window (default is OFF).
     - **Open Profile Folder**: Directly open the profile folder in File Explorer from the settings screen.
 - **Configurable Hotkey**: Double-tap Alt, Ctrl, or Shift (left or right) to show the launcher instantly. The hotkey can be changed or disabled in settings.
-- **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection).
+- **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection), including the system tray menu.
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
 
 ### 🖼️ Screenshots
@@ -70,6 +70,8 @@ Looking for a different version? [View all releases](https://github.com/ikaken/c
 2. Following the installer will enable the auto-update feature.
 3. If already installed, updates are automatically detected on app startup.
 
+The installer includes the required .NET runtime, so no separate .NET installation is needed.
+
 ### If Windows shows a warning
 
 Since this app is currently not code-signed, Windows SmartScreen may show a warning.
@@ -101,12 +103,12 @@ This app supports Velopack for distribution and auto-updates.
 
 1. **Build Project**
 ```bash
-dotnet publish -c Release -r win-x64 --self-contained false /p:PublishReadyToRun=true
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true
 ```
 
 2. **Install Velopack Tool** (First time only)
 ```bash
-dotnet tool install -g vpk
+dotnet tool install -g vpk --version 0.0.1251
 ```
 
 3. **Create Installer**
@@ -152,7 +154,7 @@ Google Chromeで仕事用・個人用・開発用など複数のプロファイ�
     - **トレイアイコンの常駐設定**: ウィンドウを閉じた際にタスクトレイへ常駐させるか選択可能です（デフォルトは常駐OFF）。
     - **プロファイルフォルダを開く**: 設定画面から直接エクスプローラーでプロファイルフォルダを開けます。
 - **ホットキー設定**: Alt・Ctrl・Shift（左右どちらでも可）のダブルタップでランチャーを即座に表示。設定画面からキーの変更や無効化が可能です。
-- **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です。
+- **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です（タスクトレイメニューも対応）。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
 
 ### 🖥️ スクリーンショット
@@ -192,6 +194,8 @@ Google Chromeで仕事用・個人用・開発用など複数のプロファイ�
 2. インストーラーに従ってインストールすると、自動アップデート機能が有効になります。
 3. すでにインストール済みの場合は、アプリ起動時に自動的にアップデートが検知されます。
 
+必要な.NETランタイムはインストーラーに同梱されるため、別途インストールする必要はありません。
+
 ### Windowsで警告が表示される場合
 
 このアプリは現在コード署名されていないため、WindowsのSmartScreenにより警告が表示されることがあります。
@@ -223,12 +227,12 @@ Google Chromeで仕事用・個人用・開発用など複数のプロファイ�
 
 1. **プロジェクトのビルド**
 ```bash
-dotnet publish -c Release -r win-x64 --self-contained false /p:PublishReadyToRun=true
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true
 ```
 
 2. **Velopack ツールのインストール** (初回のみ)
 ```bash
-dotnet tool install -g vpk
+dotnet tool install -g vpk --version 0.0.1251
 ```
 
 3. **インストーラーの作成**

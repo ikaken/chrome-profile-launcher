@@ -1,55 +1,49 @@
 # Chromeプロファイルランチャ リリース・配布ガイド
 
-本プロジェクトを配布するための手順書です。
+本プロジェクトを配布するための手順書です。本番リリースはGitHub ActionsとVelopackを使用します。
 
-## 1. 事前準備 (環境構築)
+## 1. 事前準備
 
-インストーラーを作成するには **Inno Setup 6** が必要です。
+- Windows 10 / 11（64bit）
+- .NET 10.0 SDK
+- GitHub CLI
+
+ローカルでパッケージを検証する場合は、アプリが参照するSDKと同じバージョンのVelopack CLIを使用します。
 
 ```powershell
-winget install JRSoftware.InnoSetup
+dotnet tool install -g vpk --version 0.0.1251
 ```
 
-※ インストールパスが `C:\Users\[ユーザー名]\AppData\Local\Programs\Inno Setup 6\` になることを想定しています。
+## 2. ローカルビルド
 
-## 2. ビルド作業 (作成者)
-
-### 2.1 アプリケーションのビルド
-配布用のバイナリを作成します。
+.NETランタイムを含むWindows x64向け成果物を生成します。
 
 ```powershell
-dotnet publish -c Release -r win-x64 --no-self-contained
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true
 ```
 
 生成パス: `bin\Release\net10.0-windows\win-x64\publish\`
 
-### 2.2 インストーラーの作成
-Inno Setup Compiler を使用してインストーラーを作成します。
+## 3. ローカルパッケージ検証
 
-**GUIで行う場合:**
-1. `installer\setup.iss` を Inno Setup で開きます。
-2. **Build** > **Compile** (Ctrl+F9) を実行します。
-
-**コマンドラインで行う場合:**
 ```powershell
-& "C:\Users\ikaken\AppData\Local\Programs\Inno Setup 6\ISCC.exe" installer/setup.iss
+vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Release/net10.0-windows/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
 ```
 
-生成ファイル: `installer\Output\ChromeProfileLauncherSetup.exe`
+生成されたSetupファイルを.NET Desktop RuntimeがインストールされていないWindows x64環境で実行し、追加ダウンロードなしで起動することを確認します。
 
-## 3. GitHub リリースの作成手順
+## 4. GitHubリリース
 
-1. **GitHub リポジトリ** にアクセスします。
-2. **"Releases"** > **"Create a new release"** をクリックします。
-3. タグ・リリース名を入力し、`ChromeProfileLauncherSetup.exe` をアップロードして公開します。
+1. `develop`から`main`へのリリース対象変更を確定します。
+2. 重複しない`v*`形式のタグを作成します。
+3. タグをpushすると`.github/workflows/release.yml`がself-contained publish、Velopackパッケージ作成、GitHub Releaseへの成果物添付を実行します。
+4. GitHub Actionsの成功とRelease成果物を確認します。
 
-## 4. ユーザー動作環境
-- Windows 10 / 11 (64bit)
-- **.NET 10.0 Desktop Runtime** が必要です。
+## 5. ユーザー動作環境
 
-## 5. 開発時のテスト手順
-インストーラーの動作確認は、プロジェクト内のテストディレクトリへのサイレントインストールで実施可能です。
-```powershell
-./installer/Output/ChromeProfileLauncherSetup.exe /VERYSILENT /DIR="test_install"
-```
-確認後、`test_install\unins000.exe /VERYSILENT` でクリーンアップしてください。
+- Windows 10 / 11（64bit）
+- .NET Desktop Runtimeの事前インストールは不要
+
+## 6. 旧Inno Setupスクリプト
+
+`installer/setup.iss`は旧手動インストーラー用であり、本番リリースでは使用しません。保守確認に使用する場合は、self-contained publish後にpublishディレクトリ全体を格納します。
