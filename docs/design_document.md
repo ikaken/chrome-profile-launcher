@@ -149,7 +149,7 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
     - ... (上記同様)
     - **ウィンドウ位置の復元・保存**:
         - 起動時 (`OnSourceInitialized`): `ISettingsService.LoadWindowPosition()` を呼び出し、有効な座標であれば適用。無効な場合は画面中央に配置。
-        - 終了時 (`Closing`): `ISettingsService.SaveWindowPosition()` を呼び出し、現在位置を保存。
+        - ウィンドウを閉じる時 (`Closing`): タスクトレイ常駐の判定より前に `ISettingsService.SaveWindowPosition()` を呼び出し、`RestoreBounds`（通常状態の矩形）と最大化フラグを保存。常駐有効時のトレイ格納・トレイメニューからの終了・常駐無効時の終了のいずれでも保存される。
         - **仕様**: 設定画面の開閉や設定保存時には、メインウィンドウの位置情報は変更しない。
 
 ### 4.2 SettingsWindow (設定画面)
@@ -167,9 +167,11 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
 5. 表示対象（`IsVisible == true`）のプロファイルのみをメイン画面に表示。
 6. **【未実装】** ウィンドウ位置を復元（`WindowPositionHelper` によるバリデーション → 有効なら座標適用、無効なら画面中央）。
 
-### 5.1a 【未実装】終了時処理
-1. `WindowState` が `Normal` であれば、現在のウィンドウ位置・サイズを `ISettingsService.SaveWindowPosition()` で保存。
-2. 最大化・最小化状態の場合は保存をスキップ（前回の通常状態の値を維持）。
+### 5.1a ウィンドウを閉じる時の処理（`MainWindow.Window_Closing`）
+1. `RestoreBounds`（最大化・最小化中でも通常状態の矩形を返す）と `WindowState == Maximized` を `ISettingsService.SaveWindowPosition()` で保存。
+2. タスクトレイ常駐が有効な場合は終了をキャンセルしてウィンドウを非表示にする（トレイ格納）。
+3. 常駐が無効な場合はアプリケーションを終了する。
+   ※ 保存を常駐判定より前に行うことで、トレイ格納時・トレイメニューからの終了時にも位置が保存される（Issue #83）。
 
 ### 5.1b 単一インスタンス制御（二重起動防止）
 アプリ起動時 (`App.xaml.cs` の `OnStartup`) に、以下の処理を行う。
