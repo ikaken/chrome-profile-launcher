@@ -21,7 +21,7 @@
 | プロパティ名 | 型 | 永続化 | 説明 |
 | :--- | :--- | :--- | :--- |
 | `Id` | `string` | ○ | プロファイルディレクトリ名 (例: `Default`, `Profile 1`) |
-| `DisplayName` | `string` | ○ | ユーザーによる表示名。デフォルトは Chrome で設定された名前。 |
+| `DisplayName` | `string` | ○ | Chrome で設定されたプロファイル名（読み取り専用）。設定画面の「プロファイルのリロード」実行時に Chrome の `Local State` から再取得して更新される。 |
 | `IsVisible` | `bool` | ○ | ランチャ画面に表示するかどうか。 |
 | `Order` | `int` | ○ | 表示順序（0始まり）。設定画面での並び替えに使用。 |
 | `IconPath` | `string` | ○ | アイコンファイルのパス（PNGまたはICO）。 |

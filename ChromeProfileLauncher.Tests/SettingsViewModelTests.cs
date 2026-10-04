@@ -234,7 +234,7 @@ namespace ChromeProfileLauncher.Tests
             // Arrange
             var initial = new List<ProfileInfo>
             {
-                new ProfileInfo { Id = "P1", DisplayName = "Custom P1", Order = 0 },
+                new ProfileInfo { Id = "P1", DisplayName = "Custom P1", Order = 0, IsVisible = false },
                 new ProfileInfo { Id = "P2", DisplayName = "P2", Order = 1 }
             };
             var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
@@ -252,7 +252,9 @@ namespace ChromeProfileLauncher.Tests
             // Assert
             vm.Profiles.Should().HaveCount(2);
             vm.Profiles[0].Id.Should().Be("P1");
-            vm.Profiles[0].DisplayName.Should().Be("Custom P1"); // Should preserve custom name
+            vm.Profiles[0].DisplayName.Should().Be("Default P1"); // Name should follow Chrome (Local State)
+            vm.Profiles[0].IsVisible.Should().BeFalse(); // Visibility should be preserved
+            vm.Profiles[0].Order.Should().Be(0); // Order should be preserved
             vm.Profiles[1].Id.Should().Be("P3");
             vm.Profiles[1].DisplayName.Should().Be("New P3");
             vm.Profiles.Any(p => p.Id == "P2").Should().BeFalse(); // P2 should be removed
