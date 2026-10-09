@@ -148,8 +148,9 @@ namespace ChromeProfileLauncher.ViewModels
                     var dProfile = detected.FirstOrDefault(p => p.Id == cProfile.Id);
                     if (dProfile != null)
                     {
-                        // Update icon path in case it changed
+                        // Update icon path and display name in case they changed in Chrome
                         cProfile.IconPath = dProfile.IconPath;
+                        cProfile.DisplayName = dProfile.DisplayName;
                         merged.Add(cProfile);
                         detected.Remove(dProfile);
                     }

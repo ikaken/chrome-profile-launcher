@@ -207,6 +207,11 @@ public partial class MainWindow : Window
         var settings = _settingsService.LoadSettings();
         Logger.Info($"Window_Closing: EnableTaskTray={settings.EnableTaskTray}, WindowState={WindowState}");
 
+        // トレイ格納・終了のどちらの場合も、ウィンドウ位置を保存する（Issue #83）
+        // RestoreBounds は最大化・最小化中でも通常時の矩形を返す
+        var bounds = RestoreBounds;
+        _settingsService.SaveWindowPosition(bounds.Left, bounds.Top, bounds.Width, bounds.Height, WindowState == WindowState.Maximized);
+
         // タスクトレイ常駐が有効な場合、終了をキャンセルして非表示にする
         if (settings.EnableTaskTray)
         {
@@ -220,18 +225,8 @@ public partial class MainWindow : Window
             return;
         }
 
-        // 常駐が無効な場合、位置を保存してアプリケーションを終了する
+        // 常駐が無効な場合、アプリケーションを終了する
         Logger.Info("Window_Closing: EnableTaskTray is False. Terminating application.");
-
-        if (WindowState == WindowState.Normal)
-        {
-            _settingsService.SaveWindowPosition(Left, Top, Width, Height, false);
-        }
-        else if (WindowState == WindowState.Maximized)
-        {
-            _settingsService.SaveWindowPosition(Left, Top, Width, Height, true);
-        }
-
         Application.Current.Shutdown();
     }
 
