@@ -36,7 +36,7 @@ public partial class App : Application
         // 言語設定の読み込みと適用
         var settingsService = new Services.SettingsService(new Services.FileSystem());
         var settings = settingsService.LoadSettings();
-        var language = isFirstRun ? GetInitialLanguage() : settings.Language;
+        var language = isFirstRun ? GetInitialLanguage() : Helpers.SupportedLanguages.ResolveSupportedLanguage(settings.Language);
         Helpers.LocalizationManager.SetLanguage(language);
 
         Helpers.Logger.Info($"Application starting... Language: {language}");
@@ -111,9 +111,7 @@ public partial class App : Application
 
     private static string GetInitialLanguage()
     {
-        return CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.Equals("ja", StringComparison.OrdinalIgnoreCase)
-            ? "ja-JP"
-            : "en-US";
+        return Helpers.SupportedLanguages.ResolveSupportedLanguage(CultureInfo.CurrentUICulture);
     }
 
     private bool SendMessageToExistingInstance(string message)

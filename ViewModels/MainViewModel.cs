@@ -229,8 +229,8 @@ namespace ChromeProfileLauncher.ViewModels
                     await System.Windows.Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
                         var result = System.Windows.MessageBox.Show(
-                            $"新しいバージョン ({updateInfo.TargetFullRelease.Version}) が利用可能です。アップデートをダウンロードしますか？",
-                            "アップデートの通知",
+                            string.Format(Helpers.LocalizationManager.GetString("UpdateAvailable"), updateInfo.TargetFullRelease.Version),
+                            Helpers.LocalizationManager.GetString("UpdateNotificationTitle"),
                             System.Windows.MessageBoxButton.YesNo,
                             System.Windows.MessageBoxImage.Information);
 
@@ -241,8 +241,8 @@ namespace ChromeProfileLauncher.ViewModels
                                 await _updateService.DownloadUpdateAsync(updateInfo);
                                 
                                 var restartResult = System.Windows.MessageBox.Show(
-                                    "ダウンロードが完了しました。今すぐ適用して再起動しますか？",
-                                    "アップデートの準備完了",
+                                    Helpers.LocalizationManager.GetString("UpdateReadyMessage"),
+                                    Helpers.LocalizationManager.GetString("UpdateReadyTitle"),
                                     System.Windows.MessageBoxButton.YesNo,
                                     System.Windows.MessageBoxImage.Question);
 
@@ -254,7 +254,7 @@ namespace ChromeProfileLauncher.ViewModels
                             catch (Exception ex)
                             {
                                 Logger.Error("Update download failed.", ex);
-                                System.Windows.MessageBox.Show("アップデートのダウンロードに失敗しました。");
+                                System.Windows.MessageBox.Show(Helpers.LocalizationManager.GetString("UpdateDownloadFailed"));
                             }
                         }
                     });

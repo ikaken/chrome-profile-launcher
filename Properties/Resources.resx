@@ -181,4 +181,43 @@
   <data name="FirstRunContinue" xml:space="preserve">
     <value>Get Started</value>
   </data>
+  <data name="UpdateNotificationTitle" xml:space="preserve">
+    <value>Update Notification</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>A new version ({0}) is available. Download the update?</value>
+  </data>
+  <data name="UpdateReadyTitle" xml:space="preserve">
+    <value>Update Ready</value>
+  </data>
+  <data name="UpdateReadyMessage" xml:space="preserve">
+    <value>Download complete. Apply the update and restart now?</value>
+  </data>
+  <data name="UpdateCheckTitle" xml:space="preserve">
+    <value>Update Check</value>
+  </data>
+  <data name="AlreadyLatestVersion" xml:space="preserve">
+    <value>You are using the latest version.</value>
+  </data>
+  <data name="UpdateCheckError" xml:space="preserve">
+    <value>An error occurred while checking for updates: {0}</value>
+  </data>
+  <data name="UpdateDownloadFailed" xml:space="preserve">
+    <value>Failed to download the update.</value>
+  </data>
+  <data name="LinkOpenError" xml:space="preserve">
+    <value>Could not open the link: {0}</value>
+  </data>
+  <data name="ProfileReloadError" xml:space="preserve">
+    <value>An error occurred while reloading profiles: {0}</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>Folder not found: {0}</value>
+  </data>
+  <data name="ErrorOpeningFolder" xml:space="preserve">
+    <value>Could not open the folder: {0}</value>
+  </data>
+  <data name="SaveFailedError" xml:space="preserve">
+    <value>Failed to save settings: {0}</value>
+  </data>
 </root>
