@@ -146,7 +146,7 @@ namespace ChromeProfileLauncher.Tests
             var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
 
             // Assert
-            vm.Language.Should().Be("ja-JP");
+            vm.Language.Should().Be("ja");
         }
 
         [Fact]

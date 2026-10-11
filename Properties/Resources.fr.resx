@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Chrome Profile Launcher</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>⚙ Paramètres</value>
+  </data>
+  <data name="LauncherSettings" xml:space="preserve">
+    <value>Paramètres du lanceur</value>
+  </data>
+  <data name="ProfileManagement" xml:space="preserve">
+    <value>Gestion des profils</value>
+  </data>
+  <data name="ReloadProfiles" xml:space="preserve">
+    <value>Recharger les profils</value>
+  </data>
+  <data name="AppSettings" xml:space="preserve">
+    <value>Paramètres de l'application</value>
+  </data>
+  <data name="LaunchAtStartup" xml:space="preserve">
+    <value>Lancer au démarrage</value>
+  </data>
+  <data name="LaunchAtStartupDescription" xml:space="preserve">
+    <value>Lancer automatiquement cette application au démarrage de Windows.</value>
+  </data>
+  <data name="EnableTaskTray" xml:space="preserve">
+    <value>Rester dans la zone de notification</value>
+  </data>
+  <data name="EnableTaskTrayDescription" xml:space="preserve">
+    <value>Garder l'application en cours d'exécution dans la zone de notification à la fermeture de la fenêtre.</value>
+  </data>
+  <data name="AppUpdate" xml:space="preserve">
+    <value>Mise à jour de l'application</value>
+  </data>
+  <data name="EnableAutoUpdate" xml:space="preserve">
+    <value>Activer les mises à jour automatiques</value>
+  </data>
+  <data name="EnableAutoUpdateDescription" xml:space="preserve">
+    <value>Vérifie automatiquement les nouvelles versions au démarrage. Vous pouvez toujours vérifier manuellement même si cette option est désactivée.</value>
+  </data>
+  <data name="CurrentVersion" xml:space="preserve">
+    <value>Version actuelle : </value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>Vérifier les mises à jour</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>Définir la langue d'affichage de l'application.</value>
+  </data>
+  <data name="LanguageAuto" xml:space="preserve">
+    <value>Automatique (paramètre système)</value>
+  </data>
+  <data name="LanguageJapanese" xml:space="preserve">
+    <value>Japonais</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>Anglais</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Succès</value>
+  </data>
+  <data name="DonationTitle" xml:space="preserve">
+    <value>☕ Soutenir le développement</value>
+  </data>
+  <data name="DonationDescription" xml:space="preserve">
+    <value>Si Chrome Profile Launcher améliore votre productivité, vous pouvez soutenir son développement continu. Les dons servent aux frais d'agents IA et à la maintenance.</value>
+  </data>
+  <data name="DonationGitHub" xml:space="preserve">
+    <value>💖 Soutenir via GitHub Sponsors (mensuel/unique)</value>
+  </data>
+  <data name="DonationKofi" xml:space="preserve">
+    <value>☕ Soutenir via Ko-fi (unique/petit montant)</value>
+  </data>
+  <data name="ErrorDuringSave" xml:space="preserve">
+    <value>Erreur lors de l'enregistrement : {0}</value>
+  </data>
+  <data name="HotkeySettings" xml:space="preserve">
+    <value>Raccourci clavier</value>
+  </data>
+  <data name="HotkeySettingsDescription" xml:space="preserve">
+    <value>Appuyez deux fois sur la touche sélectionnée pour afficher le lanceur.</value>
+  </data>
+  <data name="HotkeyNone" xml:space="preserve">
+    <value>Aucun raccourci</value>
+  </data>
+  <data name="HotkeyAlt" xml:space="preserve">
+    <value>Touche Alt (par défaut)</value>
+  </data>
+  <data name="HotkeyCtrl" xml:space="preserve">
+    <value>Touche Ctrl</value>
+  </data>
+  <data name="HotkeyShift" xml:space="preserve">
+    <value>Touche Maj</value>
+  </data>
+  <data name="TrayMenuOpenLauncher" xml:space="preserve">
+    <value>Ouvrir le lanceur</value>
+  </data>
+  <data name="TrayMenuSettings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="TrayMenuExit" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
+  <data name="FirstRunTitle" xml:space="preserve">
+    <value>Configuration initiale</value>
+  </data>
+  <data name="FirstRunHeading" xml:space="preserve">
+    <value>Bienvenue dans Chrome Profile Launcher</value>
+  </data>
+  <data name="FirstRunDescription" xml:space="preserve">
+    <value>Choisissez les fonctionnalités à utiliser. Vous pourrez modifier ces paramètres plus tard.</value>
+  </data>
+  <data name="FirstRunContinue" xml:space="preserve">
+    <value>Commencer</value>
+  </data>
+  <data name="UpdateNotificationTitle" xml:space="preserve">
+    <value>Notification de mise à jour</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>Une nouvelle version ({0}) est disponible. Télécharger la mise à jour ?</value>
+  </data>
+  <data name="UpdateReadyTitle" xml:space="preserve">
+    <value>Mise à jour prête</value>
+  </data>
+  <data name="UpdateReadyMessage" xml:space="preserve">
+    <value>Téléchargement terminé. Appliquer et redémarrer maintenant ?</value>
+  </data>
+  <data name="UpdateCheckTitle" xml:space="preserve">
+    <value>Vérification des mises à jour</value>
+  </data>
+  <data name="AlreadyLatestVersion" xml:space="preserve">
+    <value>Vous utilisez la dernière version.</value>
+  </data>
+  <data name="UpdateCheckError" xml:space="preserve">
+    <value>Une erreur s'est produite lors de la vérification : {0}</value>
+  </data>
+  <data name="UpdateDownloadFailed" xml:space="preserve">
+    <value>Échec du téléchargement de la mise à jour.</value>
+  </data>
+  <data name="LinkOpenError" xml:space="preserve">
+    <value>Impossible d'ouvrir le lien : {0}</value>
+  </data>
+  <data name="ProfileReloadError" xml:space="preserve">
+    <value>Erreur lors du rechargement des profils : {0}</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>Dossier introuvable : {0}</value>
+  </data>
+  <data name="ErrorOpeningFolder" xml:space="preserve">
+    <value>Impossible d'ouvrir le dossier : {0}</value>
+  </data>
+  <data name="SaveFailedError" xml:space="preserve">
+    <value>Échec de l'enregistrement des paramètres : {0}</value>
+  </data>
+</root>
