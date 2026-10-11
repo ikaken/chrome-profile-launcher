@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Chrome Profile Launcher</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>⚙ 設定</value>
+  </data>
+  <data name="LauncherSettings" xml:space="preserve">
+    <value>ランチャー設定</value>
+  </data>
+  <data name="ProfileManagement" xml:space="preserve">
+    <value>プロファイル管理</value>
+  </data>
+  <data name="ReloadProfiles" xml:space="preserve">
+    <value>プロファイルをリロード</value>
+  </data>
+  <data name="AppSettings" xml:space="preserve">
+    <value>アプリ設定</value>
+  </data>
+  <data name="LaunchAtStartup" xml:space="preserve">
+    <value>スタートアップ時に起動</value>
+  </data>
+  <data name="LaunchAtStartupDescription" xml:space="preserve">
+    <value>Windowsの起動時に本アプリを自動的に起動します。</value>
+  </data>
+  <data name="EnableTaskTray" xml:space="preserve">
+    <value>タスクトレイに常駐</value>
+  </data>
+  <data name="EnableTaskTrayDescription" xml:space="preserve">
+    <value>ウィンドウを閉じた際にアプリを終了せず、システムトレイに常駐させます。</value>
+  </data>
+  <data name="AppUpdate" xml:space="preserve">
+    <value>アプリケーションアップデート</value>
+  </data>
+  <data name="EnableAutoUpdate" xml:space="preserve">
+    <value>自動アップデートを有効にする</value>
+  </data>
+  <data name="EnableAutoUpdateDescription" xml:space="preserve">
+    <value>起動時に新しいバージョンの存在を自動的に確認します。無効にしても、手動でアップデートを確認できます。</value>
+  </data>
+  <data name="CurrentVersion" xml:space="preserve">
+    <value>現在のバージョン: </value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>アップデートを確認</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>アプリケーションの表示言語を設定します。</value>
+  </data>
+  <data name="LanguageAuto" xml:space="preserve">
+    <value>自動 (システム設定)</value>
+  </data>
+  <data name="LanguageJapanese" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="DonationTitle" xml:space="preserve">
+    <value>☕ 開発を支援</value>
+  </data>
+  <data name="DonationDescription" xml:space="preserve">
+    <value>Chrome Profile Launcher が作業効率化に役立ったら、継続開発を支援していただけると嬉しいです。支援金はAIエージェント利用料や継続開発に利用されます。</value>
+  </data>
+  <data name="DonationGitHub" xml:space="preserve">
+    <value>💖 GitHub Sponsors で支援 (月額・単発)</value>
+  </data>
+  <data name="DonationKofi" xml:space="preserve">
+    <value>☕ Ko-fi で応援 (単発・少額)</value>
+  </data>
+  <data name="ErrorDuringSave" xml:space="preserve">
+    <value>保存中にエラーが発生しました: {0}</value>
+  </data>
+  <data name="HotkeySettings" xml:space="preserve">
+    <value>ホットキー設定</value>
+  </data>
+  <data name="HotkeySettingsDescription" xml:space="preserve">
+    <value>選択したキーを2回押すことでランチャーを表示します。</value>
+  </data>
+  <data name="HotkeyNone" xml:space="preserve">
+    <value>ホットキーなし</value>
+  </data>
+  <data name="HotkeyAlt" xml:space="preserve">
+    <value>Alt キー（デフォルト）</value>
+  </data>
+  <data name="HotkeyCtrl" xml:space="preserve">
+    <value>Ctrl キー</value>
+  </data>
+  <data name="HotkeyShift" xml:space="preserve">
+    <value>Shift キー</value>
+  </data>
+  <data name="TrayMenuOpenLauncher" xml:space="preserve">
+    <value>ランチャを開く</value>
+  </data>
+  <data name="TrayMenuSettings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="TrayMenuExit" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="FirstRunTitle" xml:space="preserve">
+    <value>初期設定</value>
+  </data>
+  <data name="FirstRunHeading" xml:space="preserve">
+    <value>Chrome Profile Launcher へようこそ</value>
+  </data>
+  <data name="FirstRunDescription" xml:space="preserve">
+    <value>利用する機能を選択してください。これらの設定は後から変更できます。</value>
+  </data>
+  <data name="FirstRunContinue" xml:space="preserve">
+    <value>開始する</value>
+  </data>
+  <data name="UpdateNotificationTitle" xml:space="preserve">
+    <value>アップデートの通知</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>新しいバージョン ({0}) が利用可能です。アップデートをダウンロードしますか？</value>
+  </data>
+  <data name="UpdateReadyTitle" xml:space="preserve">
+    <value>アップデートの準備完了</value>
+  </data>
+  <data name="UpdateReadyMessage" xml:space="preserve">
+    <value>ダウンロードが完了しました。今すぐ適用して再起動しますか？</value>
+  </data>
+  <data name="UpdateCheckTitle" xml:space="preserve">
+    <value>アップデートの確認</value>
+  </data>
+  <data name="AlreadyLatestVersion" xml:space="preserve">
+    <value>現在、最新のバージョンを使用しています。</value>
+  </data>
+  <data name="UpdateCheckError" xml:space="preserve">
+    <value>アップデートの確認中にエラーが発生しました: {0}</value>
+  </data>
+  <data name="UpdateDownloadFailed" xml:space="preserve">
+    <value>アップデートのダウンロードに失敗しました。</value>
+  </data>
+  <data name="LinkOpenError" xml:space="preserve">
+    <value>リンクを開けませんでした: {0}</value>
+  </data>
+  <data name="ProfileReloadError" xml:space="preserve">
+    <value>プロファイルのリロード中にエラーが発生しました: {0}</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>フォルダーが見つかりません: {0}</value>
+  </data>
+  <data name="ErrorOpeningFolder" xml:space="preserve">
+    <value>フォルダーを開けませんでした: {0}</value>
+  </data>
+  <data name="SaveFailedError" xml:space="preserve">
+    <value>設定の保存に失敗しました: {0}</value>
+  </data>
+</root>

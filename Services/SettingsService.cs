@@ -88,7 +88,7 @@ namespace ChromeProfileLauncher.Services
             catch (Exception ex)
             {
                 Helpers.Logger.Error("Failed to save settings.", ex);
-                System.Windows.MessageBox.Show($"Failed to save settings: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(string.Format(Helpers.LocalizationManager.GetString("SaveFailedError"), ex.Message), Helpers.LocalizationManager.GetString("Error"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 

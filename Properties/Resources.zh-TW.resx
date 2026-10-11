@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Chrome Profile Launcher</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>⚙ 設定</value>
+  </data>
+  <data name="LauncherSettings" xml:space="preserve">
+    <value>啟動器設定</value>
+  </data>
+  <data name="ProfileManagement" xml:space="preserve">
+    <value>設定檔管理</value>
+  </data>
+  <data name="ReloadProfiles" xml:space="preserve">
+    <value>重新載入設定檔</value>
+  </data>
+  <data name="AppSettings" xml:space="preserve">
+    <value>應用程式設定</value>
+  </data>
+  <data name="LaunchAtStartup" xml:space="preserve">
+    <value>開機時啟動</value>
+  </data>
+  <data name="LaunchAtStartupDescription" xml:space="preserve">
+    <value>Windows 啟動時自動啟動本應用程式。</value>
+  </data>
+  <data name="EnableTaskTray" xml:space="preserve">
+    <value>常駐工作列匣</value>
+  </data>
+  <data name="EnableTaskTrayDescription" xml:space="preserve">
+    <value>關閉視窗時不結束應用程式，而是常駐系統匣。</value>
+  </data>
+  <data name="AppUpdate" xml:space="preserve">
+    <value>應用程式更新</value>
+  </data>
+  <data name="EnableAutoUpdate" xml:space="preserve">
+    <value>啟用自動更新</value>
+  </data>
+  <data name="EnableAutoUpdateDescription" xml:space="preserve">
+    <value>啟動時自動檢查新版本。停用後仍可手動檢查更新。</value>
+  </data>
+  <data name="CurrentVersion" xml:space="preserve">
+    <value>目前版本: </value>
+  </data>
+  <data name="CheckForUpdates" xml:space="preserve">
+    <value>檢查更新</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>儲存</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="LanguageDescription" xml:space="preserve">
+    <value>設定應用程式的顯示語言。</value>
+  </data>
+  <data name="LanguageAuto" xml:space="preserve">
+    <value>自動（系統設定）</value>
+  </data>
+  <data name="LanguageJapanese" xml:space="preserve">
+    <value>日語</value>
+  </data>
+  <data name="LanguageEnglish" xml:space="preserve">
+    <value>英語</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>錯誤</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="DonationTitle" xml:space="preserve">
+    <value>☕ 支援開發</value>
+  </data>
+  <data name="DonationDescription" xml:space="preserve">
+    <value>如果 Chrome Profile Launcher 對您的工作效率有所幫助，歡迎支持其持續開發。捐款將用於 AI 代理使用費與持續維護。</value>
+  </data>
+  <data name="DonationGitHub" xml:space="preserve">
+    <value>💖 透過 GitHub Sponsors 支持（月付/單次）</value>
+  </data>
+  <data name="DonationKofi" xml:space="preserve">
+    <value>☕ 透過 Ko-fi 支持（單次/小額）</value>
+  </data>
+  <data name="ErrorDuringSave" xml:space="preserve">
+    <value>儲存時發生錯誤: {0}</value>
+  </data>
+  <data name="HotkeySettings" xml:space="preserve">
+    <value>熱鍵設定</value>
+  </data>
+  <data name="HotkeySettingsDescription" xml:space="preserve">
+    <value>連按兩次所選按鍵以顯示啟動器。</value>
+  </data>
+  <data name="HotkeyNone" xml:space="preserve">
+    <value>無熱鍵</value>
+  </data>
+  <data name="HotkeyAlt" xml:space="preserve">
+    <value>Alt 鍵（預設）</value>
+  </data>
+  <data name="HotkeyCtrl" xml:space="preserve">
+    <value>Ctrl 鍵</value>
+  </data>
+  <data name="HotkeyShift" xml:space="preserve">
+    <value>Shift 鍵</value>
+  </data>
+  <data name="TrayMenuOpenLauncher" xml:space="preserve">
+    <value>開啟啟動器</value>
+  </data>
+  <data name="TrayMenuSettings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="TrayMenuExit" xml:space="preserve">
+    <value>結束</value>
+  </data>
+  <data name="FirstRunTitle" xml:space="preserve">
+    <value>初始設定</value>
+  </data>
+  <data name="FirstRunHeading" xml:space="preserve">
+    <value>歡迎使用 Chrome Profile Launcher</value>
+  </data>
+  <data name="FirstRunDescription" xml:space="preserve">
+    <value>請選擇要使用的功能。這些設定日後可以變更。</value>
+  </data>
+  <data name="FirstRunContinue" xml:space="preserve">
+    <value>開始使用</value>
+  </data>
+  <data name="UpdateNotificationTitle" xml:space="preserve">
+    <value>更新通知</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>新版本 ({0}) 已推出。是否下載更新？</value>
+  </data>
+  <data name="UpdateReadyTitle" xml:space="preserve">
+    <value>更新就緒</value>
+  </data>
+  <data name="UpdateReadyMessage" xml:space="preserve">
+    <value>下載完成。是否立即套用並重新啟動？</value>
+  </data>
+  <data name="UpdateCheckTitle" xml:space="preserve">
+    <value>檢查更新</value>
+  </data>
+  <data name="AlreadyLatestVersion" xml:space="preserve">
+    <value>您正在使用最新版本。</value>
+  </data>
+  <data name="UpdateCheckError" xml:space="preserve">
+    <value>檢查更新時發生錯誤: {0}</value>
+  </data>
+  <data name="UpdateDownloadFailed" xml:space="preserve">
+    <value>下載更新失敗。</value>
+  </data>
+  <data name="LinkOpenError" xml:space="preserve">
+    <value>無法開啟連結: {0}</value>
+  </data>
+  <data name="ProfileReloadError" xml:space="preserve">
+    <value>重新載入設定檔時發生錯誤: {0}</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>找不到資料夾: {0}</value>
+  </data>
+  <data name="ErrorOpeningFolder" xml:space="preserve">
+    <value>無法開啟資料夾: {0}</value>
+  </data>
+  <data name="SaveFailedError" xml:space="preserve">
+    <value>儲存設定失敗: {0}</value>
+  </data>
+</root>

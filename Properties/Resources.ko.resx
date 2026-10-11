@@ -39,7 +39,7 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -58,127 +58,169 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppTitle" xml:space="preserve">
+    <value>Chrome Profile Launcher</value>
+  </data>
   <data name="Settings" xml:space="preserve">
-    <value>⚙ Settings</value>
+    <value>⚙ 설정</value>
   </data>
   <data name="LauncherSettings" xml:space="preserve">
-    <value>Launcher Settings</value>
+    <value>런처 설정</value>
   </data>
   <data name="ProfileManagement" xml:space="preserve">
-    <value>Profile Management</value>
+    <value>프로필 관리</value>
   </data>
   <data name="ReloadProfiles" xml:space="preserve">
-    <value>Reload Profiles</value>
+    <value>프로필 다시 불러오기</value>
   </data>
   <data name="AppSettings" xml:space="preserve">
-    <value>App Settings</value>
+    <value>앱 설정</value>
   </data>
   <data name="LaunchAtStartup" xml:space="preserve">
-    <value>Launch at Startup</value>
+    <value>시작 시 실행</value>
   </data>
   <data name="LaunchAtStartupDescription" xml:space="preserve">
-    <value>Automatically launch this app when Windows starts.</value>
+    <value>Windows 시작 시 이 앱을 자동으로 실행합니다.</value>
   </data>
   <data name="EnableTaskTray" xml:space="preserve">
-    <value>Stay in Task Tray</value>
+    <value>작업 표시줄 트레이에 상주</value>
   </data>
   <data name="EnableTaskTrayDescription" xml:space="preserve">
-    <value>Keep the app running in the system tray when the window is closed.</value>
+    <value>창을 닫아도 앱을 종료하지 않고 시스템 트레이에 상주시킵니다.</value>
   </data>
   <data name="AppUpdate" xml:space="preserve">
-    <value>Application Update</value>
+    <value>애플리케이션 업데이트</value>
   </data>
   <data name="EnableAutoUpdate" xml:space="preserve">
-    <value>Enable Automatic Updates</value>
+    <value>자동 업데이트 사용</value>
   </data>
   <data name="EnableAutoUpdateDescription" xml:space="preserve">
-    <value>Automatically check for new versions on startup. You can still check for updates manually when disabled.</value>
+    <value>시작 시 새 버전을 자동으로 확인합니다. 비활성화해도 수동으로 업데이트를 확인할 수 있습니다.</value>
   </data>
   <data name="CurrentVersion" xml:space="preserve">
-    <value>Current version: </value>
+    <value>현재 버전: </value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
-    <value>Check for Updates</value>
+    <value>업데이트 확인</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>취소</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>저장</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>언어</value>
   </data>
   <data name="LanguageDescription" xml:space="preserve">
-    <value>Set the display language of the application.</value>
+    <value>애플리케이션의 표시 언어를 설정합니다.</value>
   </data>
   <data name="LanguageAuto" xml:space="preserve">
-    <value>Auto (System Setting)</value>
+    <value>자동 (시스템 설정)</value>
   </data>
   <data name="LanguageJapanese" xml:space="preserve">
-    <value>Japanese</value>
+    <value>일본어</value>
   </data>
   <data name="LanguageEnglish" xml:space="preserve">
-    <value>English</value>
+    <value>영어</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error</value>
+    <value>오류</value>
   </data>
   <data name="Success" xml:space="preserve">
-    <value>Success</value>
+    <value>성공</value>
   </data>
   <data name="DonationTitle" xml:space="preserve">
-    <value>☕ Support Development</value>
+    <value>☕ 개발 지원</value>
   </data>
   <data name="DonationDescription" xml:space="preserve">
-    <value>If Chrome Profile Launcher helps improve your workflow, please consider supporting its continued development. Donations are used for AI agent fees and ongoing maintenance.</value>
+    <value>Chrome Profile Launcher가 업무 효율 향상에 도움이 된다면 지속적인 개발을 후원해 주세요. 후원금은 AI 에이전트 이용료와 유지보수에 사용됩니다.</value>
   </data>
   <data name="DonationGitHub" xml:space="preserve">
-    <value>💖 Support on GitHub Sponsors (Monthly/One-time)</value>
+    <value>💖 GitHub Sponsors로 후원 (월간/일회성)</value>
   </data>
   <data name="DonationKofi" xml:space="preserve">
-    <value>☕ Support on Ko-fi (One-time/Small)</value>
+    <value>☕ Ko-fi로 응원 (일회성/소액)</value>
   </data>
   <data name="ErrorDuringSave" xml:space="preserve">
-    <value>Error during save: {0}</value>
+    <value>저장 중 오류가 발생했습니다: {0}</value>
   </data>
   <data name="HotkeySettings" xml:space="preserve">
-    <value>Hotkey Settings</value>
+    <value>단축키 설정</value>
   </data>
   <data name="HotkeySettingsDescription" xml:space="preserve">
-    <value>Press the selected key twice to show the launcher.</value>
+    <value>선택한 키를 두 번 눌러 런처를 표시합니다.</value>
   </data>
   <data name="HotkeyNone" xml:space="preserve">
-    <value>No Hotkey</value>
+    <value>단축키 없음</value>
   </data>
   <data name="HotkeyAlt" xml:space="preserve">
-    <value>Alt Key (Default)</value>
+    <value>Alt 키 (기본값)</value>
   </data>
   <data name="HotkeyCtrl" xml:space="preserve">
-    <value>Ctrl Key</value>
+    <value>Ctrl 키</value>
   </data>
   <data name="HotkeyShift" xml:space="preserve">
-    <value>Shift Key</value>
+    <value>Shift 키</value>
   </data>
   <data name="TrayMenuOpenLauncher" xml:space="preserve">
-    <value>Open Launcher</value>
+    <value>런처 열기</value>
   </data>
   <data name="TrayMenuSettings" xml:space="preserve">
-    <value>Settings</value>
+    <value>설정</value>
   </data>
   <data name="TrayMenuExit" xml:space="preserve">
-    <value>Exit</value>
+    <value>종료</value>
   </data>
   <data name="FirstRunTitle" xml:space="preserve">
-    <value>Initial Setup</value>
+    <value>초기 설정</value>
   </data>
   <data name="FirstRunHeading" xml:space="preserve">
-    <value>Welcome to Chrome Profile Launcher</value>
+    <value>Chrome Profile Launcher에 오신 것을 환영합니다</value>
   </data>
   <data name="FirstRunDescription" xml:space="preserve">
-    <value>Choose the features you want to use. You can change these settings later.</value>
+    <value>사용할 기능을 선택하세요. 이 설정은 나중에 변경할 수 있습니다.</value>
   </data>
   <data name="FirstRunContinue" xml:space="preserve">
-    <value>Get Started</value>
+    <value>시작하기</value>
+  </data>
+  <data name="UpdateNotificationTitle" xml:space="preserve">
+    <value>업데이트 알림</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>새 버전 ({0})을 사용할 수 있습니다. 업데이트를 다운로드하시겠습니까?</value>
+  </data>
+  <data name="UpdateReadyTitle" xml:space="preserve">
+    <value>업데이트 준비 완료</value>
+  </data>
+  <data name="UpdateReadyMessage" xml:space="preserve">
+    <value>다운로드가 완료되었습니다. 지금 적용하고 다시 시작하시겠습니까?</value>
+  </data>
+  <data name="UpdateCheckTitle" xml:space="preserve">
+    <value>업데이트 확인</value>
+  </data>
+  <data name="AlreadyLatestVersion" xml:space="preserve">
+    <value>현재 최신 버전을 사용하고 있습니다.</value>
+  </data>
+  <data name="UpdateCheckError" xml:space="preserve">
+    <value>업데이트 확인 중 오류가 발생했습니다: {0}</value>
+  </data>
+  <data name="UpdateDownloadFailed" xml:space="preserve">
+    <value>업데이트 다운로드에 실패했습니다.</value>
+  </data>
+  <data name="LinkOpenError" xml:space="preserve">
+    <value>링크를 열 수 없습니다: {0}</value>
+  </data>
+  <data name="ProfileReloadError" xml:space="preserve">
+    <value>프로필을 다시 불러오는 중 오류가 발생했습니다: {0}</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>폴더를 찾을 수 없습니다: {0}</value>
+  </data>
+  <data name="ErrorOpeningFolder" xml:space="preserve">
+    <value>폴더를 열 수 없습니다: {0}</value>
+  </data>
+  <data name="SaveFailedError" xml:space="preserve">
+    <value>설정 저장에 실패했습니다: {0}</value>
   </data>
 </root>

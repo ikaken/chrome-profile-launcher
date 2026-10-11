@@ -38,6 +38,7 @@
 | `WindowTop` | `double?` | **【未実装】** | ウィンドウの上端Y座標。`null` = 未保存。 |
 | `WindowWidth` | `double?` | **【未実装】** | ウィンドウの幅。`null` = 未保存。 |
 | `WindowHeight` | `double?` | **【未実装】** | ウィンドウの高さ。`null` = 未保存。 |
+| `Language` | `string` | 実装済み | 表示言語のカルチャコード（`en`/`ja`/`zh-CN`/`zh-TW`/`ko`/`fr`/`de`/`es`）。旧形式（`ja-JP` 等）は `SupportedLanguages.ResolveSupportedLanguage` で正規化される。対応言語の一覧・OS言語解決は `Helpers/SupportedLanguages.cs` で一元管理。 |
 
 ### 2.3 設定ファイルのJSON構造
 

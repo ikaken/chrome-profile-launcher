@@ -426,12 +426,11 @@
                                     <TextBlock Text="{Binding Source={StaticResource Resources}, Path=LanguageDescription}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
                                 </StackPanel>
                                 <ComboBox Grid.Column="1" Width="150" VerticalAlignment="Center"
-                                          SelectedValuePath="Tag"
+                                          ItemsSource="{Binding AvailableLanguages}"
+                                          DisplayMemberPath="DisplayName"
+                                          SelectedValuePath="CultureCode"
                                           SelectedValue="{Binding Language}"
-                                          Style="{StaticResource ModernComboBoxStyle}">
-                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=LanguageJapanese}" Tag="ja-JP" />
-                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=LanguageEnglish}" Tag="en-US" />
-                                </ComboBox>
+                                          Style="{StaticResource ModernComboBoxStyle}" />
                             </Grid>
                         </Border>
 
