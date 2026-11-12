@@ -23,6 +23,8 @@
 
         <helpers:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <!-- Colors -->
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#0F0F0F" />
         <SolidColorBrush x:Key="ItemBackgroundBrush" Color="#1A1A1A" />
@@ -535,7 +537,8 @@
                                             VerticalAlignment="Center" />
                                 </Grid>
 
-                                <Border Background="#151515" CornerRadius="15" Padding="15,12" Margin="0,15,0,0">
+                                <Border Background="#151515" CornerRadius="15" Padding="15,12" Margin="0,15,0,0"
+                                        Visibility="{Binding IsAutoUpdateSettingVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />

@@ -23,18 +23,17 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        var isFirstRun = string.Equals(
+        // 言語設定の読み込みと適用（初回起動判定のため先に生成する）
+        var settingsService = new Services.SettingsService(new Services.FileSystem());
+        var isFirstRun = Helpers.FirstRunDetector.IsFirstRun(
             Environment.GetEnvironmentVariable("VELOPACK_FIRSTRUN"),
-            "true",
-            StringComparison.OrdinalIgnoreCase);
+            settingsService.SettingsFileExists());
 
         // Velopack のセットアップ。アップデート後の再起動などをハンドルする。
         Velopack.VelopackApp.Build()
             .OnFirstRun(_ => isFirstRun = true)
             .Run();
 
-        // 言語設定の読み込みと適用
-        var settingsService = new Services.SettingsService(new Services.FileSystem());
         var settings = settingsService.LoadSettings();
         var language = isFirstRun ? GetInitialLanguage() : Helpers.SupportedLanguages.ResolveSupportedLanguage(settings.Language);
         Helpers.LocalizationManager.SetLanguage(language);
@@ -69,7 +68,7 @@ public partial class App : Application
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
             try
             {
-                var firstRunViewModel = new ViewModels.FirstRunSetupViewModel(settingsService, new StartupService(), language);
+                var firstRunViewModel = new ViewModels.FirstRunSetupViewModel(settingsService, Services.StartupServiceFactory.Create(), language);
                 var firstRunWindow = new FirstRunSetupWindow(firstRunViewModel);
                 firstRunWindow.ShowDialog();
                 settings = settingsService.LoadSettings();
