@@ -77,7 +77,7 @@ Windows 11 22H2 以降の「スマート アプリ コントロール（SAC）�
 - `Packaging/AppxManifest.xml`, `Packaging/Assets/*.png`: 新規
 - `ChromeProfileLauncher.csproj`, `ChromeProfileLauncher.Tests/*.csproj`: TFM 変更
 - `Helpers/PackagedAppHelper.cs`: 新規
-- `Services/UpdateService.cs`: パッケージ時スキップ・バージョンフォールバック
+- `Services/UpdateService.cs`: パッケージ時スキップ・バージョンフォールバック・`UpdateManager` の遅延生成（VelopackLocator 未設定の Store 版環境でコンストラクタ例外になるのを回避）
 - `Services/SettingsService.cs`: `SettingsFileExists()` 追加
 - `Services/PackagedStartupService.cs`, `Services/StartupServiceFactory.cs`: 新規
 - `App.xaml.cs`: 初回判定・StartupService 生成の置換

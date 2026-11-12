@@ -48,6 +48,13 @@ You can download the latest installer from the link below.
 *Note: Automatically points to the latest release (v1.0.0).*
 
 #### Installation
+
+**Recommended: Get it from the Microsoft Store** (no Smart App Control / SmartScreen warnings)
+
+<!-- TODO: Store 公開後に URL を設定 -->
+
+Or install manually:
+
 1. Download and run `ChromeProfileLauncher-win-Setup.exe`.
 2. Following the installer will enable the auto-update feature.
 3. If already installed, updates are automatically detected on app startup.
@@ -66,6 +73,14 @@ Or:
 1. Right-click the file
 2. Properties
 3. Check "Unblock"
+
+#### If Smart App Control is enabled
+
+On Windows 11 22H2 or later, **Smart App Control (SAC)** may block the app entirely with a message like "Smart App Control blocked an untrusted app." Unlike SmartScreen, there is no "Run anyway" option — unsigned apps cannot be launched at all while SAC is on.
+
+In that case:
+- **Use the Microsoft Store version** (recommended). Store apps are signed by Microsoft and are not blocked by SAC or SmartScreen.
+- Turning SAC off is **not recommended**: once disabled, it cannot be re-enabled without reinstalling Windows.
 
 ### 🛠 For Developers
 
@@ -153,6 +168,13 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 *※v1.0.0へのリリース対応済み。ダウンロードリンクは自動的に最新のリリースを指します。*
 
 #### インストール方法
+
+**推奨: Microsoft Store から入手**（スマート アプリ コントロール / SmartScreen の警告が出ません）
+
+<!-- TODO: Store 公開後に URL を設定 -->
+
+手動でインストールする場合：
+
 1. 上記のリンクをクリックして `ChromeProfileLauncher-win-Setup.exe` をダウンロードし、実行してください。
 2. インストーラーに従ってインストールすると、自動アップデート機能が有効になります。
 3. すでにインストール済みの場合は、アプリ起動時に自動的にアップデートが検知されます。
@@ -171,6 +193,14 @@ Google Chromeの複数プロファイルを効率的に管理・起動・切替�
 1. ファイルを右クリック
 2. プロパティ
 3. 「ブロックの解除」にチェック
+
+#### スマート アプリ コントロールが有効な場合
+
+Windows 11 22H2 以降では「スマート アプリ コントロール（SAC）」により「信頼できないアプリをブロックしました」と表示され、起動自体がブロックされることがあります。SmartScreen と異なり「実行」ボタンはなく、署名のないアプリは回避操作なしに起動できません。
+
+その場合は：
+- **Microsoft Store 版を利用してください（推奨）**。Store 経由のアプリは Microsoft が署名するため、SAC / SmartScreen でブロックされません。
+- SAC を OFF にする方法は**推奨しません**。一度 OFF にすると、Windows を再インストールしない限り再有効化できません。
 
 ### 🛠 開発者向け情報
 
