@@ -103,6 +103,7 @@ Windows 11 22H2 以降の「スマート アプリ コントロール（SAC）�
 - アプリ名予約済み: Chrome Profile Launcher
 - Microsoft Store ID: `9NRBD6L2BHLD`（公開後の URL: `https://apps.microsoft.com/detail/9NRBD6L2BHLD` / `ms-windows-store://pdp/?productid=9NRBD6L2BHLD`）
 - GitHub リポジトリ変数 `MSIX_IDENTITY_NAME` / `MSIX_PUBLISHER` / `MSIX_PUBLISHER_DISPLAY_NAME` 設定済み
+- 2026-11-12: `v1.4.0` リリース。MSIX artifact `ChromeProfileLauncher-1.4.0.0.msix` を Partner Center に提出（Submission 1）。認定審査中
 
 ## 備考 / ユーザー側で必要な作業
 
