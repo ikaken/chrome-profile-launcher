@@ -534,6 +534,7 @@
                                             FontSize="13"
                                             Command="{Binding CheckForUpdatesCommand}"
                                             IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}"
+                                            Visibility="{Binding IsAutoUpdateSettingVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             VerticalAlignment="Center" />
                                 </Grid>
 
