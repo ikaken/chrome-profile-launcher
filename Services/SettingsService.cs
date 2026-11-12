@@ -32,6 +32,7 @@ namespace ChromeProfileLauncher.Services
         void SaveSettings(AppSettings settings);
         (double left, double top, double width, double height, bool isMaximized) LoadWindowPosition();
         void SaveWindowPosition(double left, double top, double width, double height, bool isMaximized);
+        bool SettingsFileExists();
     }
 
     public class SettingsService : ISettingsService
@@ -107,6 +108,11 @@ namespace ChromeProfileLauncher.Services
             settings.WindowHeight = height;
             settings.IsMaximized = isMaximized;
             SaveSettings(settings);
+        }
+
+        public bool SettingsFileExists()
+        {
+            return _fileSystem.FileExists(_settingsPath);
         }
     }
 }

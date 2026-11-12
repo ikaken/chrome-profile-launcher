@@ -259,7 +259,18 @@ Chrome起動時に、プロセスの集約（既存プロセスへの吸収）�
     - `PublishReadyToRun`: `true` (起動速度の最適化)
     - Velopackによるパッケージング
 
-### 8.2 配布ファイル
+### 8.2 Microsoft Store (MSIX) 配布
+- **方式**: `dotnet publish` の self-contained 出力を `Packaging/AppxManifest.xml`（テンプレート）と `Packaging/Assets/*.png` と合わせて `makeappx pack` で `.msix` 化し、Partner Center に提出して Microsoft 署名で配布する。
+- **目的**: Windows 11 のスマート アプリ コントロール（SAC）がブロックする未署名アプリの問題を、Microsoft 署名により回避する。
+- **生成**: `release.yml` がタグ `vX.Y.Z`（プレリリースを除く）から `X.Y.Z.0` バージョンの MSIX を生成し、workflow artifact としてアップロードする。Identity / Publisher はリポジトリ変数 `MSIX_IDENTITY_NAME` / `MSIX_PUBLISHER` / `MSIX_PUBLISHER_DISPLAY_NAME` から注入する（未設定時はスキップ）。
+- **パッケージ実行判定**: `Helpers/PackagedAppHelper.IsPackaged`（`kernel32!GetCurrentPackageFullName` が `APPMODEL_ERROR_NO_PACKAGE` (15700) を返さなければパッケージ実行）。この判定により以下を切り替える:
+  - **自動更新**: パッケージ実行時は `UpdateService.CheckForUpdatesAsync` が即 `null` を返し（更新は Store が担当）、`IsUpdateSupported=false` で設定画面の自動更新行を非表示にする。
+  - **初回起動判定**: `FirstRunDetector` が `VELOPACK_FIRSTRUN` 環境変数 **または** `settings.json` 非存在で初回起動とみなす（Store 版は Velopack 経由でないため）。
+  - **スタートアップ登録**: `StartupServiceFactory` が `PackagedStartupService`（`Windows.ApplicationModel.StartupTask` API、マニフェストの `uap5:StartupTask` TaskId=`ChromeProfileLauncherStartup` と対応）と `StartupService`（レジストリ Run キー）を切り替える。
+- **TFM**: WinRT API 使用のため `net10.0-windows10.0.17763.0`（MinVersion と一致）。publish 出力パスは `bin/Release/net10.0-windows10.0.17763.0/win-x64/publish`。
+
+### 8.3 配布ファイル
 - `ChromeProfileLauncher-setup.exe` (インストーラー)
+- `ChromeProfileLauncher-X.Y.Z.0.msix` (Store 提出用、workflow artifact)
 - GitHub Actionsによる自動ビルド・リリース
 - インストーラー実行によりプログラムファイルとショートカットが配置される

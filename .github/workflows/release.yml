@@ -18,24 +18,67 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
+      - name: Compute version
+        id: ver
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          $isPrerelease = "$version" -match '-beta|-rc' -or "${{ github.ref_name }}" -match '-beta|-rc'
+          $msixVersion = ($version -split '-')[0]
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "is_prerelease=$($isPrerelease.ToString().ToLower())" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          "msix_version=$msixVersion.0" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+
       - name: Restore
         run: dotnet restore
 
       - name: Build
-        run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true
+        run: dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true /p:Version=${{ steps.ver.outputs.version }}
 
       - name: Install Velopack
         run: dotnet tool install -g vpk --version 0.0.1251
 
       - name: Package
+        shell: pwsh
         run: |
-          $version = "${{ github.ref_name }}".TrimStart('v')
           vpk pack `
             --packId ChromeProfileLauncher `
-            --packVersion $version `
-            --packDir ./bin/Release/net10.0-windows/win-x64/publish `
+            --packVersion ${{ steps.ver.outputs.version }} `
+            --packDir ./bin/Release/net10.0-windows10.0.17763.0/win-x64/publish `
             --outputDir ./releases `
             --icon ./Assets/setup-icon.ico
+
+      - name: Build MSIX
+        if: steps.ver.outputs.is_prerelease == 'false' && vars.MSIX_IDENTITY_NAME != ''
+        shell: pwsh
+        run: |
+          $msixVersion = "${{ steps.ver.outputs.msix_version }}"
+          $publishDir = "./bin/Release/net10.0-windows10.0.17763.0/win-x64/publish"
+
+          Copy-Item -Recurse $publishDir ./msix-staging
+          Copy-Item -Recurse ./Packaging/Assets ./msix-staging/Assets
+
+          $manifest = Get-Content ./Packaging/AppxManifest.xml -Raw -Encoding UTF8
+          $manifest = $manifest.Replace('{{IDENTITY_NAME}}', "${{ vars.MSIX_IDENTITY_NAME }}")
+          $manifest = $manifest.Replace('{{PUBLISHER}}', "${{ vars.MSIX_PUBLISHER }}")
+          $manifest = $manifest.Replace('{{PUBLISHER_DISPLAY_NAME}}', "${{ vars.MSIX_PUBLISHER_DISPLAY_NAME }}")
+          $manifest = $manifest.Replace('{{VERSION}}', $msixVersion)
+          Set-Content -Path ./msix-staging/AppxManifest.xml -Value $manifest -Encoding UTF8
+
+          $makeappx = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\10.*\x64\makeappx.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1
+          if (-not $makeappx) { throw "makeappx.exe not found" }
+
+          New-Item -ItemType Directory -Force ./msix | Out-Null
+          & $makeappx.FullName pack /d ./msix-staging /p "./msix/ChromeProfileLauncher-$msixVersion.msix" /o
+          if ($LASTEXITCODE -ne 0) { throw "makeappx pack failed" }
+
+      - name: Upload MSIX artifact
+        if: steps.ver.outputs.is_prerelease == 'false' && vars.MSIX_IDENTITY_NAME != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ChromeProfileLauncher-msix-${{ steps.ver.outputs.version }}
+          path: ./msix/*.msix
 
       - name: Create Release
         uses: softprops/action-gh-release@v2

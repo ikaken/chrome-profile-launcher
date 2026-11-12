@@ -88,5 +88,25 @@ namespace ChromeProfileLauncher.Tests
             capturedJson.Should().NotBeNull();
             capturedJson.Should().Contain("Saved Profile");
         }
+
+        [Fact]
+        public void SettingsFileExists_ShouldReturnTrue_WhenFileExists()
+        {
+            // Arrange
+            _fileSystemMock.Setup(f => f.FileExists(_settingsPath)).Returns(true);
+
+            // Act & Assert
+            _service.SettingsFileExists().Should().BeTrue();
+        }
+
+        [Fact]
+        public void SettingsFileExists_ShouldReturnFalse_WhenFileDoesNotExist()
+        {
+            // Arrange
+            _fileSystemMock.Setup(f => f.FileExists(_settingsPath)).Returns(false);
+
+            // Act & Assert
+            _service.SettingsFileExists().Should().BeFalse();
+        }
     }
 }

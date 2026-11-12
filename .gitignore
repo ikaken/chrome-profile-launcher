@@ -32,3 +32,8 @@ test_results.txt
 # インストーラーの出力フォルダ
 releases/
 installer/Output/
+
+# 作業用一時ディレクトリ
+scratch/
+msix/
+msix-staging/

@@ -41,6 +41,8 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_enableAutoUpdate != value) { _enableAutoUpdate = value; OnPropertyChanged(); } }
         }
 
+        public bool IsAutoUpdateSettingVisible => _updateService.IsUpdateSupported;
+
         private string _language = "ja";
         public string Language
         {
@@ -309,10 +311,10 @@ namespace ChromeProfileLauncher.ViewModels
         public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles)
             : this(initialProfiles, new SettingsService(new FileSystem()), null, null) { }
 
-        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null, IProfileDiscoveryService? discoveryService = null)
+        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null, IProfileDiscoveryService? discoveryService = null, IStartupService? startupService = null)
         {
             _settingsService = settingsService;
-            _startupService = new StartupService();
+            _startupService = startupService ?? StartupServiceFactory.Create();
             _updateService = updateService ?? new UpdateService();
             var fileSystem = new FileSystem();
             _discoveryService = discoveryService ?? new ProfileDiscoveryService(new IconService(fileSystem), fileSystem);
