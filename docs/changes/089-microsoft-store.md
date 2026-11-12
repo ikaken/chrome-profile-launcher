@@ -98,6 +98,12 @@ Windows 11 22H2 以降の「スマート アプリ コントロール（SAC）�
 - Store ユーザー: 新規。更新は Store 経由、スタートアップは StartupTask 経由。
 - 開発者: TFM 変更により publish 出力パスが変わる。
 
+## Store 登録情報（2026-11-12 時点）
+
+- アプリ名予約済み: Chrome Profile Launcher
+- Microsoft Store ID: `9NRBD6L2BHLD`（公開後の URL: `https://apps.microsoft.com/detail/9NRBD6L2BHLD` / `ms-windows-store://pdp/?productid=9NRBD6L2BHLD`）
+- GitHub リポジトリ変数 `MSIX_IDENTITY_NAME` / `MSIX_PUBLISHER` / `MSIX_PUBLISHER_DISPLAY_NAME` 設定済み
+
 ## 備考 / ユーザー側で必要な作業
 
 1. https://storedeveloper.microsoft.com で個人開発者アカウントを作成（無料、政府発行 ID + セルフィーによる本人確認、MFA 必須）。
