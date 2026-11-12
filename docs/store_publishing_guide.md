@@ -34,16 +34,18 @@ Chrome Profile Launcher を Microsoft Store に公開するための手順書で
 
 ## 3. アプリ名の予約
 
-- [ ] Partner Center で「Apps and games」→「New product」を選択する
-- [ ] アプリの種類として「MSIX or PWA app」を選択する
-- [ ] アプリ名に **「Chrome Profile Launcher」** と入力し、「Reserve product name」で予約する
+※ Partner Center の UI は言語設定により日本語 / 英語で表示されます。以下は「日本語表記（英語表記）」で記載します。
+
+- [ ] Partner Center で「アプリとゲーム（Apps and games）」→「＋ 新しい製品（New product）」を選択する
+- [ ] アプリの種類として「MSIX または PWA アプリ（MSIX or PWA app）」を選択する（ゲーム向けの「GDK Game」ではない）
+- [ ] アプリ名に **「Chrome Profile Launcher」** と入力し、「製品名の予約（Reserve product name）」で予約する
   - ※ 既に他者に予約されている場合は別名を検討し、`Packaging/AppxManifest.xml` の DisplayName 等も合わせて変更する
 
 ## 4. Identity 値の取得
 
 予約した製品のページから MSIX マニフェストに必要な値を取得します。
 
-- [ ] Partner Center で製品を開き、「Product management」→「Product identity」ページを表示する
+- [ ] Partner Center で製品を開き、「製品管理（Product management）」→「製品 ID（Product identity）」ページを表示する
 - [ ] 以下の値を控える:
   - `Package/Identity/Name` … 例: `12345Publisher.ChromeProfileLauncher` 形式
   - `Package/Identity/Publisher` … `CN=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`（GUID 形式）
