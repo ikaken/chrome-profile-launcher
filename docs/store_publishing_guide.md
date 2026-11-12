@@ -45,11 +45,13 @@ Chrome Profile Launcher を Microsoft Store に公開するための手順書で
 
 予約した製品のページから MSIX マニフェストに必要な値を取得します。
 
-- [ ] Partner Center で製品を開き、「製品管理（Product management）」→「製品 ID（Product identity）」ページを表示する
+- [ ] Partner Center で製品を開き、製品概要ページ下部の「全般」→「製品 ID の表示（Product identity）」を展開する
+  - ※ 旧 UI では左メニュー「製品管理（Product management）」→「製品 ID（Product identity）」
 - [ ] 以下の値を控える:
   - `Package/Identity/Name` … 例: `12345Publisher.ChromeProfileLauncher` 形式
   - `Package/Identity/Publisher` … `CN=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX`（GUID 形式）
   - `Package/Properties/PublisherDisplayName` … ストアに表示される発行者名
+  - `Store ID`（12 桁の英数字）… 公開後の README リンク（8 章）に使用
 
 ## 5. GitHub リポジトリ変数の設定
 
