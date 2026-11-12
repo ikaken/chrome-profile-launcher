@@ -15,6 +15,7 @@ namespace ChromeProfileLauncher.Tests
         private readonly Mock<ISettingsService> _settingsServiceMock;
         private readonly Mock<IUpdateService> _updateServiceMock;
         private readonly Mock<IProfileDiscoveryService> _discoveryServiceMock;
+        private readonly Mock<IStartupService> _startupServiceMock;
 
         public SettingsViewModelTests()
         {
@@ -22,7 +23,9 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
             _updateServiceMock = new Mock<IUpdateService>();
             _updateServiceMock.Setup(u => u.GetCurrentVersion()).Returns("1.0.0");
+            _updateServiceMock.Setup(u => u.IsUpdateSupported).Returns(true);
             _discoveryServiceMock = new Mock<IProfileDiscoveryService>();
+            _startupServiceMock = new Mock<IStartupService>();
         }
 
         [Fact]
@@ -36,7 +39,7 @@ namespace ChromeProfileLauncher.Tests
             };
 
             // Act
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
 
             // Assert
             vm.Profiles.Should().HaveCount(2);
@@ -53,7 +56,7 @@ namespace ChromeProfileLauncher.Tests
                 new ProfileInfo { Id = "P1", Order = 0 },
                 new ProfileInfo { Id = "P2", Order = 1 }
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
             var p2 = vm.Profiles[1];
 
             // Act
@@ -75,7 +78,7 @@ namespace ChromeProfileLauncher.Tests
                 new ProfileInfo { Id = "P1", Order = 0 },
                 new ProfileInfo { Id = "P2", Order = 1 }
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
             var p1 = vm.Profiles[0];
 
             // Act
@@ -102,7 +105,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
 
             // Assert
             vm.WindowTop.Should().Be(300);
@@ -115,7 +118,7 @@ namespace ChromeProfileLauncher.Tests
         public void SaveWindowSettings_ShouldPersistCurrentState()
         {
             // Arrange
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
             vm.WindowTop = 500;
             vm.WindowLeft = 600;
             vm.WindowWidth = 1000;
@@ -143,7 +146,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
 
             // Assert
             vm.Language.Should().Be("ja");
@@ -157,7 +160,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
 
             // Assert
             vm.EnableAutoUpdate.Should().BeFalse();
@@ -167,7 +170,7 @@ namespace ChromeProfileLauncher.Tests
         public void SaveCommand_ShouldPersistEnableAutoUpdate()
         {
             // Arrange
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
             vm.EnableAutoUpdate = false;
 
             AppSettings savedSettings = null;
@@ -190,7 +193,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(settings);
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
 
             // Assert
             vm.HotkeyKey.Should().Be("Ctrl");
@@ -203,7 +206,7 @@ namespace ChromeProfileLauncher.Tests
             _settingsServiceMock.Setup(s => s.LoadSettings()).Returns(new AppSettings());
 
             // Act
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
 
             // Assert
             vm.HotkeyKey.Should().Be("Alt");
@@ -213,7 +216,7 @@ namespace ChromeProfileLauncher.Tests
         public void SaveCommand_ShouldPersistHotkeyKey()
         {
             // Arrange
-            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
             vm.HotkeyKey = "Shift";
 
             AppSettings savedSettings = null;
@@ -237,7 +240,7 @@ namespace ChromeProfileLauncher.Tests
                 new ProfileInfo { Id = "P1", DisplayName = "Custom P1", Order = 0, IsVisible = false },
                 new ProfileInfo { Id = "P2", DisplayName = "P2", Order = 1 }
             };
-            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object);
+            var vm = new SettingsViewModel(initial, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
 
             var detected = new List<ProfileInfo>
             {
@@ -258,6 +261,54 @@ namespace ChromeProfileLauncher.Tests
             vm.Profiles[1].Id.Should().Be("P3");
             vm.Profiles[1].DisplayName.Should().Be("New P3");
             vm.Profiles.Any(p => p.Id == "P2").Should().BeFalse(); // P2 should be removed
+        }
+
+        [Fact]
+        public void IsAutoUpdateSettingVisible_ShouldBeTrue_WhenUpdateSupported()
+        {
+            // Arrange
+            _updateServiceMock.Setup(u => u.IsUpdateSupported).Returns(true);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
+
+            // Assert
+            vm.IsAutoUpdateSettingVisible.Should().BeTrue();
+        }
+
+        [Fact]
+        public void IsAutoUpdateSettingVisible_ShouldBeFalse_WhenUpdateNotSupported()
+        {
+            // Arrange
+            _updateServiceMock.Setup(u => u.IsUpdateSupported).Returns(false);
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
+
+            // Assert
+            vm.IsAutoUpdateSettingVisible.Should().BeFalse();
+        }
+
+        [Fact]
+        public void LaunchAtStartup_SetTrue_ShouldCallRegister()
+        {
+            // Arrange
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
+
+            // Act
+            vm.LaunchAtStartup = true;
+
+            // Assert
+            _startupServiceMock.Verify(s => s.Register(), Times.Once);
+        }
+
+        [Fact]
+        public void LaunchAtStartup_SetFalse_ShouldCallUnregister()
+        {
+            // Arrange
+            var vm = new SettingsViewModel(null, _settingsServiceMock.Object, _updateServiceMock.Object, _discoveryServiceMock.Object, _startupServiceMock.Object);
+
+            // Act
+            vm.LaunchAtStartup = false;
+
+            // Assert
+            _startupServiceMock.Verify(s => s.Unregister(), Times.Once);
         }
     }
 }

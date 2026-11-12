@@ -20,20 +20,33 @@ public interface IUpdateService
 public class UpdateService : IUpdateService
 {
     private readonly string _repoUrl = "https://github.com/ikaken/chrome-profile-launcher";
-    private readonly UpdateManager _updateManager;
+    private readonly Lazy<UpdateManager?> _updateManagerLazy;
     private readonly bool _isPackaged;
 
     public UpdateService(bool? isPackaged = null)
     {
         _isPackaged = isPackaged ?? PackagedAppHelper.IsPackaged;
-        _updateManager = new UpdateManager(new GithubSource(_repoUrl, null, false));
+        _updateManagerLazy = new Lazy<UpdateManager?>(() =>
+        {
+            try
+            {
+                return new UpdateManager(new GithubSource(_repoUrl, null, false));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("UpdateManager is not available.", ex);
+                return null;
+            }
+        });
     }
+
+    private UpdateManager? UpdateManager => _isPackaged ? null : _updateManagerLazy.Value;
 
     public bool IsUpdateSupported => !_isPackaged;
 
     public string GetCurrentVersion()
     {
-        var version = _updateManager.CurrentVersion?.ToString();
+        var version = UpdateManager?.CurrentVersion?.ToString();
         if (!string.IsNullOrEmpty(version)) return version;
 
         var informationalVersion = Assembly.GetEntryAssembly()
@@ -55,10 +68,15 @@ public class UpdateService : IUpdateService
             Logger.Info("Running as packaged app. Updates are handled by Microsoft Store.");
             return null;
         }
+        if (UpdateManager == null)
+        {
+            Logger.Info("Update manager is not available. Skipping update check.");
+            return null;
+        }
         try
         {
             Logger.Info("Checking for updates...");
-            var info = await _updateManager.CheckForUpdatesAsync();
+            var info = await UpdateManager.CheckForUpdatesAsync();
             if (info != null)
             {
                 Logger.Info($"Update found: {info.TargetFullRelease.Version}");
@@ -81,7 +99,8 @@ public class UpdateService : IUpdateService
         try
         {
             Logger.Info($"Downloading update: {updateInfo.TargetFullRelease.Version}...");
-            await _updateManager.DownloadUpdatesAsync(updateInfo);
+            if (UpdateManager == null) throw new InvalidOperationException("Update manager is not available.");
+            await UpdateManager.DownloadUpdatesAsync(updateInfo);
             Logger.Info("Update downloaded successfully.");
         }
         catch (Exception ex)
@@ -96,7 +115,8 @@ public class UpdateService : IUpdateService
         try
         {
             Logger.Info("Applying update and restarting...");
-            _updateManager.ApplyUpdatesAndRestart(updateInfo.TargetFullRelease);
+            if (UpdateManager == null) throw new InvalidOperationException("Update manager is not available.");
+            UpdateManager.ApplyUpdatesAndRestart(updateInfo.TargetFullRelease);
         }
         catch (Exception ex)
         {
