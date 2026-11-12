@@ -41,12 +41,16 @@ namespace ChromeProfileLauncher.ViewModels
             set { if (_enableAutoUpdate != value) { _enableAutoUpdate = value; OnPropertyChanged(); } }
         }
 
-        private string _language = "ja-JP";
+        public bool IsAutoUpdateSettingVisible => _updateService.IsUpdateSupported;
+
+        private string _language = "ja";
         public string Language
         {
             get => _language;
             set { if (_language != value) { _language = value; OnPropertyChanged(); } }
         }
+
+        public IReadOnlyList<LanguageOption> AvailableLanguages => SupportedLanguages.Items;
 
         private string _hotkeyKey = "Alt";
         public string HotkeyKey
@@ -75,8 +79,8 @@ namespace ChromeProfileLauncher.ViewModels
                 if (updateInfo != null)
                 {
                     var result = System.Windows.MessageBox.Show(
-                        $"新しいバージョン ({updateInfo.TargetFullRelease.Version}) が利用可能です。ダウンロードしますか？",
-                        "アップデートの通知",
+                        string.Format(LocalizationManager.GetString("UpdateAvailable"), updateInfo.TargetFullRelease.Version),
+                        LocalizationManager.GetString("UpdateNotificationTitle"),
                         System.Windows.MessageBoxButton.YesNo,
                         System.Windows.MessageBoxImage.Information);
 
@@ -85,8 +89,8 @@ namespace ChromeProfileLauncher.ViewModels
                         await _updateService.DownloadUpdateAsync(updateInfo);
                         
                         var restartResult = System.Windows.MessageBox.Show(
-                            "ダウンロードが完了しました。今すぐ適用して再起動しますか？",
-                            "アップデートの準備完了",
+                            LocalizationManager.GetString("UpdateReadyMessage"),
+                            LocalizationManager.GetString("UpdateReadyTitle"),
                             System.Windows.MessageBoxButton.YesNo,
                             System.Windows.MessageBoxImage.Question);
 
@@ -98,13 +102,13 @@ namespace ChromeProfileLauncher.ViewModels
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("現在、最新のバージョンを使用しています。", "アップデートの確認");
+                    System.Windows.MessageBox.Show(LocalizationManager.GetString("AlreadyLatestVersion"), LocalizationManager.GetString("UpdateCheckTitle"));
                 }
             }
             catch (Exception ex)
             {
                 Logger.Error("Manual update check failed.", ex);
-                System.Windows.MessageBox.Show($"アップデートの確認中にエラーが発生しました: {ex.Message}");
+                System.Windows.MessageBox.Show(string.Format(LocalizationManager.GetString("UpdateCheckError"), ex.Message));
             }
             finally
             {
@@ -128,7 +132,7 @@ namespace ChromeProfileLauncher.ViewModels
                 catch (Exception ex)
                 {
                     Logger.Error($"Failed to open URL: {urlString}", ex);
-                    System.Windows.MessageBox.Show($"リンクを開けませんでした: {ex.Message}");
+                    System.Windows.MessageBox.Show(string.Format(LocalizationManager.GetString("LinkOpenError"), ex.Message));
                 }
             }
         });
@@ -173,7 +177,7 @@ namespace ChromeProfileLauncher.ViewModels
             catch (Exception ex)
             {
                 Logger.Error("Failed to reload profiles.", ex);
-                System.Windows.MessageBox.Show($"プロファイルのリロード中にエラーが発生しました: {ex.Message}");
+                System.Windows.MessageBox.Show(string.Format(LocalizationManager.GetString("ProfileReloadError"), ex.Message));
             }
         });
 
@@ -262,12 +266,12 @@ namespace ChromeProfileLauncher.ViewModels
                     }
                     else
                     {
-                        System.Windows.MessageBox.Show($"Folder not found: {profilePath}");
+                        System.Windows.MessageBox.Show(string.Format(LocalizationManager.GetString("FolderNotFound"), profilePath));
                     }
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show($"Error opening folder: {ex.Message}");
+                    System.Windows.MessageBox.Show(string.Format(LocalizationManager.GetString("ErrorOpeningFolder"), ex.Message));
                 }
             }
         });
@@ -307,10 +311,10 @@ namespace ChromeProfileLauncher.ViewModels
         public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles)
             : this(initialProfiles, new SettingsService(new FileSystem()), null, null) { }
 
-        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null, IProfileDiscoveryService? discoveryService = null)
+        public SettingsViewModel(System.Collections.Generic.IEnumerable<ProfileInfo>? initialProfiles, ISettingsService settingsService, IUpdateService? updateService = null, IProfileDiscoveryService? discoveryService = null, IStartupService? startupService = null)
         {
             _settingsService = settingsService;
-            _startupService = new StartupService();
+            _startupService = startupService ?? StartupServiceFactory.Create();
             _updateService = updateService ?? new UpdateService();
             var fileSystem = new FileSystem();
             _discoveryService = discoveryService ?? new ProfileDiscoveryService(new IconService(fileSystem), fileSystem);
@@ -323,7 +327,7 @@ namespace ChromeProfileLauncher.ViewModels
             WindowHeight = settings?.SettingsWindowHeight ?? 550;
             EnableTaskTray = settings?.EnableTaskTray ?? false;
             EnableAutoUpdate = settings?.EnableAutoUpdate ?? true;
-            Language = settings?.Language ?? "ja-JP";
+            Language = SupportedLanguages.ResolveSupportedLanguage(settings?.Language ?? "ja");
             HotkeyKey = settings?.HotkeyKey ?? "Alt";
             
             if (initialProfiles != null)

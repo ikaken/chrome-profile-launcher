@@ -72,6 +72,8 @@ git push origin v1.1.0
 ### 3. Actions 監視
 **Latest release** として公開されることを確認する。
 
+リポジトリ変数 `MSIX_IDENTITY_NAME` 等が設定済みの場合、Store 提出用の `.msix` が workflow artifact（`ChromeProfileLauncher-msix-X.Y.Z`）として生成されます。Microsoft Store への提出手順は [store_publishing_guide.md](store_publishing_guide.md) を参照してください。
+
 ### 4. README 更新
 ダウンロードリンクとバージョン表記を新しいタグに更新してコミット・プッシュする。
 

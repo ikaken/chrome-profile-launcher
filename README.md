@@ -30,7 +30,7 @@ Launch your target profile with a single click, or instantly focus an already op
     - **System Tray Support**: Option to minimize to the system tray when closing the window (default is OFF).
     - **Open Profile Folder**: Directly open the profile folder in File Explorer from the settings screen.
 - **Configurable Hotkey**: Double-tap Alt, Ctrl, or Shift (left or right) to show the launcher instantly. The hotkey can be changed or disabled in settings.
-- **Multilingual Support**: Supports both English and Japanese (auto-detection and manual selection), including the system tray menu.
+- **Multilingual Support**: Supports 8 languages — English, Japanese, Simplified Chinese, Traditional Chinese, Korean, French, German, and Spanish (auto-detection from OS language and manual selection), including the system tray menu.
 - **Modern UI**: A simple, easy-to-use card-based design with a dark theme.
 
 ### 🖼️ Screenshots
@@ -66,6 +66,13 @@ You can download the latest installer from the link below.
 Looking for a different version? [View all releases](https://github.com/ikaken/chrome-profile-launcher/releases)
 
 #### Installation
+
+**Recommended: Get it from the Microsoft Store** (no Smart App Control / SmartScreen warnings)
+
+<!-- TODO: Store 公開後に URL を設定 -->
+
+Or install manually:
+
 1. Download and run `ChromeProfileLauncher-win-Setup.exe`.
 2. Following the installer will enable the auto-update feature.
 3. If already installed, updates are automatically detected on app startup.
@@ -84,6 +91,14 @@ Or:
 1. Right-click the file
 2. Properties
 3. Check "Unblock"
+
+#### If Smart App Control is enabled
+
+On Windows 11 22H2 or later, **Smart App Control (SAC)** may block the app entirely with a message like "Smart App Control blocked an untrusted app." Unlike SmartScreen, there is no "Run anyway" option — unsigned apps cannot be launched at all while SAC is on.
+
+In that case:
+- **Use the Microsoft Store version** (recommended). Store apps are signed by Microsoft and are not blocked by SAC or SmartScreen.
+- Turning SAC off is **not recommended**: once disabled, it cannot be re-enabled without reinstalling Windows.
 
 ### 🛠 For Developers
 
@@ -154,7 +169,7 @@ Google Chromeで仕事用・個人用・開発用など複数のプロファイ�
     - **トレイアイコンの常駐設定**: ウィンドウを閉じた際にタスクトレイへ常駐させるか選択可能です（デフォルトは常駐OFF）。
     - **プロファイルフォルダを開く**: 設定画面から直接エクスプローラーでプロファイルフォルダを開けます。
 - **ホットキー設定**: Alt・Ctrl・Shift（左右どちらでも可）のダブルタップでランチャーを即座に表示。設定画面からキーの変更や無効化が可能です。
-- **多言語対応**: 日本語と英語に対応。OSの言語設定の自動反映および手動切り替えが可能です（タスクトレイメニューも対応）。
+- **多言語対応**: 日本語・英語・中国語（簡体字/繁体字）・韓国語・フランス語・ドイツ語・スペイン語の8言語に対応。OSの言語設定の自動反映および手動切り替えが可能です（タスクトレイメニューも対応）。
 - **モダンなUI**: ダークテーマを基調とした、シンプルで使いやすいカード形式のデザイン。
 
 ### 🖥️ スクリーンショット
@@ -190,6 +205,13 @@ Google Chromeで仕事用・個人用・開発用など複数のプロファイ�
 他のバージョンをお探しの方はこちら → [リリース一覧](https://github.com/ikaken/chrome-profile-launcher/releases)
 
 #### インストール方法
+
+**推奨: Microsoft Store から入手**（スマート アプリ コントロール / SmartScreen の警告が出ません）
+
+<!-- TODO: Store 公開後に URL を設定 -->
+
+手動でインストールする場合：
+
 1. 上記のリンクをクリックして `ChromeProfileLauncher-win-Setup.exe` をダウンロードし、実行してください。
 2. インストーラーに従ってインストールすると、自動アップデート機能が有効になります。
 3. すでにインストール済みの場合は、アプリ起動時に自動的にアップデートが検知されます。
@@ -208,6 +230,14 @@ Google Chromeで仕事用・個人用・開発用など複数のプロファイ�
 1. ファイルを右クリック
 2. プロパティ
 3. 「ブロックの解除」にチェック
+
+#### スマート アプリ コントロールが有効な場合
+
+Windows 11 22H2 以降では「スマート アプリ コントロール（SAC）」により「信頼できないアプリをブロックしました」と表示され、起動自体がブロックされることがあります。SmartScreen と異なり「実行」ボタンはなく、署名のないアプリは回避操作なしに起動できません。
+
+その場合は：
+- **Microsoft Store 版を利用してください（推奨）**。Store 経由のアプリは Microsoft が署名するため、SAC / SmartScreen でブロックされません。
+- SAC を OFF にする方法は**推奨しません**。一度 OFF にすると、Windows を再インストールしない限り再有効化できません。
 
 ### 🛠 開発者向け情報
 

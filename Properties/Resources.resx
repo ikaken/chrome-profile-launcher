@@ -58,130 +58,166 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppTitle" xml:space="preserve">
-    <value>Chrome Profile Launcher</value>
-  </data>
   <data name="Settings" xml:space="preserve">
-    <value>⚙ 設定</value>
+    <value>⚙ Settings</value>
   </data>
   <data name="LauncherSettings" xml:space="preserve">
-    <value>ランチャー設定</value>
+    <value>Launcher Settings</value>
   </data>
   <data name="ProfileManagement" xml:space="preserve">
-    <value>プロファイル管理</value>
+    <value>Profile Management</value>
   </data>
   <data name="ReloadProfiles" xml:space="preserve">
-    <value>プロファイルをリロード</value>
+    <value>Reload Profiles</value>
   </data>
   <data name="AppSettings" xml:space="preserve">
-    <value>アプリ設定</value>
+    <value>App Settings</value>
   </data>
   <data name="LaunchAtStartup" xml:space="preserve">
-    <value>スタートアップ時に起動</value>
+    <value>Launch at Startup</value>
   </data>
   <data name="LaunchAtStartupDescription" xml:space="preserve">
-    <value>Windowsの起動時に本アプリを自動的に起動します。</value>
+    <value>Automatically launch this app when Windows starts.</value>
   </data>
   <data name="EnableTaskTray" xml:space="preserve">
-    <value>タスクトレイに常駐</value>
+    <value>Stay in Task Tray</value>
   </data>
   <data name="EnableTaskTrayDescription" xml:space="preserve">
-    <value>ウィンドウを閉じた際にアプリを終了せず、システムトレイに常駐させます。</value>
+    <value>Keep the app running in the system tray when the window is closed.</value>
   </data>
   <data name="AppUpdate" xml:space="preserve">
-    <value>アプリケーションアップデート</value>
+    <value>Application Update</value>
   </data>
   <data name="EnableAutoUpdate" xml:space="preserve">
-    <value>自動アップデートを有効にする</value>
+    <value>Enable Automatic Updates</value>
   </data>
   <data name="EnableAutoUpdateDescription" xml:space="preserve">
-    <value>起動時に新しいバージョンの存在を自動的に確認します。無効にしても、手動でアップデートを確認できます。</value>
+    <value>Automatically check for new versions on startup. You can still check for updates manually when disabled.</value>
   </data>
   <data name="CurrentVersion" xml:space="preserve">
-    <value>現在のバージョン: </value>
+    <value>Current version: </value>
   </data>
   <data name="CheckForUpdates" xml:space="preserve">
-    <value>アップデートを確認</value>
+    <value>Check for Updates</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>キャンセル</value>
+    <value>Cancel</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>保存</value>
+    <value>Save</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>言語</value>
+    <value>Language</value>
   </data>
   <data name="LanguageDescription" xml:space="preserve">
-    <value>アプリケーションの表示言語を設定します。</value>
+    <value>Set the display language of the application.</value>
   </data>
   <data name="LanguageAuto" xml:space="preserve">
-    <value>自動 (システム設定)</value>
+    <value>Auto (System Setting)</value>
   </data>
   <data name="LanguageJapanese" xml:space="preserve">
-    <value>日本語</value>
+    <value>Japanese</value>
   </data>
   <data name="LanguageEnglish" xml:space="preserve">
     <value>English</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>エラー</value>
+    <value>Error</value>
   </data>
   <data name="Success" xml:space="preserve">
-    <value>成功</value>
+    <value>Success</value>
   </data>
   <data name="DonationTitle" xml:space="preserve">
-    <value>☕ 開発を支援</value>
+    <value>☕ Support Development</value>
   </data>
   <data name="DonationDescription" xml:space="preserve">
-    <value>Chrome Profile Launcher が作業効率化に役立ったら、継続開発を支援していただけると嬉しいです。支援金はAIエージェント利用料や継続開発に利用されます。</value>
+    <value>If Chrome Profile Launcher helps improve your workflow, please consider supporting its continued development. Donations are used for AI agent fees and ongoing maintenance.</value>
   </data>
   <data name="DonationGitHub" xml:space="preserve">
-    <value>💖 GitHub Sponsors で支援 (月額・単発)</value>
+    <value>💖 Support on GitHub Sponsors (Monthly/One-time)</value>
   </data>
   <data name="DonationKofi" xml:space="preserve">
-    <value>☕ Ko-fi で応援 (単発・少額)</value>
+    <value>☕ Support on Ko-fi (One-time/Small)</value>
   </data>
   <data name="ErrorDuringSave" xml:space="preserve">
-    <value>保存中にエラーが発生しました: {0}</value>
+    <value>Error during save: {0}</value>
   </data>
   <data name="HotkeySettings" xml:space="preserve">
-    <value>ホットキー設定</value>
+    <value>Hotkey Settings</value>
   </data>
   <data name="HotkeySettingsDescription" xml:space="preserve">
-    <value>選択したキーを2回押すことでランチャーを表示します。</value>
+    <value>Press the selected key twice to show the launcher.</value>
   </data>
   <data name="HotkeyNone" xml:space="preserve">
-    <value>ホットキーなし</value>
+    <value>No Hotkey</value>
   </data>
   <data name="HotkeyAlt" xml:space="preserve">
-    <value>Alt キー（デフォルト）</value>
+    <value>Alt Key (Default)</value>
   </data>
   <data name="HotkeyCtrl" xml:space="preserve">
-    <value>Ctrl キー</value>
+    <value>Ctrl Key</value>
   </data>
   <data name="HotkeyShift" xml:space="preserve">
-    <value>Shift キー</value>
+    <value>Shift Key</value>
   </data>
   <data name="TrayMenuOpenLauncher" xml:space="preserve">
-    <value>ランチャを開く</value>
+    <value>Open Launcher</value>
   </data>
   <data name="TrayMenuSettings" xml:space="preserve">
-    <value>設定</value>
+    <value>Settings</value>
   </data>
   <data name="TrayMenuExit" xml:space="preserve">
-    <value>終了</value>
+    <value>Exit</value>
   </data>
   <data name="FirstRunTitle" xml:space="preserve">
-    <value>初期設定</value>
+    <value>Initial Setup</value>
   </data>
   <data name="FirstRunHeading" xml:space="preserve">
-    <value>Chrome Profile Launcher へようこそ</value>
+    <value>Welcome to Chrome Profile Launcher</value>
   </data>
   <data name="FirstRunDescription" xml:space="preserve">
-    <value>利用する機能を選択してください。これらの設定は後から変更できます。</value>
+    <value>Choose the features you want to use. You can change these settings later.</value>
   </data>
   <data name="FirstRunContinue" xml:space="preserve">
-    <value>開始する</value>
+    <value>Get Started</value>
+  </data>
+  <data name="UpdateNotificationTitle" xml:space="preserve">
+    <value>Update Notification</value>
+  </data>
+  <data name="UpdateAvailable" xml:space="preserve">
+    <value>A new version ({0}) is available. Download the update?</value>
+  </data>
+  <data name="UpdateReadyTitle" xml:space="preserve">
+    <value>Update Ready</value>
+  </data>
+  <data name="UpdateReadyMessage" xml:space="preserve">
+    <value>Download complete. Apply the update and restart now?</value>
+  </data>
+  <data name="UpdateCheckTitle" xml:space="preserve">
+    <value>Update Check</value>
+  </data>
+  <data name="AlreadyLatestVersion" xml:space="preserve">
+    <value>You are using the latest version.</value>
+  </data>
+  <data name="UpdateCheckError" xml:space="preserve">
+    <value>An error occurred while checking for updates: {0}</value>
+  </data>
+  <data name="UpdateDownloadFailed" xml:space="preserve">
+    <value>Failed to download the update.</value>
+  </data>
+  <data name="LinkOpenError" xml:space="preserve">
+    <value>Could not open the link: {0}</value>
+  </data>
+  <data name="ProfileReloadError" xml:space="preserve">
+    <value>An error occurred while reloading profiles: {0}</value>
+  </data>
+  <data name="FolderNotFound" xml:space="preserve">
+    <value>Folder not found: {0}</value>
+  </data>
+  <data name="ErrorOpeningFolder" xml:space="preserve">
+    <value>Could not open the folder: {0}</value>
+  </data>
+  <data name="SaveFailedError" xml:space="preserve">
+    <value>Failed to save settings: {0}</value>
   </data>
 </root>

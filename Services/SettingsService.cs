@@ -32,6 +32,7 @@ namespace ChromeProfileLauncher.Services
         void SaveSettings(AppSettings settings);
         (double left, double top, double width, double height, bool isMaximized) LoadWindowPosition();
         void SaveWindowPosition(double left, double top, double width, double height, bool isMaximized);
+        bool SettingsFileExists();
     }
 
     public class SettingsService : ISettingsService
@@ -88,7 +89,7 @@ namespace ChromeProfileLauncher.Services
             catch (Exception ex)
             {
                 Helpers.Logger.Error("Failed to save settings.", ex);
-                System.Windows.MessageBox.Show($"Failed to save settings: {ex.Message}", "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(string.Format(Helpers.LocalizationManager.GetString("SaveFailedError"), ex.Message), Helpers.LocalizationManager.GetString("Error"), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
             }
         }
 
@@ -107,6 +108,11 @@ namespace ChromeProfileLauncher.Services
             settings.WindowHeight = height;
             settings.IsMaximized = isMaximized;
             SaveSettings(settings);
+        }
+
+        public bool SettingsFileExists()
+        {
+            return _fileSystem.FileExists(_settingsPath);
         }
     }
 }

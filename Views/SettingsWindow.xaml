@@ -23,6 +23,8 @@
 
         <helpers:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <!-- Colors -->
         <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#0F0F0F" />
         <SolidColorBrush x:Key="ItemBackgroundBrush" Color="#1A1A1A" />
@@ -426,12 +428,11 @@
                                     <TextBlock Text="{Binding Source={StaticResource Resources}, Path=LanguageDescription}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,4,0,0" TextWrapping="Wrap" />
                                 </StackPanel>
                                 <ComboBox Grid.Column="1" Width="150" VerticalAlignment="Center"
-                                          SelectedValuePath="Tag"
+                                          ItemsSource="{Binding AvailableLanguages}"
+                                          DisplayMemberPath="DisplayName"
+                                          SelectedValuePath="CultureCode"
                                           SelectedValue="{Binding Language}"
-                                          Style="{StaticResource ModernComboBoxStyle}">
-                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=LanguageJapanese}" Tag="ja-JP" />
-                                    <ComboBoxItem Content="{Binding Source={StaticResource Resources}, Path=LanguageEnglish}" Tag="en-US" />
-                                </ComboBox>
+                                          Style="{StaticResource ModernComboBoxStyle}" />
                             </Grid>
                         </Border>
 
@@ -533,10 +534,12 @@
                                             FontSize="13"
                                             Command="{Binding CheckForUpdatesCommand}"
                                             IsEnabled="{Binding IsCheckingForUpdates, Converter={StaticResource InverseBooleanConverter}}"
+                                            Visibility="{Binding IsAutoUpdateSettingVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
                                             VerticalAlignment="Center" />
                                 </Grid>
 
-                                <Border Background="#151515" CornerRadius="15" Padding="15,12" Margin="0,15,0,0">
+                                <Border Background="#151515" CornerRadius="15" Padding="15,12" Margin="0,15,0,0"
+                                        Visibility="{Binding IsAutoUpdateSettingVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />

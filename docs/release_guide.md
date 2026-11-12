@@ -22,12 +22,12 @@ dotnet tool install -g vpk --version 0.0.1251
 dotnet publish -c Release -r win-x64 --self-contained true /p:PublishReadyToRun=true
 ```
 
-生成パス: `bin\Release\net10.0-windows\win-x64\publish\`
+生成パス: `bin\Release\net10.0-windows10.0.17763.0\win-x64\publish\`
 
 ## 3. ローカルパッケージ検証
 
 ```powershell
-vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Release/net10.0-windows/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
+vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Release/net10.0-windows10.0.17763.0/win-x64/publish --outputDir ./releases --icon ./Assets/setup-icon.ico
 ```
 
 生成されたSetupファイルを.NET Desktop RuntimeがインストールされていないWindows x64環境で実行し、追加ダウンロードなしで起動することを確認します。
@@ -36,8 +36,12 @@ vpk pack --packId ChromeProfileLauncher --packVersion 1.0.0 --packDir ./bin/Rele
 
 1. `develop`から`main`へのリリース対象変更を確定します。
 2. 重複しない`v*`形式のタグを作成します。
-3. タグをpushすると`.github/workflows/release.yml`がself-contained publish、Velopackパッケージ作成、GitHub Releaseへの成果物添付を実行します。
+3. タグをpushすると`.github/workflows/release.yml`がself-contained publish、Velopackパッケージ作成、GitHub Releaseへの成果物添付を実行します。リポジトリ変数 `MSIX_IDENTITY_NAME` 等が設定済みの場合、Store提出用の`.msix`も生成されworkflow artifact（`ChromeProfileLauncher-msix-X.Y.Z`）としてアップロードされます。
 4. GitHub Actionsの成功とRelease成果物を確認します。
+
+## 4.1 Microsoft Store への提出
+
+生成された`.msix`をMicrosoft Storeに提出する手順は [store_publishing_guide.md](store_publishing_guide.md) を参照してください。
 
 ## 5. ユーザー動作環境
 
